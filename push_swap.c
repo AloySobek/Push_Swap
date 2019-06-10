@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/09 21:45:25 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/10 21:39:10 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ typedef struct		s_stack
 }					t_stack;
 
 int count = 0;
+int all = 0;
 
-void			push(t_stack **a, t_stack **b)
+int 			push(t_stack **a, t_stack **b)
 {
 	t_stack *tmp;
 
@@ -36,9 +37,10 @@ void			push(t_stack **a, t_stack **b)
 		*b ? (*b)->prev = tmp : 0;
 		*b = tmp;
 	}
+	return (1);
 }
 
-void			swap(t_stack **a)
+int			swap(t_stack **a)
 {
 	t_stack *tmp;
 
@@ -52,9 +54,10 @@ void			swap(t_stack **a)
 		tmp->prev = NULL;
 		*a = tmp;
 	}
+	return (1);
 }
 
-void			rotate(t_stack **a)
+int			rotate(t_stack **a)
 {
 	t_stack *tmp;
 	t_stack *iter;
@@ -71,9 +74,10 @@ void			rotate(t_stack **a)
 		(*tmp).next = NULL;
 		(*tmp).prev = iter;
 	}
+	return (1);
 }
 
-void			rotate_reverse(t_stack **a)
+int			rotate_reverse(t_stack **a)
 {
 	t_stack *iter;
 
@@ -88,6 +92,7 @@ void			rotate_reverse(t_stack **a)
 		(*a)->prev = NULL;
 		iter->next = NULL;
 	}
+	return (1);
 }
 
 t_stack			*new_elem_of_stack(int value, int index)
@@ -102,14 +107,61 @@ t_stack			*new_elem_of_stack(int value, int index)
 	return (new);
 }
 
+int		get_size(t_stack *a)
+{
+	int count;
+	count = 0;
+	if (a)
+	{
+		if ((a->next) == NULL)
+			while (a)
+			{
+				++count;
+				a = a->prev;
+			}
+		else
+			while (a)
+			{
+				++count;
+				a = a->next;
+			}
+	}
+	return (count);
+}
+
+void    print_stack(t_stack *st)
+{
+    static int count = 1;
+
+    printf("\n-----------%d-----------\n", count++);
+    while (st)
+    {
+        printf("%d ", st->value);
+        st = st->next;
+    }
+}
+
 int 			get_value_from_stack(t_stack **a, int index)
 {
 	t_stack *iter;
+	int size;
 
 	iter = *a;
-	while (index--)
-		iter = iter->next;
-	return (iter->value);
+	if (iter)
+	{
+		//if (iter->next == NULL)
+		//{
+		//	size = get_size(iter) - index - 1;
+		//	while (size--)
+		//		iter = iter->prev;
+		//}
+		//else
+		//{
+			while (index--)
+				iter = iter-> next;
+		//}
+		return (iter->value);
+	}
 }
 
 void			swap_for_quicksort(t_stack **a, int i, int j)
@@ -215,18 +267,6 @@ void			quicksort(t_stack **a, int low, int high)
 	}
 }
 
-void    print_stack(t_stack *st)
-{
-    static int count = 1;
-
-    printf("\n-----------%d-----------\n", count++);
-    while (st)
-    {
-        printf("%d ", st->value);
-        st = st->next;
-    }
-}
-
 int		is_sorted(t_stack *a)
 {
 	a = a->next;
@@ -239,106 +279,102 @@ int		is_sorted(t_stack *a)
 	return (1);
 }
 
-int		get_size(t_stack *a)
-{
-	int count;
-	count = 0;
-	while (a)
-	{
-		++count;
-		a = a->next;
-	}
-	return (count);
-}
-
-int		is_empty(t_stack **a)
-{
-	if (*a)
-		return (1);
-	return (0);
-}
-
-void	modif_swap(t_stack **a, t_stack **b)
-{
-
-}
-
 void	quicksort_(t_stack **a, t_stack **b, int low, int high, int f)
 {
+	count++;
 	int pivot;
 	int size;
 	int size_a;
 	int	size_b;
-	int size2;
 	size_a = 0;
 	size_b = 0;
 	size = high + 1;
-	size2 = size;
-	count++;
-	pivot = get_value_from_stack((f == 0 ? a : b), (size / 2));
-	if (size == 1)
+	if (size <= 1)
+	{
+		printf("size_a: %d\nsize_b: %d\n", size_a, size_b);
+		count <= 8 ? print_stack(*a) : 0;
+		count <= 8 ? print_stack(*b) : 0;
+		count <= 8 ? printf("\n|%d|\n", all) : 0;
+		count == 8 ? exit(1) : 0;
 		return ;
+	}
 	if (size == 2)
 	{
-		if (get_value_from_stack(!f ? a : b, low) < get_value_from_stack(!f ? a : b, high))
-			swap((f == 0 ? a : b));
-		count == 10 ? printf("|%d|\n", pivot) : 0;
-		count == 10 ? print_stack(*a) : 0;
-		count == 10 ? print_stack(*b) : 0;
-		count == 10 ? exit(1) : 0;
+		if (get_value_from_stack(!f ? a : b, low) > get_value_from_stack(!f ? a : b, high))
+			all += swap((!f ? a : b));
+		printf("size_a: %d\nsize_b: %d\n", size_a, size_b);
+		count <= 8 ? print_stack(*a) : 0;
+		count <= 8 ? print_stack(*b) : 0;
+		count <= 8 ? printf("\n|%d|\n", all) : 0;
+		count == 8 ? exit(1) : 0;
 		return ;
 	}
-	if (f)
+	pivot = get_value_from_stack((!f ? a : b), (size / 2));
+	while (size--)
 	{
-		push(b, a);
-		size--;
-		pivot = get_value_from_stack((f == 0 ? a : b), (size / 2));
-	}
-	while (size-- > 0)
-	{
-		if ((f ? (*b)->value : (*a)->value) > pivot)
+		if ((!f ? (*a)->value : (*b)->value) < pivot)
 		{
-			!f ? push(a, b) : push(b, a);
+			!f ? all += push(a, b) : (all += push(b, a));
 			!f ? size_b++ : size_a++;
 		}
 		else
 		{
-			if ((f ? (*b)->value : (*a)->value) == pivot)
+			if ((!f ? (*a)->value : (*b)->value) == pivot)
 			{
-				!f ? push(a, b) : push(b, a);
-				rotate(!f ? b : a);
-				!f ? size_b++ : size_a++;
+				!f ? all += push(a, b) : (all += push(b, a));
+				all += rotate(!f ? b : a);
 			}
 			else
 			{
-				rotate(!f ? a : b);
+				all += rotate(!f ? a : b);
 				!f ? size_a++ : size_b++;
 			}
 		}
 	}
-	rotate_reverse(!f ? b : a);
-	//count == 10 ? printf("|%d|\n", pivot) : 0;
-	//count == 10 ? print_stack(*a) : 0;
-	//count == 10 ? print_stack(*b) : 0;
-	//count == 10 ? exit(1) : 0;
+	size = !f ? size_a : size_b;
+	while (size--)
+		all += rotate_reverse (!f ? a : b);
+	printf("size_a: %d\nsize_b: %d\n", size_a, size_b);
+	count <= 8 ? print_stack(*a) : 0;
+	count <= 8 ? print_stack(*b) : 0;
+	count <= 8 ? printf("\n|%d|\n", all) : 0;
+	count == 8 ? exit(1) : 0;
 	quicksort_(a, b, 0, size_a - 1, 0);
+	!f ? all += rotate_reverse(b) : (all += rotate_reverse(a));
+	!f ? all += push(b, a) : (all += push(a, b));
+	//count == 7 ? print_stack(*a) : 0;
+	//count == 7 ? print_stack(*b) : 0;
+	//count == 7 ? printf("\n|%d|\n", all) : 0;
+	//count == 7 ? exit(1) : 0;
 	quicksort_(a, b, 0, size_b - 1, 1);
-	!f ? push(b, a) : push(a, b);
-	//count == 9 ? print_stack(*a) : 0;
-	//count == 9 ? print_stack(*b) : 0;
-	//count == 9 ? exit(1) : 0;
-	size = size2;
-	//if (!f)
-	//{
-	//	while (size-- > 1)
-	//		!f ? rotate(b) : rotate(a);
-	//	!f ? push(b, a) : push(a, b);
-	//	while (size2-- > 1)
-	//	{
-	//		rotate_reverse(!f ? b : a);
-	//		!f ? push(b, a) : push(a, b);
-	//	}
-	//}
+	if (!f)
+	{
+		size = size_b;
+		while (size-- > 1)
+			all += rotate(b);
+		all += push(b, a);
+		size = size_b;
+		while (size-- > 1)
+		{
+			all += rotate_reverse(b);
+			all += push(b, a);
+		}
+	}
+	else
+	{
+		size = size_b;
+		while (size-- > 1)
+			all += rotate(a);
+		all += push(a, b);
+		size = size_b;
+		while (size-- > 1)
+		{
+			all += rotate_reverse(b);
+			all += push(a, b);
+		}
+	}
+	!f ? all += rotate_reverse(b) : (all += rotate_reverse(a));
+	!f ? all += push(b, a) : (all += push(a, b));
 }
 
 int main(int argc, char **argv)
@@ -377,7 +413,7 @@ int main(int argc, char **argv)
 	//push(&a, &b);
 	//rotate(&b);
 	quicksort_(&a, &b, 0, argc - 2, 0);
-/*	while (is_sorted(a) == 0 || is_empty(&b) == 1)
+  /*while (is_sorted(a) == 0 || is_empty(&b) == 1)
 	{
 		pivot = get_value_from_stack(&a, (get_size(a)) / 2);
 		size = get_size(a);
@@ -439,6 +475,6 @@ int main(int argc, char **argv)
 	//print_stack(a);
 	//print_stack(b);
 	//print_stack(c);
-	//printf("\n|%d|\n", count);
+	printf("\n|%d|\n", all);
 	return (0);
 }
