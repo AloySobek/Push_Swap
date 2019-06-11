@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/11 21:33:00 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/11 21:42:07 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,8 +311,6 @@ int			get_previos(t_stack *a, int value, int high)
 				!f ? all += push(a, b) : push(b, a);
 				all += rotate(!f ? b : a);
 				if (flag)
-					flag = 1;
-				else
 					flag = 0;
 			}
 			else
@@ -365,6 +363,9 @@ int			get_previos(t_stack *a, int value, int high)
 	print_stack(*a);
 	print_stack(*b);
 	quicksort_(a, b, 0, (!f ? size_b - 1 : size_a - 1), !f ? 1 : 0);
+	printf("\nbefore global return:\n");
+	print_stack(*a);
+	print_stack(*b);
 	if (!f)
 	{
 		size = size_b;
@@ -391,6 +392,9 @@ int			get_previos(t_stack *a, int value, int high)
 			all += push(a, b);
 		}
 	}
+	printf("\nafter global return:\n");
+	print_stack(*a);
+	print_stack(*b);
 }
 
 int main(int argc, char **argv)
