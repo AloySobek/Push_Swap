@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/11 18:44:00 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/11 21:33:00 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,12 +269,26 @@ int		is_sorted(t_stack *a)
 	return (1);
 }
 
-void	quicksort_(t_stack **a, t_stack **b, int low, int high, int f)
+int			get_previos(t_stack *a, int value, int high)
+{
+	t_stack *tmp;
+
+	tmp = copy_stack(a, high + 1);
+	quicksort(&tmp, 0, high);
+	while (tmp->next->value != value)
+		tmp = tmp->next;
+	return (tmp->value);
+}
+
+ void	quicksort_(t_stack **a, t_stack **b, int low, int high, int f)
 {
 	int pivot;
 	int size;
 	int size_a;
 	int	size_b;
+	int flag;
+	int prev;
+	flag = 0;
 	size_a = 0;
 	size_b = 0;
 	size = high + 1;
@@ -287,12 +301,25 @@ void	quicksort_(t_stack **a, t_stack **b, int low, int high, int f)
 		return ;
 	}
 	pivot = find_median(!f ? *a : *b, high);
+	prev = get_previos(!f ? *a : *b, pivot, high);
 	while (size--)
 	{
 		if ((!f ? (*a)->value : (*b)->value) < pivot)
 		{
-			!f ? all += push(a, b) : (all += push(b, a));
-			!f ? size_b++ : size_a++;
+			if ((!f ? (*a)->value : (*b)->value) == prev)
+			{
+				!f ? all += push(a, b) : push(b, a);
+				all += rotate(!f ? b : a);
+				if (flag)
+					flag = 1;
+				else
+					flag = 0;
+			}
+			else
+			{
+				!f ? all += push(a, b) : (all += push(b, a));
+				!f ? size_b++ : size_a++;
+			}
 		}
 		else
 		{
@@ -300,6 +327,7 @@ void	quicksort_(t_stack **a, t_stack **b, int low, int high, int f)
 			{
 				!f ? all += push(a, b) : (all += push(b, a));
 				all += rotate(!f ? b : a);
+				flag = 1;
 			}
 			else
 			{
@@ -312,35 +340,56 @@ void	quicksort_(t_stack **a, t_stack **b, int low, int high, int f)
 	if (get_size(!f ? *a : *b) > size)
 		while (size--)
 			all += rotate_reverse (!f ? a : b);
+	print_stack(*a);
+	print_stack(*b);
 	quicksort_(a, b, 0, (!f ? size_a - 1 : size_b - 1), (!f ? 0 : 1));
-	!f ? all += rotate_reverse(b) : (all += rotate_reverse(a));
-	!f ? all += push(b, a) : (all += push(a, b));
+	printf("\nbefore return:\n");
+	print_stack(*a);
+	print_stack(*b);
+	if (flag)
+	{
+		!f ? all += rotate_reverse(b) : (all += rotate_reverse(a));
+		!f ? all += rotate_reverse(b) : (all += rotate_reverse(a));
+		all += swap(!f ? b : a);
+		!f ? all += push(b, a) : (all += push(a, b));
+		!f ? all += push(b, a) : (all += push(a, b));
+	}
+	else
+	{
+		!f ? all += rotate_reverse(b) : (all += rotate_reverse(a));
+		!f ? all += rotate_reverse(b) : (all += rotate_reverse(a));
+		!f ? all += push(b, a) : (all += push(a, b));
+		!f ? all += push(b, a) : (all += push(a, b));
+	}
+	printf("\nafter return:\n");
+	print_stack(*a);
+	print_stack(*b);
 	quicksort_(a, b, 0, (!f ? size_b - 1 : size_a - 1), !f ? 1 : 0);
 	if (!f)
 	{
 		size = size_b;
 		while (size-- > 1)
-			all += push(b, a);//rotate(b);
+			all += rotate(b);
 		all += push(b, a);
-		//size = size_b;
-		//while (size-- > 1)
-		//{
-		//	all += rotate_reverse(b);
-		//	all += push(b, a);
-		//}
+		size = size_b;
+		while (size-- > 1)
+		{
+			all += rotate_reverse(b);
+			all += push(b, a);
+		}
 	}
 	else
 	{
 		size = size_a;
 		while (size-- > 1)
-			all += push(a, b);//rotate(a);
+			all += rotate(a);
 		all += push(a, b);
-		//size = size_a;
-		//while (size-- > 1)
-		//{
-		//	all += rotate_reverse(a);
-		//	all += push(a, b);
-		//}
+		size = size_a;
+		while (size-- > 1)
+		{
+			all += rotate_reverse(a);
+			all += push(a, b);
+		}
 	}
 }
 
