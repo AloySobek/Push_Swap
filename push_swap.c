@@ -6,12 +6,13 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/11 21:42:07 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/12 20:42:57 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
 typedef struct		s_stack
 {
@@ -36,8 +37,9 @@ int 			push(t_stack **a, t_stack **b)
 		(*tmp).next = *b;
 		*b ? (*b)->prev = tmp : 0;
 		*b = tmp;
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 
@@ -54,8 +56,9 @@ int			swap(t_stack **a)
 		tmp->next = *a;
 		tmp->prev = NULL;
 		*a = tmp;
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 int			rotate(t_stack **a)
@@ -74,8 +77,9 @@ int			rotate(t_stack **a)
 		(*iter).next = tmp;
 		(*tmp).next = NULL;
 		(*tmp).prev = iter;
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 int			rotate_reverse(t_stack **a)
@@ -92,8 +96,9 @@ int			rotate_reverse(t_stack **a)
 		*a = iter->next;
 		(*a)->prev = NULL;
 		iter->next = NULL;
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 t_stack			*new_elem_of_stack(int value, int index)
@@ -150,19 +155,11 @@ int 			get_value_from_stack(t_stack **a, int index)
 	iter = *a;
 	if (iter)
 	{
-		//if (iter->next == NULL)
-		//{
-		//	size = get_size(iter) - index - 1;
-		//	while (size--)
-		//		iter = iter->prev;
-		//}
-		//else
-		//{
-			while (index--)
-				iter = iter-> next;
-		//}
+		while (index--)
+			iter = iter-> next;
 		return (iter->value);
 	}
+	return (0);
 }
 
 void			swap_for_quicksort(t_stack **a, int i, int j)
@@ -280,7 +277,47 @@ int			get_previos(t_stack *a, int value, int high)
 	return (tmp->value);
 }
 
- void	quicksort_(t_stack **a, t_stack **b, int low, int high, int f)
+void		third_sort(t_stack **a)
+{
+	int one;
+	int two;
+	int three;
+
+	one = (*a)->value;
+	two = (*a)->next->value;
+	three = (*a)->next->next->value;
+	if (one > two && one > three && two < three)
+	{
+		all += swap(a);
+		return ;
+	}
+	if (one > two && one > three && two > three)
+	{
+		all += rotate(a);
+		all += swap(a);
+		return ;
+	}
+	if (two > one && two > three && one < three)
+	{
+		all += rotate_reverse(a);
+		all += swap(a);
+		return ;
+	}
+	if (two > one && two > three && one > three)
+	{
+		all += rotate_reverse(a);
+		return ;
+	}
+	if (three > one && three > two && one > two)
+	{
+		all += swap(a);
+		return ;
+	}
+	if (three > one && three > two && one < two)
+		return ;
+}
+
+void	quicksort_(t_stack **a, t_stack **b, int low, int high, int f)
 {
 	int pivot;
 	int size;
@@ -297,7 +334,15 @@ int			get_previos(t_stack *a, int value, int high)
 	if (size == 2)
 	{
 		if (get_value_from_stack(!f ? a : b, low) > get_value_from_stack(!f ? a : b, high))
-			all += swap((!f ? a : b));
+		{
+			all += swap(!f ? a : b);
+			//!f ? write(1, "sa\n", 3) : write(1, "sb\n", 3);
+		}
+		return ;
+	}
+	if (size == 3 && get_size(!f ? *a : *b) == 3)
+	{
+		third_sort(!f ? a : b);
 		return ;
 	}
 	pivot = find_median(!f ? *a : *b, high);
@@ -309,13 +354,15 @@ int			get_previos(t_stack *a, int value, int high)
 			if ((!f ? (*a)->value : (*b)->value) == prev)
 			{
 				!f ? all += push(a, b) : push(b, a);
+				!f ? write(1, "pb\n", 3) : write(1, "pa\n", 3);
 				all += rotate(!f ? b : a);
-				if (flag)
-					flag = 0;
+				!f ? write(1, "rb\n", 3) : write(1, "ra\n", 3);
+				flag ? flag = 2 : (flag = 3);
 			}
 			else
 			{
 				!f ? all += push(a, b) : (all += push(b, a));
+				//!f ? write(1, "pb\n", 3) : write(1, "pa\n", 3);
 				!f ? size_b++ : size_a++;
 			}
 		}
@@ -324,77 +371,82 @@ int			get_previos(t_stack *a, int value, int high)
 			if ((!f ? (*a)->value : (*b)->value) == pivot)
 			{
 				!f ? all += push(a, b) : (all += push(b, a));
+				//!f ? write(1, "pb\n", 3) : write(1, "pa\n", 3);
 				all += rotate(!f ? b : a);
-				flag = 1;
+				//!f ? write(1, "rb\n", 3) : write(1, "ra\n", 3);
+				flag != 3 ? flag = 1 : 0;
 			}
 			else
 			{
 				all += rotate(!f ? a : b);
+				//!f ? write(1, "ra\n", 3) : write(1 ,"rb\n", 3);
 				!f ? size_a++ : size_b++;
 			}
 		}
 	}
-	size = !f ? size_a : size_b;
-	if (get_size(!f ? *a : *b) > size)
-		while (size--)
-			all += rotate_reverse (!f ? a : b);
-	print_stack(*a);
-	print_stack(*b);
+	//size = !f ? size_a : size_b;
+	//if (get_size(!f ? *a : *b) > size)
+	//	while (size--)
+	//	{
+	//		all += rotate_reverse (!f ? a : b);
+	//		//!f ? write(1, "rra\n", 4) : write(1 ,"rrb\n", 4);
+	//	}
 	quicksort_(a, b, 0, (!f ? size_a - 1 : size_b - 1), (!f ? 0 : 1));
-	printf("\nbefore return:\n");
-	print_stack(*a);
-	print_stack(*b);
-	if (flag)
+	if (flag == 2)
 	{
-		!f ? all += rotate_reverse(b) : (all += rotate_reverse(a));
-		!f ? all += rotate_reverse(b) : (all += rotate_reverse(a));
-		all += swap(!f ? b : a);
-		!f ? all += push(b, a) : (all += push(a, b));
-		!f ? all += push(b, a) : (all += push(a, b));
+		!f ? all += rotate_reverse(b) && write(1, "rrb\n", 4) : (all += rotate_reverse(a)) && write(1, "rra\n", 4);
+		!f ? all += rotate_reverse(b) /* && write(1, "rrb\n", 4)*/ : (all += rotate_reverse(a)) /* && write(1, "rra\n", 4)*/;
+		!f ? all += push(b, a) && write(1, "pa\n", 3) : (all += push(a, b)) && write(1, "pb\n", 3);
+		!f ? all += push(b, a) /* && write(1, "pa\n", 3) */: (all += push(a, b)) /* && write(1, "pb\n", 3)*/;
 	}
 	else
 	{
-		!f ? all += rotate_reverse(b) : (all += rotate_reverse(a));
-		!f ? all += rotate_reverse(b) : (all += rotate_reverse(a));
-		!f ? all += push(b, a) : (all += push(a, b));
-		!f ? all += push(b, a) : (all += push(a, b));
+		!f ? all += rotate_reverse(b) && write(1, "rrb\n", 4) : (all += rotate_reverse(a)) && write(1, "rra\n", 4);
+		!f ? all += rotate_reverse(b) && write(1, "rrb\n", 4) : (all += rotate_reverse(a)) && write(1, "rra\n", 4);
+		all += swap(!f ? b : a);
+		!f ? write(1, "sb\n", 3) : write(1, "sa\n", 3);
+		!f ? all += push(b, a) && write(1, "pa\n", 3) : (all += push(a, b)) && write(1, "pb\n", 3);
+		!f ? all += push(b, a) && write(1, "pa\n", 3) : (all += push(a, b)) && write(1, "pb\n", 3);
 	}
-	printf("\nafter return:\n");
-	print_stack(*a);
-	print_stack(*b);
 	quicksort_(a, b, 0, (!f ? size_b - 1 : size_a - 1), !f ? 1 : 0);
-	printf("\nbefore global return:\n");
-	print_stack(*a);
-	print_stack(*b);
 	if (!f)
 	{
 		size = size_b;
 		while (size-- > 1)
+		{
 			all += rotate(b);
+		//	write(1, "rb\n", 3);
+		}
 		all += push(b, a);
+		//write(1, "pa\n", 3);
 		size = size_b;
 		while (size-- > 1)
 		{
 			all += rotate_reverse(b);
+			//write(1, "rrb\n", 4);
 			all += push(b, a);
+			//write(1, "pa\n", 3);
 		}
 	}
 	else
 	{
 		size = size_a;
 		while (size-- > 1)
+		{
 			all += rotate(a);
+		//	write(1, "ra\n", 3);
+		}
 		all += push(a, b);
+		//write(1, "pb\n", 3);
 		size = size_a;
 		while (size-- > 1)
 		{
 			all += rotate_reverse(a);
+		//	write(1, "rra\n", 4);
 			all += push(a, b);
+	//		write(1, "pb\n", 3);
 		}
 	}
-	printf("\nafter global return:\n");
-	print_stack(*a);
-	print_stack(*b);
 }
 
 int main(int argc, char **argv)
