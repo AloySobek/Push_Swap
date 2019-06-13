@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 17:11:01 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/12 18:53:45 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/13 21:10:17 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,9 +187,9 @@ int main(int argc, char **argv)
             rotate_reverse(&b);
         }
     }
-	// printf("☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟\n");
-	// print_stacks(a, b);
-	// printf("☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝\n");
+	printf("☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟\n");
+	print_stacks(a, b);
+	printf("☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝\n");
     //rotate_reverse(&a);
     if (is_sorted(a))
     {
