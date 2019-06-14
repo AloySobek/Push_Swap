@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 17:11:01 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/13 21:10:17 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/14 21:14:16 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ int main(int argc, char **argv)
     else
     {
         printf("\n🚽 🚽 🚽 🚽 🚽 \033[0;31mKO\033[0m🚽 🚽 🚽 🚽 🚽 🚽\n");
-        printf("\nNOT SORTED. AHAHAHAH. LLLUUUSSSEEERRR.😂 😂 😂 😂 😂 😂 😂 😂 😂 😂 😂 😂\n");
+        printf("\nNOT SORTED. AHAHAHAH. LLLUUUSSSEEERRR.😂 😂 😂 😂 😂 😂 😂 😂 😂 😂 😂 😂 %d\n", count);
     }
     return (0);
 }
