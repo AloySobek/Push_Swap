@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/14 21:26:32 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/15 16:58:48 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,6 @@ int			rrr(t_stack **a, char **res);
 int count = 0;
 int all = 0;
 
-int find_command(char *res, char *find)
-{
-	while (find)
-		if (*res++ != *find++)
-			return (0);
-	return (1);
-}
-
 int 			push(t_stack **a, t_stack **b, char **res)
 {
 	t_stack *tmp;
@@ -47,8 +39,11 @@ int 			push(t_stack **a, t_stack **b, char **res)
 	{
 		if ((*a)->index == 0)
 		{
-			if (find_command((*res) - 3, "pa\n") == 1)
+			if (*((*res) - 2) == 'a' && *((*res) - 4) == '\n' && *((*res) - 3) == 'p')
+			{
 				*res -= 3;
+				all -= 2;
+			}
 			else
 			{
 				**res = 'p';
@@ -61,8 +56,11 @@ int 			push(t_stack **a, t_stack **b, char **res)
 		}
 		else
 		{
-			if (find_command((*res) - 3, "pb\n") == 1)
+			if (*((*res) - 2) == 'b' && *((*res) - 4) == '\n' && *((*res) - 3) == 'p')
+			{
 				*res -= 3;
+				all -= 2;
+			}
 			else
 			{
 				**res = 'p';
@@ -94,7 +92,7 @@ int			swap(t_stack **a, char **res)
 	{
 		if ((*a)->index == 0)
 		{
-			if (find_command((*res) - 3, "sb\n") == 1)
+			if (*(*res - 2) == 'b' && *(*res - 4) == '\n' && *(*res - 3) == 's')
 			{
 				*res -= 3;
 				ss(a, res);
@@ -111,7 +109,7 @@ int			swap(t_stack **a, char **res)
 		}
 		else
 		{
-			if (find_command((*res) - 3, "sa\n") == 1)
+			if (*(*res - 2) == 'a' && *(*res - 4) == '\n' && *(*res - 3) == 's')
 			{
 				*res -= 3;
 				ss(a, res);
@@ -147,7 +145,7 @@ int			rotate(t_stack **a, char **res)
 	{
 		if ((*a)->index == 0)
 		{
-			if (find_command((*res) - 3, "rb\n") == 1)
+			if (*(*res - 2) == 'b' && *(*res - 4) == '\n' && *(*res - 3) == 'r')
 			{
 				*res -= 3;
 				rr(a, res);
@@ -156,7 +154,7 @@ int			rotate(t_stack **a, char **res)
 			{
 				**res = 'r';
 				*res += 1;
-				**res = 'b';
+				**res = 'a';
 				*res += 1;
 				**res = '\n';
 				*res += 1;
@@ -164,7 +162,7 @@ int			rotate(t_stack **a, char **res)
 		}
 		else
 		{
-			if (find_command((*res) - 3, "ra\n") == 1)
+			if (*(*res - 2) == 'a' && *(*res - 4) == '\n' && *(*res - 3) == 'r')
 			{
 				*res -= 3;
 				rr(a, res);
@@ -201,7 +199,7 @@ int			rotate_reverse(t_stack **a, char **res)
 	{
 		if ((*a)->index == 0)
 		{
-			if (find_command((*res) - 4, "rrb\n") == 1)
+			if (*(*res - 2) == 'b' && *(*res - 5) == '\n' && *(*res - 3) == 'r' && *(*res - 4) == 'r')
 			{
 				*res -= 4;
 				rrr(a, res);
@@ -220,7 +218,7 @@ int			rotate_reverse(t_stack **a, char **res)
 		}
 		else
 		{
-			if (find_command((*res) - 4, "rra\n") == 1)
+			if (*(*res - 2) == 'a' && *(*res - 5) == '\n' && *(*res - 3) == 'r' && *(*res - 4) == 'r')
 			{
 				*res -= 4;
 				rrr(a, res);
@@ -636,12 +634,12 @@ int main(int argc, char **argv)
 
 	b = NULL;
 	res = (char *)malloc(sizeof(char) * 100000);
-	hello = res;
 	*res++ = 'z';
 	*res++ = 'z';
 	*res++ = 'z';
 	*res++ = 'z';
 	*res++ = '\n';
+	hello = res;
 	a = new_elem_of_stack(0, 0);
 	iter = a;
 	size = 1;
@@ -657,6 +655,6 @@ int main(int argc, char **argv)
 	printf("%s", hello);
 	//print_stack(a);
 	//print_stack(b);
-	printf("\n|%d|\n", all);
+	//printf("\n|%d|\n", all);
 	return (0);
 }
