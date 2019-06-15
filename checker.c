@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 17:11:01 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/14 21:14:16 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/15 19:08:04 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ int 			push(t_stack **a, t_stack **b)
 		(*tmp).next = *b;
 		*b ? (*b)->prev = tmp : 0;
 		*b = tmp;
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 
@@ -53,8 +54,9 @@ int			swap(t_stack **a)
 		tmp->next = *a;
 		tmp->prev = NULL;
 		*a = tmp;
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 int			rotate(t_stack **a)
@@ -73,8 +75,9 @@ int			rotate(t_stack **a)
 		(*iter).next = tmp;
 		(*tmp).next = NULL;
 		(*tmp).prev = iter;
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 int			rotate_reverse(t_stack **a)
@@ -91,8 +94,9 @@ int			rotate_reverse(t_stack **a)
 		*a = iter->next;
 		(*a)->prev = NULL;
 		iter->next = NULL;
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 t_stack			*new_elem_of_stack(int value, int index)
@@ -155,7 +159,7 @@ int main(int argc, char **argv)
 	size = iter->index + 1;
     while (get_next_line(0, &line) == 1)
     {
-        if (ft_strcmp(line, "sa") == 0)
+		if (ft_strcmp(line, "sa") == 0)
             count += swap(&a);
         else if (ft_strcmp(line, "sb") == 0)
             count += swap(&b);
@@ -187,19 +191,20 @@ int main(int argc, char **argv)
             rotate_reverse(&b);
         }
     }
-	printf("☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟☟\n");
-	print_stacks(a, b);
-	printf("☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝☝\n");
-    //rotate_reverse(&a);
-    if (is_sorted(a))
+	if (is_sorted(a))
+		printf("OK\n");
+	else
+		printf("KO\n");
+	printf("%d\n", count);
+    /*if (is_sorted(a))
     {
         printf("\n🎪 🎪 🎪 🎪 🎪 \033[0;36mOK\033[0m🎪 🎪 🎪 🎪 🎪 🎪\n");
-        printf("\n%d Tallys sorted for %d moves... so bad👎 👎 👎\n", size, count);
+        printf("\n%d Tallys sorted for %d moves... not enough good, maybe better??? 🙏 🙏 🙏\n", size, count);
     }
     else
     {
         printf("\n🚽 🚽 🚽 🚽 🚽 \033[0;31mKO\033[0m🚽 🚽 🚽 🚽 🚽 🚽\n");
         printf("\nNOT SORTED. AHAHAHAH. LLLUUUSSSEEERRR.😂 😂 😂 😂 😂 😂 😂 😂 😂 😂 😂 😂 %d\n", count);
-    }
+    }*/
     return (0);
 }
