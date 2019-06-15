@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 11:49:19 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/12 17:32:11 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/15 18:26:42 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int					ft_strclen(char *str, char n)
 	int count;
 
 	count = 0;
-	while (str && *str != n)
+	while (*str && *str != n)
 	{
 		++str;
 		++count;
@@ -79,20 +79,14 @@ char				*ft_strcrop(char *str, char n)
 {
 	char *res;
 	char *tmp;
-	int count;
 
-	count = 0;
-	while (str[count] && str[count] != n)
-		count++;
-	str[count] ? count++ : 0;
+	while (*str && *str != n)
+		++str;
+	*str ? ++str : 0;
 	res = (char *)malloc(sizeof(char) * (ft_strlen(str) + 1));
 	tmp = res;
-	while (str[count])
-	{
-		*res = str[count];
-		count++;
-		res++;
-	}
+	while (*str)
+		*res++ = *str++;
 	*res = 0;
 	return (tmp);
 }
@@ -104,7 +98,7 @@ char 				*ft_strcut(char *str, char n)
 
 	res = (char *)malloc(sizeof(char) * ft_strclen(str, n) + 1);
 	tmp = res;
-	while (str && *str != n)
+	while (*str && *str != n)
 		*res++ = *str++;
 	*res = 0;
 	return (tmp);

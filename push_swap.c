@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/15 16:58:48 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/15 19:44:01 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,41 @@ typedef struct		s_stack
 }					t_stack;
 
 void		quicksort_ascending(t_stack **a, t_stack **b, int low, int high, char **res);
-int			ss(t_stack **a, char **res);
-int 		rr(t_stack **a, char **res);
-int			rrr(t_stack **a, char **res);
 
-int count = 0;
-int all = 0;
+int			ss(t_stack **a, char **res)
+{
+	**res = 's';
+	*res += 1;
+	**res = 's';
+	*res += 1;
+	**res = '\n';
+	*res += 1;
+	return (0);
+}
+
+int 		rr(t_stack **a, char **res)
+{
+	**res = 'r';
+	*res += 1;
+	**res = 'r';
+	*res += 1;
+	**res = '\n';
+	*res += 1;
+	return (0);
+}
+
+int			rrr(t_stack **a, char **res)
+{
+	**res = 'r';
+	*res += 1;
+	**res = 'r';
+	*res += 1;
+	**res = 'r';
+	*res += 1;
+	**res = '\n';
+	*res += 1;
+	return (0);
+}
 
 int 			push(t_stack **a, t_stack **b, char **res)
 {
@@ -40,10 +69,7 @@ int 			push(t_stack **a, t_stack **b, char **res)
 		if ((*a)->index == 0)
 		{
 			if (*((*res) - 2) == 'a' && *((*res) - 4) == '\n' && *((*res) - 3) == 'p')
-			{
 				*res -= 3;
-				all -= 2;
-			}
 			else
 			{
 				**res = 'p';
@@ -57,10 +83,7 @@ int 			push(t_stack **a, t_stack **b, char **res)
 		else
 		{
 			if (*((*res) - 2) == 'b' && *((*res) - 4) == '\n' && *((*res) - 3) == 'p')
-			{
 				*res -= 3;
-				all -= 2;
-			}
 			else
 			{
 				**res = 'p';
@@ -248,41 +271,6 @@ int			rotate_reverse(t_stack **a, char **res)
 	return (0);
 }
 
-int			ss(t_stack **a, char **res)
-{
-	**res = 's';
-	*res += 1;
-	**res = 's';
-	*res += 1;
-	**res = '\n';
-	*res += 1;
-	return (0);
-}
-
-int 		rr(t_stack **a, char **res)
-{
-	**res = 'r';
-	*res += 1;
-	**res = 'r';
-	*res += 1;
-	**res = '\n';
-	*res += 1;
-	return (0);
-}
-
-int			rrr(t_stack **a, char **res)
-{
-	**res = 'r';
-	*res += 1;
-	**res = 'r';
-	*res += 1;
-	**res = 'r';
-	*res += 1;
-	**res = '\n';
-	*res += 1;
-	return (0);
-}
-
 t_stack			*new_elem_of_stack(int value, int index)
 {
 	t_stack *new;
@@ -447,6 +435,18 @@ int			get_previos(t_stack *a, int value, int high)
 	return (tmp->value);
 }
 
+int		is_sorted(t_stack *a)
+{
+	a = a->next;
+	while (a)
+	{
+		if (a->value <= a->prev->value)
+			return (0);
+		a = a->next;
+	}
+	return (1);
+}
+
 int		third_sort(t_stack **a, char **res)
 {
 	int one;
@@ -458,29 +458,29 @@ int		third_sort(t_stack **a, char **res)
 	three = (*a)->next->next->value;
 	if (one > two && one > three && two < three)
 	{
-		all += swap(a, res);
+		swap(a, res);
 		return (1);
 	}
 	if (one > two && one > three && two > three)
 	{
-		all += rotate(a, res);
-		all += swap(a, res);
+		rotate(a, res);
+		swap(a, res);
 		return (1);
 	}
 	if (two > one && two > three && one < three)
 	{
-		all += rotate_reverse(a, res);
-		all += swap(a, res);
+		rotate_reverse(a, res);
+		swap(a, res);
 		return (1);
 	}
 	if (two > one && two > three && one > three)
 	{
-		all += rotate_reverse(a, res);
+		rotate_reverse(a, res);
 		return (1);
 	}
 	if (three > one && three > two && one > two)
 	{
-		all += swap(a, res);
+		swap(a, res);
 		return (1);
 	}
 	if (three > one && three > two && one < two)
@@ -499,44 +499,41 @@ int			third_sort_(t_stack **a, char **res)
 	three = (*a)->next->next->value;
 	if (one > two && one > three && two < three)
 	{
-		all += rotate_reverse(a, res);
-		all += swap(a, res);
+		rotate_reverse(a, res);
+		swap(a, res);
 		return (1);
 	}
 	if (one > two && one > three && two > three)
 		return (1);
 	if (two > one && two > three && one < three)
 	{
-		all += rotate(a, res);
+		rotate(a, res);
 		return (1);
 	}
 	if (two > one && two > three && one > three)
 	{
-		all += swap(a, res);
+		swap(a, res);
 		return (1);
 	}
 	if (three > one && three > two && one > two)
 	{
-		all += rotate_reverse(a, res);
+		rotate_reverse(a, res);
 		return (1);
 	}
 	if (three > one && three > two && one < two)
 	{
-		all += swap(a, res);
-		all += rotate_reverse(a, res);
+		swap(a, res);
+		rotate_reverse(a, res);
 		return (1);
 	}
 	return (1);
 }
 
-void	fifth_sort(t_stack **a)
+t_stack			*find_last(t_stack *a)
 {
-	int one = (*a)->value;
-	int two = (*a)->next->value;
-	int three = (*a)->next->next->value;
-	int four = (*a)->next->next->next->value;
-	int fife = (*a)->next->next->next->next->next->value;
-
+	while (a->next)
+		a = a->next;
+	return (a);
 }
 
 void	quicksort_descending(t_stack **a, t_stack **b, int low, int high, char **res)
@@ -554,7 +551,7 @@ void	quicksort_descending(t_stack **a, t_stack **b, int low, int high, char **re
 	if (length == 2)
 	{
 		if (get_value_from_stack(a, low) < get_value_from_stack(a, high))
-			all += swap(a, res);
+			swap(a, res);
 		return ;
 	}
 	if (length == 3 && get_size(*a) == 3 && third_sort_(a, res))
@@ -562,22 +559,22 @@ void	quicksort_descending(t_stack **a, t_stack **b, int low, int high, char **re
 	pivot = find_median(*a, high);
 	while (length--)
 		if ((*a)->value > pivot && ++size_b)
-			all += push(a, b, res);
+			push(a, b, res);
 		else
-			if ((*a)->value == pivot && (all += push(a, b, res) >= 0))
-				all += rotate(b, res);
+			if ((*a)->value == pivot && push(a, b, res) >= 0)
+				rotate(b, res);
 			else if (++size_a)
-				all += rotate(a, res);
+				rotate(a, res);
 	length = size_a;
 	if (get_size(*a) > length)
 		while (length--)
-			all += rotate_reverse (a, res);
+			rotate_reverse (a, res);
 	quicksort_descending(a, b, 0, size_a - 1, res);
-	all += rotate_reverse(b, res);
-	all += push(b, a, res);
+	rotate_reverse(b, res);
+	push(b, a, res);
 	quicksort_ascending(b, a, 0, size_b - 1, res);
 	while (size_b--)
-		all += push(b, a, res);
+		push(b, a, res);
 }
 
 void	quicksort_ascending(t_stack **a, t_stack **b, int low, int high, char **res)
@@ -595,7 +592,7 @@ void	quicksort_ascending(t_stack **a, t_stack **b, int low, int high, char **res
 	if (length == 2)
 	{
 		if (get_value_from_stack(a, low) > get_value_from_stack(a, high))
-			all += swap(a, res);
+			swap(a, res);
 		return ;
 	}
 	if (length == 3 && get_size(*a) == 3 && third_sort(a, res))
@@ -603,22 +600,22 @@ void	quicksort_ascending(t_stack **a, t_stack **b, int low, int high, char **res
 	pivot = find_median(*a, high);
 	while (length--)
 		if ((*a)->value < pivot && ++size_b)
-			all += push(a, b, res);
+			push(a, b, res);
 		else
-			if ((*a)->value == pivot && (all += push(a, b, res) >= 0))
-				all += rotate(b, res);
+			if ((*a)->value == pivot && push(a, b, res) >= 0)
+				rotate(b, res);
 			else if (++size_a)
-				all += rotate(a, res);
+				rotate(a, res);
 	length = size_a;
 	if (get_size(*a) > length)
 		while (length--)
-			all += rotate_reverse(a, res);
+			rotate_reverse(a, res);
 	quicksort_ascending(a, b, 0, size_a - 1, res);
-	all += rotate_reverse(b, res);
-	all += push(b, a, res);
+	rotate_reverse(b, res);
+	push(b, a, res);
 	quicksort_descending(b, a, 0, size_b - 1, res);
 	while (size_b--)
-		all += push(b, a, res);
+		push(b, a, res);
 }
 
 int main(int argc, char **argv)
@@ -627,7 +624,7 @@ int main(int argc, char **argv)
 	t_stack *b;
 	t_stack *iter;
 	char	*res;
-	char	*hello;
+	char	*tmp;
 	int size;
 	int size_a;
 	int size_b;
@@ -638,8 +635,8 @@ int main(int argc, char **argv)
 	*res++ = 'z';
 	*res++ = 'z';
 	*res++ = 'z';
-	*res++ = '\n';
-	hello = res;
+	*res++ = 'z';
+	tmp = res;
 	a = new_elem_of_stack(0, 0);
 	iter = a;
 	size = 1;
@@ -650,11 +647,13 @@ int main(int argc, char **argv)
 		size != argc ? iter->next->prev = iter : 0;
 		size != argc ? iter = iter->next : 0;
 	}
-	quicksort_ascending(&a, &b, 0, argc - 2, &res);
-	*res = 0;
-	printf("%s", hello);
-	//print_stack(a);
-	//print_stack(b);
-	//printf("\n|%d|\n", all);
+	if (!is_sorted(a))
+	{
+		quicksort_ascending(&a, &b, 0, argc - 2, &res);
+		*res = 0;
+		printf("%s", tmp);
+	}
+	else
+		printf("\n");
 	return (0);
 }
