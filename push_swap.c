@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/17 18:18:53 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/17 19:45:00 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,36 +157,46 @@ int			rotate_(t_stack **a, char **res)
 	{
 		if ((*a)->index == 0)
 		{
-			if (*(*res - 2) == 'b' && *(*res - 4) == '\n' && *(*res - 3) == 'r')
-			{
-				*res -= 3;
-				rr(a, res);
-			}
+			if (*(*res - 2) == 'a' && *(*res - 4) == 'r' && *(*res - 3) == 'r')
+				*res -= 4;
 			else
 			{
-				**res = 'r';
-				*res += 1;
-				**res = 'a';
-				*res += 1;
-				**res = '\n';
-				*res += 1;
+				if (*(*res - 2) == 'b' && *(*res - 4) == '\n' && *(*res - 3) == 'r')
+				{
+					*res -= 3;
+					rr(a, res);
+				}
+				else
+				{
+					**res = 'r';
+					*res += 1;
+					**res = 'a';
+					*res += 1;
+					**res = '\n';
+					*res += 1;
+				}
 			}
 		}
 		else
 		{
-			if (*(*res - 2) == 'a' && *(*res - 4) == '\n' && *(*res - 3) == 'r')
-			{
-				*res -= 3;
-				rr(a, res);
-			}
+			if (*(*res - 2) == 'b' && *(*res - 4) == 'r' && *(*res - 3) == 'r')
+				*res -= 4;
 			else
 			{
-				**res = 'r';
-				*res += 1;
-				**res = 'b';
-				*res += 1;
-				**res = '\n';
-				*res += 1;
+				if (*(*res - 2) == 'a' && *(*res - 4) == '\n' && *(*res - 3) == 'r')
+				{
+					*res -= 3;
+					rr(a, res);
+				}
+				else
+				{
+					**res = 'r';
+					*res += 1;
+					**res = 'b';
+					*res += 1;
+					**res = '\n';
+					*res += 1;
+				}
 			}
 		}
 		tmp = *a;
@@ -211,40 +221,50 @@ int			rotate_reverse_(t_stack **a, char **res)
 	{
 		if ((*a)->index == 0)
 		{
-			if (*(*res - 2) == 'b' && *(*res - 5) == '\n' && *(*res - 3) == 'r' && *(*res - 4) == 'r')
-			{
-				*res -= 4;
-				rrr(a, res);
-			}
+			if (*(*res - 2) == 'a' && *(*res - 4) == '\n' && *(*res - 3) == 'r')
+				*res -= 3;
 			else
 			{
-				**res = 'r';
-				*res += 1;
-				**res = 'r';
-				*res += 1;
-				**res = 'a';
-				*res += 1;
-				**res = '\n';
-				*res += 1;
+				if (*(*res - 2) == 'b' && *(*res - 5) == '\n' && *(*res - 3) == 'r' && *(*res - 4) == 'r')
+				{
+					*res -= 4;
+					rrr(a, res);
+				}
+				else
+				{
+					**res = 'r';
+					*res += 1;
+					**res = 'r';
+					*res += 1;
+					**res = 'a';
+					*res += 1;
+					**res = '\n';
+					*res += 1;
+				}
 			}
 		}
 		else
 		{
-			if (*(*res - 2) == 'a' && *(*res - 5) == '\n' && *(*res - 3) == 'r' && *(*res - 4) == 'r')
-			{
-				*res -= 4;
-				rrr(a, res);
-			}
+			if (*(*res - 2) == 'b' && *(*res - 4) == '\n' && *(*res - 3) == 'r')
+				*res -= 3;
 			else
 			{
-				**res = 'r';
-				*res += 1;
-				**res = 'r';
-				*res += 1;
-				**res = 'b';
-				*res += 1;
-				**res = '\n';
-				*res += 1;
+				if (*(*res - 2) == 'a' && *(*res - 5) == '\n' && *(*res - 3) == 'r' && *(*res - 4) == 'r')
+				{
+					*res -= 4;
+					rrr(a, res);
+				}
+				else
+				{
+					**res = 'r';
+					*res += 1;
+					**res = 'r';
+					*res += 1;
+					**res = 'b';
+					*res += 1;
+					**res = '\n';
+					*res += 1;
+				}
 			}
 		}
 		iter = *a;
@@ -430,6 +450,18 @@ int		is_sorted(t_stack *a)
 	while (a)
 	{
 		if (a->value <= a->prev->value)
+			return (0);
+		a = a->next;
+	}
+	return (1);
+}
+
+int		is_sorted_(t_stack *a)
+{
+	a = a->next;
+	while (a)
+	{
+		if (a->value >= a->prev->value)
 			return (0);
 		a = a->next;
 	}
