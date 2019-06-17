@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 17:11:01 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/17 17:59:55 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/17 19:45:23 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,6 @@ int main(int argc, char **argv)
 	else
 		printf("KO\n");
 	//print_stacks(a, b);
-	printf("||%d||\n", count);
+	//printf("||%d||\n", count);
     return (0);
 }
