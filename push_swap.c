@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/17 19:45:00 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/17 21:38:45 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,36 +104,46 @@ int			swap_(t_stack **a, char **res)
 	{
 		if ((*a)->index == 0)
 		{
-			if (*(*res - 2) == 'b' && *(*res - 4) == '\n' && *(*res - 3) == 's')
-			{
+			if (*(*res - 2) == 'a' && *(*res - 4) == '\n' && *(*res - 3) == 's')
 				*res -= 3;
-				ss(a, res);
-			}
 			else
 			{
-				**res = 's';
-				*res += 1;
-				**res = 'a';
-				*res += 1;
-				**res = '\n';
-				*res += 1;
+				if (*(*res - 2) == 'b' && *(*res - 4) == '\n' && *(*res - 3) == 's')
+				{
+					*res -= 3;
+					ss(a, res);
+				}
+				else
+				{
+					**res = 's';
+					*res += 1;
+					**res = 'a';
+					*res += 1;
+					**res = '\n';
+					*res += 1;
+				}
 			}
 		}
 		else
 		{
-			if (*(*res - 2) == 'a' && *(*res - 4) == '\n' && *(*res - 3) == 's')
-			{
+			if (*(*res - 2) == 'b' && *(*res - 4) == '\n' && *(*res - 3) == 's')
 				*res -= 3;
-				ss(a, res);
-			}
 			else
 			{
-				**res = 's';
-				*res += 1;
-				**res = 'b';
-				*res += 1;
-				**res = '\n';
-				*res += 1;
+				if (*(*res - 2) == 'a' && *(*res - 4) == '\n' && *(*res - 3) == 's')
+				{
+					*res -= 3;
+					ss(a, res);
+				}
+				else
+				{
+					**res = 's';
+					*res += 1;
+					**res = 'b';
+					*res += 1;
+					**res = '\n';
+					*res += 1;
+				}
 			}
 		}
 		tmp = (*a)->next;
@@ -456,18 +466,6 @@ int		is_sorted(t_stack *a)
 	return (1);
 }
 
-int		is_sorted_(t_stack *a)
-{
-	a = a->next;
-	while (a)
-	{
-		if (a->value >= a->prev->value)
-			return (0);
-		a = a->next;
-	}
-	return (1);
-}
-
 int		third_sort(t_stack **a, char **res)
 {
 	int one;
@@ -550,11 +548,27 @@ int			third_sort_(t_stack **a, char **res)
 	return (1);
 }
 
-t_stack			*find_last(t_stack *a)
+int		sort_four(t_stack **a, t_stack **b, char **res)
 {
-	while (a->next)
-		a = a->next;
-	return (a);
+	t_stack *tmp;
+
+	tmp = copy_stack(*a, 4);
+	quicksort(&tmp, 0, 3);
+	push_(a, b, res);
+	third_sort(a, res);
+	push_(b, a, res);
+	if ((*a)->value == tmp->next->value)
+		swap_(a, res);
+	else if ((*a)->value == tmp->next->next->value)
+	{
+		rotate_reverse_(a, res);
+		swap_(a, res);
+		rotate_(a, res);
+		rotate_(a, res);
+	}
+	else if ((*a)->value == tmp->next->next->next->value)
+		rotate_(a, res);
+	return (1);
 }
 
 void	quicksort_descending(t_stack **a, t_stack **b, int high, char **res)
@@ -610,6 +624,8 @@ void	quicksort_ascending(t_stack **a, t_stack **b, int high, char **res)
 	}
 	if (high == 3 && get_size(*a) == 3 && third_sort(a, res))
 		return ;
+	//if (high == 4 && get_size(*a) == 4 && sort_four(a, b, res))
+	//	return ;
 	size_a = 0;
 	size_b = 0;
 	pivot  = find_median(*a, high - 1);
