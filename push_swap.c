@@ -6,25 +6,14 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/15 19:44:01 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/17 18:18:53 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-
-char *str;
-
-typedef struct		s_stack
-{
-	int				value;
-	int 			index;
-	struct s_stack	*next;
-	struct s_stack	*prev;
-}					t_stack;
-
-void		quicksort_ascending(t_stack **a, t_stack **b, int low, int high, char **res);
+#include "Push_Swap.h"
 
 int			ss(t_stack **a, char **res)
 {
@@ -61,7 +50,7 @@ int			rrr(t_stack **a, char **res)
 	return (0);
 }
 
-int 			push(t_stack **a, t_stack **b, char **res)
+int 			push_(t_stack **a, t_stack **b, char **res)
 {
 	t_stack *tmp;
 	if (*a)
@@ -107,7 +96,7 @@ int 			push(t_stack **a, t_stack **b, char **res)
 }
 
 
-int			swap(t_stack **a, char **res)
+int			swap_(t_stack **a, char **res)
 {
 	t_stack *tmp;
 
@@ -159,7 +148,7 @@ int			swap(t_stack **a, char **res)
 	return (0);
 }
 
-int			rotate(t_stack **a, char **res)
+int			rotate_(t_stack **a, char **res)
 {
 	t_stack *tmp;
 	t_stack *iter;
@@ -214,7 +203,7 @@ int			rotate(t_stack **a, char **res)
 	return (0);
 }
 
-int			rotate_reverse(t_stack **a, char **res)
+int			rotate_reverse_(t_stack **a, char **res)
 {
 	t_stack *iter;
 
@@ -458,29 +447,29 @@ int		third_sort(t_stack **a, char **res)
 	three = (*a)->next->next->value;
 	if (one > two && one > three && two < three)
 	{
-		swap(a, res);
+		swap_(a, res);
 		return (1);
 	}
 	if (one > two && one > three && two > three)
 	{
-		rotate(a, res);
-		swap(a, res);
+		rotate_(a, res);
+		swap_(a, res);
 		return (1);
 	}
 	if (two > one && two > three && one < three)
 	{
-		rotate_reverse(a, res);
-		swap(a, res);
+		rotate_reverse_(a, res);
+		swap_(a, res);
 		return (1);
 	}
 	if (two > one && two > three && one > three)
 	{
-		rotate_reverse(a, res);
+		rotate_reverse_(a, res);
 		return (1);
 	}
 	if (three > one && three > two && one > two)
 	{
-		swap(a, res);
+		swap_(a, res);
 		return (1);
 	}
 	if (three > one && three > two && one < two)
@@ -499,31 +488,31 @@ int			third_sort_(t_stack **a, char **res)
 	three = (*a)->next->next->value;
 	if (one > two && one > three && two < three)
 	{
-		rotate_reverse(a, res);
-		swap(a, res);
+		rotate_reverse_(a, res);
+		swap_(a, res);
 		return (1);
 	}
 	if (one > two && one > three && two > three)
 		return (1);
 	if (two > one && two > three && one < three)
 	{
-		rotate(a, res);
+		rotate_(a, res);
 		return (1);
 	}
 	if (two > one && two > three && one > three)
 	{
-		swap(a, res);
+		swap_(a, res);
 		return (1);
 	}
 	if (three > one && three > two && one > two)
 	{
-		rotate_reverse(a, res);
+		rotate_reverse_(a, res);
 		return (1);
 	}
 	if (three > one && three > two && one < two)
 	{
-		swap(a, res);
-		rotate_reverse(a, res);
+		swap_(a, res);
+		rotate_reverse_(a, res);
 		return (1);
 	}
 	return (1);
@@ -536,87 +525,176 @@ t_stack			*find_last(t_stack *a)
 	return (a);
 }
 
-void	quicksort_descending(t_stack **a, t_stack **b, int low, int high, char **res)
+void	quicksort_descending(t_stack **a, t_stack **b, int high, char **res)
 {
-	int length;
 	int size_a;
 	int	size_b;
 	int pivot;
 
-	length = high + 1;
-	size_a = 0;
-	size_b = 0;
-	if (length <= 1)
+	if (high <= 1)
 		return ;
-	if (length == 2)
+	if (high == 2)
 	{
-		if (get_value_from_stack(a, low) < get_value_from_stack(a, high))
-			swap(a, res);
+		(*a)->value < (*a)->next->value ? swap_(a, res) : 0;
 		return ;
 	}
-	if (length == 3 && get_size(*a) == 3 && third_sort_(a, res))
+	if (high == 3 && get_size(*a) == 3 && third_sort_(a, res))
 		return ;
-	pivot = find_median(*a, high);
-	while (length--)
+	size_a = 0;
+	size_b = 0;
+	pivot  = find_median(*a, high - 1);
+	while (high--)
 		if ((*a)->value > pivot && ++size_b)
-			push(a, b, res);
+			push_(a, b, res);
 		else
-			if ((*a)->value == pivot && push(a, b, res) >= 0)
-				rotate(b, res);
+			if ((*a)->value == pivot && push_(a, b, res) >= 0)
+				rotate_(b, res);
 			else if (++size_a)
-				rotate(a, res);
-	length = size_a;
-	if (get_size(*a) > length)
-		while (length--)
-			rotate_reverse (a, res);
-	quicksort_descending(a, b, 0, size_a - 1, res);
-	rotate_reverse(b, res);
-	push(b, a, res);
-	quicksort_ascending(b, a, 0, size_b - 1, res);
+				rotate_(a, res);
+	high = size_a;
+	if (get_size(*a) > high)
+		while (high--)
+			rotate_reverse_(a, res);
+	quicksort_descending(a, b, size_a, res);
+	rotate_reverse_(b, res);
+	push_(b, a, res);
+	quicksort_ascending(b, a, size_b, res);
 	while (size_b--)
-		push(b, a, res);
+		push_(b, a, res);
 }
 
-void	quicksort_ascending(t_stack **a, t_stack **b, int low, int high, char **res)
+void	quicksort_ascending(t_stack **a, t_stack **b, int high, char **res)
 {
-	int pivot;
-	int length;
-	int size_a;
+	int	size_a;
 	int	size_b;
+	int	pivot;
 
-	length = high + 1;
-	size_a = 0;
-	size_b = 0;
-	if (length <= 1)
+	if (high <= 1)
 		return ;
-	if (length == 2)
+	if (high == 2)
 	{
-		if (get_value_from_stack(a, low) > get_value_from_stack(a, high))
-			swap(a, res);
+		(*a)->value > (*a)->next->value ? swap_(a, res) : 0;
 		return ;
 	}
-	if (length == 3 && get_size(*a) == 3 && third_sort(a, res))
+	if (high == 3 && get_size(*a) == 3 && third_sort(a, res))
 		return ;
-	pivot = find_median(*a, high);
-	while (length--)
+	size_a = 0;
+	size_b = 0;
+	pivot  = find_median(*a, high - 1);
+	while (high--)
 		if ((*a)->value < pivot && ++size_b)
-			push(a, b, res);
+			push_(a, b, res);
 		else
-			if ((*a)->value == pivot && push(a, b, res) >= 0)
-				rotate(b, res);
+			if ((*a)->value == pivot && push_(a, b, res) >= 0)
+				rotate_(b, res);
 			else if (++size_a)
-				rotate(a, res);
-	length = size_a;
-	if (get_size(*a) > length)
-		while (length--)
-			rotate_reverse(a, res);
-	quicksort_ascending(a, b, 0, size_a - 1, res);
-	rotate_reverse(b, res);
-	push(b, a, res);
-	quicksort_descending(b, a, 0, size_b - 1, res);
+				rotate_(a, res);
+	high = size_a;
+	if (get_size(*a) > high)
+		while (high--)
+			rotate_reverse_(a, res);
+	quicksort_ascending(a, b, size_a, res);
+	rotate_reverse_(b, res);
+	push_(b, a, res);
+	quicksort_descending(b, a, size_b, res);
 	while (size_b--)
-		push(b, a, res);
+		push_(b, a, res);
 }
+
+/*static void    optimize_swap(char **str)
+{
+    char *s;
+
+    s = *str + 1;
+    if (*s == 'a')
+    {
+        while (*s && *s == 'a')
+		{
+            if (*(s + 2))
+				s += 3;
+			else
+				return ;
+		}
+        if (*s == 'b' && *(s - 1) == 's')
+        {
+            **str = 's';
+			*(*str + 1) = 's';
+            *s = 'z';
+			*(s - 1) = 'z';
+        }
+    }
+    else if (*s == 'b')
+    {
+        while (*s && *s == 'b')
+		{
+            if (*(s + 2))
+				s += 3;
+			else
+				return ;
+		}
+        if (*s == 'a' && *(s - 1) == 's')
+        {
+            **str = 's';
+			*(*str + 1) = 's';
+            *s = 'z';
+			*(s - 1) = 'z';
+        }
+    }
+}
+
+static void    optimize_rotate(char **str)
+{
+    char *s;
+
+    s = *str + 1;
+    if (*s == 'a')
+    {
+        while (*s && *s == 'a')
+		{
+            if (*(s + 2))
+				s += 3;
+			else
+				return ;
+		}
+        if (*s == 'b' && *(s - 1) == 'r')
+        {
+            **str = 'r';
+			*(*str + 1) = 'r';
+            *s = 'z';
+			*(s - 1) = 'z';
+        }
+    }
+    else if (*s == 'b')
+    {
+        while (*s && *s == 'b')
+		{
+            if (*(s + 2))
+				s += 3;
+			else
+				return ;
+		}
+        if (*s == 'a' && *(s - 1) == 'r')
+        {
+            **str = 'r';
+			*(*str + 1) = 'r';
+            *s = 'z';
+			*(s - 1) = 'z';
+        }
+    }
+}
+
+void        optimize_str(char **str)
+{
+    while (**str)
+    {
+        if (**str == 's' && (*(*str + 1) == 'a' || *(*str + 1) == 'b'))
+            optimize_swap(str);
+        else if (**str == 'r' && (*(*str + 1) == 'a' || *(*str + 1) == 'b'))
+            optimize_rotate(str);
+        *str += 3;
+    }
+}*/
+
 
 int main(int argc, char **argv)
 {
@@ -625,9 +703,7 @@ int main(int argc, char **argv)
 	t_stack *iter;
 	char	*res;
 	char	*tmp;
-	int size;
-	int size_a;
-	int size_b;
+	int		i;
 
 	b = NULL;
 	res = (char *)malloc(sizeof(char) * 100000);
@@ -639,17 +715,17 @@ int main(int argc, char **argv)
 	tmp = res;
 	a = new_elem_of_stack(0, 0);
 	iter = a;
-	size = 1;
-	while (size < argc)
+	i = 1;
+	while (i < argc)
 	{
-		iter->value = atoi(argv[size++]);
-		size != argc ? iter->next = new_elem_of_stack(0, 0) : 0;
-		size != argc ? iter->next->prev = iter : 0;
-		size != argc ? iter = iter->next : 0;
+		iter->value = atoi(argv[i++]);
+		i != argc ? iter->next = new_elem_of_stack(0, 0) : 0;
+		i != argc ? iter->next->prev = iter : 0;
+		i != argc ? iter = iter->next : 0;
 	}
 	if (!is_sorted(a))
 	{
-		quicksort_ascending(&a, &b, 0, argc - 2, &res);
+		quicksort_ascending(&a, &b, argc - 1, &res);
 		*res = 0;
 		printf("%s", tmp);
 	}
