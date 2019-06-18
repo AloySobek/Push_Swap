@@ -1,6 +1,6 @@
 [submodule "ft_printf"]
-	path = ft_printf
+	path = ./submodules/ft_printf
 	url = git://github.com/AloySobek/ft_printf
 [submodule "libft"]
-	path = libft
+	path = ./submodules/libft
 	url = git://github.com/AloySobek/libft
