@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/17 21:52:34 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/18 20:25:00 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -548,52 +548,6 @@ int			third_sort_(t_stack **a, char **res)
 	return (1);
 }
 
-int		sort_four(t_stack **a, t_stack **b, char **res)
-{
-	t_stack *tmp;
-
-	tmp = copy_stack(*a, 4);
-	quicksort(&tmp, 0, 3);
-	push_(a, b, res);
-	third_sort(a, res);
-	push_(b, a, res);
-	if ((*a)->value == tmp->next->value)
-		swap_(a, res);
-	else if ((*a)->value == tmp->next->next->value)
-	{
-		rotate_reverse_(a, res);
-		swap_(a, res);
-		rotate_(a, res);
-		rotate_(a, res);
-	}
-	else if ((*a)->value == tmp->next->next->next->value)
-		rotate_(a, res);
-	return (1);
-}
-
-int			sort_four_(t_stack **a, t_stack **b, char **res)
-{
-	t_stack *tmp;
-
-	tmp = copy_stack(*a, 4);
-	quicksort(&tmp, 0, 3);
-	push_(a, b, res);
-	third_sort_(a, res);
-	push_(b, a, res);
-	if ((*a)->value == tmp->next->next->value)
-		swap_(a, res);
-	else if ((*a)->value == tmp->next->value)
-	{
-		rotate_reverse_(a, res);
-		swap_(a, res);
-		rotate_(a, res);
-		rotate_(a, res);
-	}
-	else if ((*a)->value == tmp->value)
-		rotate_(a, res);
-	return (1);
-}
-
 void	quicksort_descending(t_stack **a, t_stack **b, int high, char **res)
 {
 	int size_a;
@@ -608,8 +562,6 @@ void	quicksort_descending(t_stack **a, t_stack **b, int high, char **res)
 		return ;
 	}
 	if (high == 3 && get_size(*a) == 3 && third_sort_(a, res))
-		return ;
-	if (high == 4 && get_size(*a) == 4 && sort_four_(a, b, res))
 		return ;
 	size_a = 0;
 	size_b = 0;
@@ -648,8 +600,6 @@ void	quicksort_ascending(t_stack **a, t_stack **b, int high, char **res)
 		return ;
 	}
 	if (high == 3 && get_size(*a) == 3 && third_sort(a, res))
-		return ;
-	if (high == 4 && get_size(*a) == 4 && sort_four(a, b, res))
 		return ;
 	size_a = 0;
 	size_b = 0;
