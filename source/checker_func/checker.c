@@ -201,5 +201,6 @@ int main(int argc, char **argv)
 		ft_printf("OK\n");
 	else
 		ft_printf("KO\n");
+	//ft_printf("||%d||\n", count);
     return (0);
 }
