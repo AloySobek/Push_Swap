@@ -6,30 +6,26 @@
 #    By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/18 21:16:18 by vrichese          #+#    #+#              #
-#    Updated: 2019/06/19 14:04:39 by vrichese         ###   ########.fr        #
+#    Updated: 2019/06/19 15:15:56 by vrichese         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME_1	=	push_swap
+NAME_1	= push_swap
+NAME_2	= checker
 
-NAME_2	=	checker
+SRCDIR	= source
+LIBDIR	= libft
+FT_DIR	= ft_printf
 
-SRCDIR	=	source
+SRC_PU	= $(addprefix $(SRCDIR)/, push_swap.c)
 
-LIBDIR	=	lib_func
+SRC_CH	= $(addprefix $(LIBDIR)/, checker.c available_commands.c)
 
-SRC		=	$(addprefix $(SRCDIR)/, ft_printf.c char_handlers.c constructor.c chooser_betw_f_e.c \
-			addit_func.c decimal_handlers.c double_handlers.c parse_string.c print_char.c \
-			print_double.c print_hexadouble.c print_integer.c scientific_record_funcs.c \
-			long_arithmetic.c long_arithmetic2.c long_arithmetic3.c)
+OBJ		= ${SRC:.c=.o} ${LIB:.c=.o}
 
-LIB		=	$(addprefix $(LIBDIR)/, ft_atoi.c ft_bzero.c ft_isspace.c ft_memcpy.c ft_strcmp.c ft_strlen.c)
+CC		= gcc
 
-OBJ		=	${SRC:.c=.o} ${LIB:.c=.o}
-
-CC		=	gcc
-
-CFLAGS	=	-Wall -Werror -Wextra
+CFLAGS	= -Wall -Werror -Wextra
 
 all: $(NAME)
 
