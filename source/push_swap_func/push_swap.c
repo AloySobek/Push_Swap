@@ -6,12 +6,11 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/18 21:42:47 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/20 20:22:13 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <stdio.h>
 #include <unistd.h>
 #include "Push_Swap.h"
 
@@ -328,10 +327,10 @@ void    print_stack(t_stack *st)
 {
     static int count = 1;
 
-    printf("\n-----------%d-----------\n", count++);
+    ft_printf("\n-----------%d-----------\n", count++);
     while (st)
     {
-        printf("%d ", st->value);
+        ft_printf("%d ", st->value);
         st = st->next;
     }
 }
@@ -432,7 +431,7 @@ t_stack			*copy_stack(t_stack *a, int high)
 	return (ret);
 }
 
-int		find_median(t_stack *a, int high)
+int		find_median(t_stack *a, int high, int asc)
 {
 	int size;
 	t_stack *tmp;
@@ -440,18 +439,15 @@ int		find_median(t_stack *a, int high)
 	tmp = copy_stack(a, high + 1);
 	quicksort(&tmp, 0, high);
 	size = high + 1;
-	return (get_value_from_stack(&tmp, size / 2));
-}
-
-int			get_previos(t_stack *a, int value, int high)
-{
-	t_stack *tmp;
-
-	tmp = copy_stack(a, high + 1);
-	quicksort(&tmp, 0, high);
-	while (tmp->next->value != value)
-		tmp = tmp->next;
-	return (tmp->value);
+	if (asc)
+		return (get_value_from_stack(&tmp, size / 2));
+	else
+	{
+		if (get_size(tmp) % 2 == 0)
+			return (get_value_from_stack(&tmp, size / 2 - 1));
+		else
+			return (get_value_from_stack(&tmp, size / 2));
+	}
 }
 
 int		is_sorted(t_stack *a)
@@ -565,7 +561,7 @@ void	quicksort_descending(t_stack **a, t_stack **b, int high, char **res)
 		return ;
 	size_a = 0;
 	size_b = 0;
-	pivot  = find_median(*a, high - 1);
+	pivot  = find_median(*a, high - 1, 0);
 	while (high--)
 		if ((*a)->value > pivot && ++size_b)
 			push_(a, b, res);
@@ -603,7 +599,7 @@ void	quicksort_ascending(t_stack **a, t_stack **b, int high, char **res)
 		return ;
 	size_a = 0;
 	size_b = 0;
-	pivot  = find_median(*a, high - 1);
+	pivot  = find_median(*a, high - 1, 1);
 	while (high--)
 		if ((*a)->value < pivot && ++size_b)
 			push_(a, b, res);
@@ -623,101 +619,6 @@ void	quicksort_ascending(t_stack **a, t_stack **b, int high, char **res)
 	while (size_b--)
 		push_(b, a, res);
 }
-
-/*static void    optimize_swap(char **str)
-{
-    char *s;
-
-    s = *str + 1;
-    if (*s == 'a')
-    {
-        while (*s && *s == 'a')
-		{
-            if (*(s + 2))
-				s += 3;
-			else
-				return ;
-		}
-        if (*s == 'b' && *(s - 1) == 's')
-        {
-            **str = 's';
-			*(*str + 1) = 's';
-            *s = 'z';
-			*(s - 1) = 'z';
-        }
-    }
-    else if (*s == 'b')
-    {
-        while (*s && *s == 'b')
-		{
-            if (*(s + 2))
-				s += 3;
-			else
-				return ;
-		}
-        if (*s == 'a' && *(s - 1) == 's')
-        {
-            **str = 's';
-			*(*str + 1) = 's';
-            *s = 'z';
-			*(s - 1) = 'z';
-        }
-    }
-}
-
-static void    optimize_rotate(char **str)
-{
-    char *s;
-
-    s = *str + 1;
-    if (*s == 'a')
-    {
-        while (*s && *s == 'a')
-		{
-            if (*(s + 2))
-				s += 3;
-			else
-				return ;
-		}
-        if (*s == 'b' && *(s - 1) == 'r')
-        {
-            **str = 'r';
-			*(*str + 1) = 'r';
-            *s = 'z';
-			*(s - 1) = 'z';
-        }
-    }
-    else if (*s == 'b')
-    {
-        while (*s && *s == 'b')
-		{
-            if (*(s + 2))
-				s += 3;
-			else
-				return ;
-		}
-        if (*s == 'a' && *(s - 1) == 'r')
-        {
-            **str = 'r';
-			*(*str + 1) = 'r';
-            *s = 'z';
-			*(s - 1) = 'z';
-        }
-    }
-}
-
-void        optimize_str(char **str)
-{
-    while (**str)
-    {
-        if (**str == 's' && (*(*str + 1) == 'a' || *(*str + 1) == 'b'))
-            optimize_swap(str);
-        else if (**str == 'r' && (*(*str + 1) == 'a' || *(*str + 1) == 'b'))
-            optimize_rotate(str);
-        *str += 3;
-    }
-}*/
-
 
 int main(int argc, char **argv)
 {
@@ -750,9 +651,107 @@ int main(int argc, char **argv)
 	{
 		quicksort_ascending(&a, &b, argc - 1, &res);
 		*res = 0;
-		printf("%s", tmp);
+		ft_printf("%s", tmp);
 	}
 	else
-		printf("\n");
+		ft_printf("\n");
 	return (0);
 }
+
+/*static void    optimize_swap(char **str)
+{
+    char *s;
+
+    s = *str + 1;
+    if (*s == 'a')
+    {
+        while (*s && *s == 'a')
+		{
+            if (*(s + 2))
+				s += 3;
+			else
+				return ;
+		}
+        if (*s == 'b' && *(s - 1) == 's')
+        {
+            **str = 's';
+			*(*str + 1) = 's';
+            *s = 'z';
+			*(s - 1) = 'z';
+			*(s + 1) = 'z';
+        }
+    }
+    else if (*s == 'b')
+    {
+        while (*s && *s == 'b')
+		{
+            if (*(s + 2))
+				s += 3;
+			else
+				return ;
+		}
+        if (*s == 'a' && *(s - 1) == 's')
+        {
+            **str = 's';
+			*(*str + 1) = 's';
+            *s = 'z';
+			*(s - 1) = 'z';
+			*(s + 1) = 'z';
+        }
+    }
+}
+
+static void    optimize_rotate(char **str)
+{
+    char *s;
+
+    s = *str + 1;
+    if (*s == 'a')
+    {
+        while (*s && *s == 'a')
+		{
+            if (*(s + 2))
+				s += 3;
+			else
+				return ;
+		}
+        if (*s == 'b' && *(s - 1) == 'r' && *(s - 2) == '\n')
+        {
+            **str = 'r';
+			*(*str + 1) = 'r';
+            *s = 'z';
+			*(s - 1) = 'z';
+			*(s + 1) = 'z';
+        }
+    }
+    else if (*s == 'b')
+    {
+        while (*s && *s == 'b')
+		{
+            if (*(s + 2))
+				s += 3;
+			else
+				return ;
+		}
+        if (*s == 'a' && *(s - 1) == 'r' && *(s - 2) == '\n')
+        {
+            **str = 'r';
+			*(*str + 1) = 'r';
+            *s = 'z';
+			*(s - 1) = 'z';
+			*(s + 1) = 'z';
+        }
+    }
+}
+
+void        optimize_str(char **str)
+{
+    while (**str)
+    {
+        if (**str == 's' && (*(*str + 1) == 'a' || *(*str + 1) == 'b'))
+            optimize_swap(str);
+        else if (**str == 'r' && *(*str - 1) == '\n' && (*(*str + 1) == 'a' || *(*str + 1) == 'b'))
+            optimize_rotate(str);
+        *str += 3;
+    }
+}*/
