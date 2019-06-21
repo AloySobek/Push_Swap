@@ -6,12 +6,11 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/20 20:22:13 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/21 21:38:49 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <unistd.h>
 #include "Push_Swap.h"
 
 int			ss(t_stack **a, char **res)
@@ -323,18 +322,6 @@ int		get_size(t_stack *a)
 	return (count);
 }
 
-void    print_stack(t_stack *st)
-{
-    static int count = 1;
-
-    ft_printf("\n-----------%d-----------\n", count++);
-    while (st)
-    {
-        ft_printf("%d ", st->value);
-        st = st->next;
-    }
-}
-
 int 			get_value_from_stack(t_stack **a, int index)
 {
 	t_stack *iter;
@@ -472,34 +459,53 @@ int		third_sort(t_stack **a, char **res)
 	two = (*a)->next->value;
 	three = (*a)->next->next->value;
 	if (one > two && one > three && two < three)
-	{
+		if (get_size(*a) == 3)
+			swap_(a, res);
+		else
+		{
+			swap_(a, res);
+			rotate_(a, res);
+			swap_(a, res);
+			rotate_reverse_(a, res);
+		}
+	else if (one > two && one > three && two > three)
+		if (get_size(*a) == 3)
+		{
+			rotate_(a, res);
+			swap_(a, res);
+		}
+		else
+		{
+			swap_(a, res);
+			rotate_(a, res);
+			swap_(a, res);
+			rotate_reverse_(a, res);
+			swap_(a, res);
+		}
+	else if (two > one && two > three && one < three)
+		if (get_size(*a) == 3)
+		{
+			rotate_reverse_(a, res);
+			swap_(a, res);
+		}
+		else
+		{
+			rotate_(a, res);
+			swap_(a, res);
+			rotate_reverse_(a, res);
+		}
+	else if (two > one && two > three && one > three)
+		if (get_size(*a) == 3)
+			rotate_reverse_(a, res);
+		else
+		{
+			rotate_(a, res);
+			swap_(a, res);
+			rotate_reverse_(a, res);
+			swap_(a, res);
+		}
+	else if (three > one && three > two && one > two)
 		swap_(a, res);
-		return (1);
-	}
-	if (one > two && one > three && two > three)
-	{
-		rotate_(a, res);
-		swap_(a, res);
-		return (1);
-	}
-	if (two > one && two > three && one < three)
-	{
-		rotate_reverse_(a, res);
-		swap_(a, res);
-		return (1);
-	}
-	if (two > one && two > three && one > three)
-	{
-		rotate_reverse_(a, res);
-		return (1);
-	}
-	if (three > one && three > two && one > two)
-	{
-		swap_(a, res);
-		return (1);
-	}
-	if (three > one && three > two && one < two)
-		return (1);
 	return (1);
 }
 
@@ -513,245 +519,146 @@ int			third_sort_(t_stack **a, char **res)
 	two = (*a)->next->value;
 	three = (*a)->next->next->value;
 	if (one > two && one > three && two < three)
-	{
-		rotate_reverse_(a, res);
+		if (get_size(*a) == 3)
+		{
+			rotate_reverse_(a, res);
+			swap_(a, res);
+		}
+		else
+		{
+			rotate_(a, res);
+			swap_(a, res);
+			rotate_reverse_(a, res);
+		}
+	else if (two > one && two > three && one < three)
+		if (get_size(*a) == 3)
+			rotate_(a, res);
+		else
+		{
+			swap_(a, res);
+			rotate_(a ,res);
+			swap_(a, res);
+			rotate_reverse_(a, res);
+		}
+	else if (two > one && two > three && one > three)
 		swap_(a, res);
-		return (1);
-	}
-	if (one > two && one > three && two > three)
-		return (1);
-	if (two > one && two > three && one < three)
+	else if (three > one && three > two && one > two)
+		if (get_size(*a) == 3)
+			rotate_reverse_(a, res);
+		else
+		{
+			rotate_(a, res);
+			swap_(a, res);
+			rotate_reverse_(a, res);
+			swap_(a, res);
+		}
+	else if (three > one && three > two && one < two)
 	{
-		rotate_(a, res);
-		return (1);
-	}
-	if (two > one && two > three && one > three)
-	{
-		swap_(a, res);
-		return (1);
-	}
-	if (three > one && three > two && one > two)
-	{
-		rotate_reverse_(a, res);
-		return (1);
-	}
-	if (three > one && three > two && one < two)
-	{
-		swap_(a, res);
-		rotate_reverse_(a, res);
-		return (1);
+		if (get_size(*a) == 3)
+		{
+			swap_(a, res);
+			rotate_reverse_(a, res);
+		}
+		else
+		{
+			swap_(a, res);
+			rotate_(a, res);
+			swap_(a, res);
+			rotate_reverse_(a, res);
+			swap_(a, res);
+		}
 	}
 	return (1);
 }
 
 void	quicksort_descending(t_stack **a, t_stack **b, int high, char **res)
 {
-	int size_a;
-	int	size_b;
+	int size[2];
 	int pivot;
 
-	if (high <= 1)
+	if (high <= 1 || (high == 2 && ((*a)->value < (*a)->next->value ?
+	swap_(a, res) : 1)) || (high == 3 && third_sort_(a, res)))
 		return ;
-	if (high == 2)
-	{
-		(*a)->value < (*a)->next->value ? swap_(a, res) : 0;
-		return ;
-	}
-	if (high == 3 && get_size(*a) == 3 && third_sort_(a, res))
-		return ;
-	size_a = 0;
-	size_b = 0;
+	size[0] = 0;
+	size[1] = 0;
 	pivot  = find_median(*a, high - 1, 0);
 	while (high--)
-		if ((*a)->value > pivot && ++size_b)
+		if ((*a)->value > pivot && ++(size[1]))
 			push_(a, b, res);
 		else
-			if ((*a)->value == pivot && push_(a, b, res) >= 0)
-				rotate_(b, res);
-			else if (++size_a)
-				rotate_(a, res);
-	high = size_a;
+			(*a)->value == pivot && push_(a, b, res) >= 0 ? rotate_(b, res) :
+			++(size[0]) && rotate_(a, res);
+	high = size[0];
 	if (get_size(*a) > high)
 		while (high--)
 			rotate_reverse_(a, res);
-	quicksort_descending(a, b, size_a, res);
-	rotate_reverse_(b, res);
-	push_(b, a, res);
-	quicksort_ascending(b, a, size_b, res);
-	while (size_b--)
+	quicksort_descending(a, b, size[0], res);
+	rotate_reverse_(b, res) && push_(b, a, res);
+	quicksort_ascending(b, a, size[1], res);
+	while ((size[1])--)
 		push_(b, a, res);
 }
 
 void	quicksort_ascending(t_stack **a, t_stack **b, int high, char **res)
 {
-	int	size_a;
-	int	size_b;
+	int	size[2];
 	int	pivot;
 
-	if (high <= 1)
+	if (high <= 1 || (high == 2 && ((*a)->value > (*a)->next->value ?
+	swap_(a, res) : 1)) || (high == 3 && third_sort(a, res)))
 		return ;
-	if (high == 2)
-	{
-		(*a)->value > (*a)->next->value ? swap_(a, res) : 0;
-		return ;
-	}
-	if (high == 3 && get_size(*a) == 3 && third_sort(a, res))
-		return ;
-	size_a = 0;
-	size_b = 0;
+	size[0] = 0;
+	size[1] = 0;
 	pivot  = find_median(*a, high - 1, 1);
 	while (high--)
-		if ((*a)->value < pivot && ++size_b)
+		if ((*a)->value < pivot && ++(size[1]))
 			push_(a, b, res);
 		else
-			if ((*a)->value == pivot && push_(a, b, res) >= 0)
-				rotate_(b, res);
-			else if (++size_a)
-				rotate_(a, res);
-	high = size_a;
+			(*a)->value == pivot && push_(a, b, res) >= 0 ? rotate_(b, res) :
+			++(size[0]) && rotate_(a, res);
+	high = size[0];
 	if (get_size(*a) > high)
 		while (high--)
 			rotate_reverse_(a, res);
-	quicksort_ascending(a, b, size_a, res);
-	rotate_reverse_(b, res);
-	push_(b, a, res);
-	quicksort_descending(b, a, size_b, res);
-	while (size_b--)
+	quicksort_ascending(a, b, size[0], res);
+	rotate_reverse_(b, res) && push_(b, a, res);
+	quicksort_descending(b, a, size[1], res);
+	while ((size[1])--)
 		push_(b, a, res);
 }
 
-int main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
-	t_stack *a;
-	t_stack *b;
-	t_stack *iter;
-	char	*res;
-	char	*tmp;
-	int		i;
+	t_stack	*stacks[3];
+	char	*strings[2];
+	int		count;
 
-	b = NULL;
-	res = (char *)malloc(sizeof(char) * 100000);
-	*res++ = 'z';
-	*res++ = 'z';
-	*res++ = 'z';
-	*res++ = 'z';
-	*res++ = 'z';
-	tmp = res;
-	a = new_elem_of_stack(0, 0);
-	iter = a;
-	i = 1;
-	while (i < argc)
+	stacks[1] = NULL;
+	if (!(strings[1] = (char *)malloc(sizeof(char) * 100000)))
+		return(1);
+	*(strings[1])++ = 'z';
+	*(strings[1])++ = 'z';
+	*(strings[1])++ = 'z';
+	*(strings[1])++ = 'z';
+	strings[0] = strings[1];
+	stacks[0] = new_elem_of_stack(0, 0);
+	stacks[2] = stacks[0];
+	count = 1;
+	while (count < argc)
 	{
-		iter->value = atoi(argv[i++]);
-		i != argc ? iter->next = new_elem_of_stack(0, 0) : 0;
-		i != argc ? iter->next->prev = iter : 0;
-		i != argc ? iter = iter->next : 0;
+		stacks[2]->value = atoi(argv[count++]);
+		stacks[2]->next = new_elem_of_stack(0, 0);
+		stacks[2]->next->prev = stacks[2];
+		stacks[2] = stacks[2]->next;
 	}
-	if (!is_sorted(a))
+	stacks[2]->prev->next = NULL;
+	if (!is_sorted(stacks[0]))
 	{
-		quicksort_ascending(&a, &b, argc - 1, &res);
-		*res = 0;
-		ft_printf("%s", tmp);
+		quicksort_ascending(&stacks[0], &stacks[1], argc - 1, &strings[1]);
+		*(strings[1]) = 0;
+		ft_printf("%s", strings[0]);
 	}
 	else
 		ft_printf("\n");
 	return (0);
 }
-
-/*static void    optimize_swap(char **str)
-{
-    char *s;
-
-    s = *str + 1;
-    if (*s == 'a')
-    {
-        while (*s && *s == 'a')
-		{
-            if (*(s + 2))
-				s += 3;
-			else
-				return ;
-		}
-        if (*s == 'b' && *(s - 1) == 's')
-        {
-            **str = 's';
-			*(*str + 1) = 's';
-            *s = 'z';
-			*(s - 1) = 'z';
-			*(s + 1) = 'z';
-        }
-    }
-    else if (*s == 'b')
-    {
-        while (*s && *s == 'b')
-		{
-            if (*(s + 2))
-				s += 3;
-			else
-				return ;
-		}
-        if (*s == 'a' && *(s - 1) == 's')
-        {
-            **str = 's';
-			*(*str + 1) = 's';
-            *s = 'z';
-			*(s - 1) = 'z';
-			*(s + 1) = 'z';
-        }
-    }
-}
-
-static void    optimize_rotate(char **str)
-{
-    char *s;
-
-    s = *str + 1;
-    if (*s == 'a')
-    {
-        while (*s && *s == 'a')
-		{
-            if (*(s + 2))
-				s += 3;
-			else
-				return ;
-		}
-        if (*s == 'b' && *(s - 1) == 'r' && *(s - 2) == '\n')
-        {
-            **str = 'r';
-			*(*str + 1) = 'r';
-            *s = 'z';
-			*(s - 1) = 'z';
-			*(s + 1) = 'z';
-        }
-    }
-    else if (*s == 'b')
-    {
-        while (*s && *s == 'b')
-		{
-            if (*(s + 2))
-				s += 3;
-			else
-				return ;
-		}
-        if (*s == 'a' && *(s - 1) == 'r' && *(s - 2) == '\n')
-        {
-            **str = 'r';
-			*(*str + 1) = 'r';
-            *s = 'z';
-			*(s - 1) = 'z';
-			*(s + 1) = 'z';
-        }
-    }
-}
-
-void        optimize_str(char **str)
-{
-    while (**str)
-    {
-        if (**str == 's' && (*(*str + 1) == 'a' || *(*str + 1) == 'b'))
-            optimize_swap(str);
-        else if (**str == 'r' && *(*str - 1) == '\n' && (*(*str + 1) == 'a' || *(*str + 1) == 'b'))
-            optimize_rotate(str);
-        *str += 3;
-    }
-}*/
