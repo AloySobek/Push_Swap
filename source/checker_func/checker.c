@@ -27,13 +27,18 @@ t_stack			*new_elem_of_stack(int value, int index)
 	return (new);
 }
 
+void		boring_print_stacks(t_stack **a, t_stack **b)
+{
+	return ;
+}
+
 int			buituful_print_stacks(t_stack **a, t_stack **b)
 {
 	t_stack *tmp;
 	int value;
 	int i;
 
-	//system("sleep 0.3");
+	//system("sleep 0.5");
 	system("clear");
 	i = 300;
 	tmp = *a;
@@ -42,7 +47,7 @@ int			buituful_print_stacks(t_stack **a, t_stack **b)
 		value = tmp->value;
 		while (value--)
 			ft_printf("@{blue}█@{eoc}");
-		ft_printf("%d\n", tmp->value);
+		ft_printf("->@{green}%d@{eoc}\n", tmp->value);
 		tmp = tmp->next;
 	}
 	tmp = *b;
@@ -51,7 +56,7 @@ int			buituful_print_stacks(t_stack **a, t_stack **b)
 		value = tmp->value;
 		while (value--)
 			ft_printf("@{red}█@{eoc}");
-		ft_printf("%d\n", tmp->value);
+		ft_printf("->@{green}%d@{eoc}\n", tmp->value);
 		tmp = tmp->next;
 	}
 	return (1);
@@ -69,39 +74,37 @@ int		is_sorted(t_stack *a)
 	return (1);
 }
 
-void	command_handler(t_stack **a, t_stack **b, char **line)
+void	command_handler(t_stack **a, t_stack **b, char **line, unsigned *flags, int *count)
 {
-	while (get_next_line(0, line) == 1 && buituful_print_stacks(a, b))
+	while (get_next_line(0, line) == 1 && (*flags & COL ? buituful_print_stacks(a, b) : 1))
 		if (ft_strcmp(*line, "sa") == 0)
-            swap(a);
+            *count += swap(a);
         else if (ft_strcmp(*line, "sb") == 0)
-            swap(b);
+        	*count += swap(b);
         else if (ft_strcmp(*line, "ss") == 0 && swap(a))
-            swap(b);
+        	*count += swap(b);
         else if (ft_strcmp(*line, "pa") == 0)
-            push(b, a);
+        	*count += push(b, a);
         else if (ft_strcmp(*line, "pb") == 0)
-            push(a, b);
+        	*count += push(a, b);
         else if (ft_strcmp(*line, "ra") == 0)
-            rotate(a);
+        	*count += rotate(a);
         else if (ft_strcmp(*line, "rb") == 0)
-            rotate(b);
+            *count += rotate(b);
         else if (ft_strcmp(*line, "rr") == 0 && (rotate(a)))
-            rotate(b);
+            *count += rotate(b);
         else if (ft_strcmp(*line, "rra") == 0)
-            rotate_reverse(a);
+            *count += rotate_reverse(a);
         else if (ft_strcmp(*line, "rrb") == 0)
-            rotate_reverse(b);
+            *count += rotate_reverse(b);
         else if (ft_strcmp(*line, "rrr") == 0 && rotate_reverse(a))
-            rotate_reverse(b);
+            *count += rotate_reverse(b);
 }
 
-int		checking_args(int argc, char **argv)
+int		checking_args(int argc, char **argv, int i)
 {
-	int i;
 	int j;
 
-	i = 0;
 	while (++i < argc)
 	{
 		j = 0;
@@ -113,6 +116,18 @@ int		checking_args(int argc, char **argv)
 	return (1);
 }
 
+void    print_stack(t_stack *st)
+{
+    static int count = 1;
+
+    ft_printf("\n-----------%d-----------\n", count++);
+    while (st)
+    {
+        ft_printf("%d ", st->value);
+        st = st->next;
+    }
+}
+
 int		print_usage(void)
 {
 	ft_printf("Usage: Give a numeric sequence that needs to be sorted\n       ");
@@ -121,22 +136,39 @@ int		print_usage(void)
 	return (1);
 }
 
-int main(int argc, char **argv)
+void 			flags_picker(char **argv, unsigned *flags, int *i)
 {
-    t_stack *a;
-	t_stack *b;
-	t_stack *iter;
-	char	**args;
-    char    *line;
-	int     i;
+	if (ft_strcmp(argv[1], "-v") == 0 && ++(*i))
+		*flags |= COL;
+	else if (ft_strcmp(argv[1], "-c") == 0 && ++(*i))
+		*flags |= GRE;
+	else if (ft_strcmp(argv[1], "-i") == 0 && ++(*i))
+		*flags |= LIF;
+	else if (ft_strcmp(argv[1], "-f") == 0 && ++(*i))
+		*flags |= OUF;
+}
+
+int				main(int argc, char **argv)
+{
+    t_stack		*a;
+	t_stack		*b;
+	t_stack		*iter;
+	char		**args;
+    char		*line;
+	unsigned int	flags;
+	int			i;
+	int			count;
 
 	a = new_elem_of_stack(0, 0);
     b = NULL;
 	iter = a;
 	i = 1;
+	flags = 0;
+	count = 0;
 	if (argc == 1 && print_usage())
 		return (0);
-	else if (!checking_args(argc, argv) && ft_printf("Error\n"))
+	flags_picker(argv, &flags, &i);
+	if (!checking_args(argc, argv, i) && ft_printf("Error\n"))
 		return (0);
 	while (i < argc)
 	{
@@ -153,8 +185,8 @@ int main(int argc, char **argv)
 		}
 	}
 	iter->prev->next = NULL;
-	command_handler(&a, &b, &line);
-	buituful_print_stacks(&a, &b);
+	command_handler(&a, &b, &line, &flags, &count);
+	flags & COL ? buituful_print_stacks(&a, &b) : 0;
 	is_sorted(a) ? ft_printf("OK\n") : ft_printf("KO\n");
 	return (0);
 }
