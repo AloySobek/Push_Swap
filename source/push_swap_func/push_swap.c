@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/21 21:38:49 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/22 21:09:32 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -576,18 +576,21 @@ void	quicksort_descending(t_stack **a, t_stack **b, int high, char **res)
 	int size[2];
 	int pivot;
 
+	//ft_printf("%d\n", high);
 	if (high <= 1 || (high == 2 && ((*a)->value < (*a)->next->value ?
 	swap_(a, res) : 1)) || (high == 3 && third_sort_(a, res)))
 		return ;
 	size[0] = 0;
 	size[1] = 0;
-	pivot  = find_median(*a, high - 1, 0);
+	pivot  = find_median(*a, high - 1, 1);
 	while (high--)
+	{
 		if ((*a)->value > pivot && ++(size[1]))
 			push_(a, b, res);
 		else
 			(*a)->value == pivot && push_(a, b, res) >= 0 ? rotate_(b, res) :
 			++(size[0]) && rotate_(a, res);
+	}
 	high = size[0];
 	if (get_size(*a) > high)
 		while (high--)
@@ -604,12 +607,13 @@ void	quicksort_ascending(t_stack **a, t_stack **b, int high, char **res)
 	int	size[2];
 	int	pivot;
 
+	//ft_printf("%d\n", high);
 	if (high <= 1 || (high == 2 && ((*a)->value > (*a)->next->value ?
 	swap_(a, res) : 1)) || (high == 3 && third_sort(a, res)))
 		return ;
 	size[0] = 0;
 	size[1] = 0;
-	pivot  = find_median(*a, high - 1, 1);
+	pivot  = find_median(*a, high - 1, 0);
 	while (high--)
 		if ((*a)->value < pivot && ++(size[1]))
 			push_(a, b, res);

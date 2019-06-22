@@ -38,7 +38,7 @@ int			buituful_print_stacks(t_stack **a, t_stack **b)
 	int value;
 	int i;
 
-	//system("sleep 0.5");
+	system("sleep 0.5");
 	system("clear");
 	i = 300;
 	tmp = *a;
@@ -55,7 +55,7 @@ int			buituful_print_stacks(t_stack **a, t_stack **b)
 	{
 		value = tmp->value;
 		while (value--)
-			ft_printf("@{red}█@{eoc}");
+			ft_printf("@{magenta}█@{eoc}");
 		ft_printf("->@{green}%d@{eoc}\n", tmp->value);
 		tmp = tmp->next;
 	}
@@ -188,5 +188,7 @@ int				main(int argc, char **argv)
 	command_handler(&a, &b, &line, &flags, &count);
 	flags & COL ? buituful_print_stacks(&a, &b) : 0;
 	is_sorted(a) ? ft_printf("OK\n") : ft_printf("KO\n");
+	//print_stack(a);
+	//ft_printf("\n%d", count);
 	return (0);
 }
