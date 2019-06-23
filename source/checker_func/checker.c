@@ -27,38 +27,95 @@ t_stack			*new_elem_of_stack(int value, int index)
 	return (new);
 }
 
-void		boring_print_stacks(t_stack **a, t_stack **b)
+int				get_max(t_stack *a)
 {
-	return ;
+	t_stack		*iter;
+	int			max;
+
+	if (a)
+	{
+		iter = a;
+		max = iter->value;
+		while (iter)
+		{
+			if (iter->value > max)
+				max = iter->value;
+			iter = iter->next;
+		}
+		return (max);
+	}
+	return (0);
 }
 
-int			buituful_print_stacks(t_stack **a, t_stack **b)
+int		boring_print_stacks(t_stack *a, t_stack *b, unsigned int *flags)
 {
-	t_stack *tmp;
-	int value;
-	int i;
+	t_stack *iter_a;
+	t_stack *iter_b;
+	int size_a;
+	int size_b;
 
-	system("sleep 0.5");
 	system("clear");
-	i = 300;
-	tmp = *a;
-	while (tmp)
+	iter_a = a;
+	iter_b = b;
+	ft_printf("📊  STACK_A: 📊  STACK_B:  📊\n");
+	while (iter_a || iter_b)
 	{
-		value = tmp->value;
-		while (value--)
-			ft_printf("@{blue}█@{eoc}");
-		ft_printf("->@{green}%d@{eoc}\n", tmp->value);
-		tmp = tmp->next;
+		size_a = 6;
+		size_b = 6;
+		ft_printf("⫸     ");
+		iter_a ? size_a = 6 - ft_nbrlen(iter_a->value) : 0;
+		iter_a ? ft_printf("%-*d", size_a, iter_a->value) : ft_printf("%*z", size_a, size_a);
+		ft_printf("䷀     ");
+		iter_b ? size_b = 6 - ft_nbrlen(iter_b->value) : 0;
+		iter_b ? ft_printf("%-*d", size_b, iter_b->value) : ft_printf("%*z", size_b, size_b);
+		ft_printf("⫷\n");
+		iter_a ? iter_a = iter_a->next : 0;
+		iter_b ? iter_b = iter_b->next : 0;
 	}
-	tmp = *b;
-	while (tmp)
+	ft_printf("𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃\n");
+	!(*flags & (LIV | LIC)) ? system("sleep 0.1") : 0;
+	return (1);
+}
+
+int			buituful_print_stacks(t_stack **a, t_stack **b, char *str, int max, unsigned int *flags)
+{
+	t_stack *iter_a;
+	t_stack *iter_b;
+	int		i;
+
+	iter_a = *a;
+	iter_b = *b;
+	system("clear");
+	str ? ft_printf("@{magenta}Command: 📈  %s 📈@{eoc}\n", str) : 0;
+	while (iter_a || iter_b)
 	{
-		value = tmp->value;
-		while (value--)
-			ft_printf("@{magenta}█@{eoc}");
-		ft_printf("->@{green}%d@{eoc}\n", tmp->value);
-		tmp = tmp->next;
+		i = 0;
+		while (i++ < max)
+			iter_a && i <= iter_a->value ? ft_printf("@{blue}█@{eoc}") : ft_printf(" ");
+		if (str)
+		{
+			if (!ft_strcmp(str, "pa"))
+				ft_printf("@{green} ⇚ @{eoc}");
+			else if (!ft_strcmp(str, "pb"))
+				ft_printf("@{green} ⇛ @{eoc}");
+			else if (ft_strcmp(str, "Let's get start!"))
+				ft_printf("@{green} ↺ @{eoc}");
+		}
+		i = 0;
+		if (iter_b)
+			while (i++ < iter_b->value)
+				ft_printf("@{red}█@{eoc}");
+		ft_printf("\n");
+		iter_a ? iter_a = iter_a->next : 0;
+		iter_b ? iter_b = iter_b->next : 0;
 	}
+	if (!str)
+	{
+		while (max--)
+			ft_printf("@{green}✔@{eoc}");
+		ft_printf("\n");
+	}
+	!(*flags & (LIV | LIC)) ? system("sleep 0.7") : 0;
 	return (1);
 }
 
@@ -74,9 +131,10 @@ int		is_sorted(t_stack *a)
 	return (1);
 }
 
-void	command_handler(t_stack **a, t_stack **b, char **line, unsigned *flags, int *count)
+void	command_handler(t_stack **a, t_stack **b, char **line, unsigned *flags, int *count, int max)
 {
-	while (get_next_line(0, line) == 1 && (*flags & COL ? buituful_print_stacks(a, b) : 1))
+	while (get_next_line(0, line) == 1)
+	{
 		if (ft_strcmp(*line, "sa") == 0)
             *count += swap(a);
         else if (ft_strcmp(*line, "sb") == 0)
@@ -99,6 +157,11 @@ void	command_handler(t_stack **a, t_stack **b, char **line, unsigned *flags, int
             *count += rotate_reverse(b);
         else if (ft_strcmp(*line, "rrr") == 0 && rotate_reverse(a))
             *count += rotate_reverse(b);
+		else if (ft_printf("Error\n"))
+			exit(1);
+		*flags & (COL | LIC) ? buituful_print_stacks(a, b, *line, max, flags) : 0;
+		*flags & (GRE | LIV) ? boring_print_stacks(*a, *b, flags) : 0;
+	}
 }
 
 int		checking_args(int argc, char **argv, int i)
@@ -116,18 +179,6 @@ int		checking_args(int argc, char **argv, int i)
 	return (1);
 }
 
-void    print_stack(t_stack *st)
-{
-    static int count = 1;
-
-    ft_printf("\n-----------%d-----------\n", count++);
-    while (st)
-    {
-        ft_printf("%d ", st->value);
-        st = st->next;
-    }
-}
-
 int		print_usage(void)
 {
 	ft_printf("Usage: Give a numeric sequence that needs to be sorted\n       ");
@@ -136,16 +187,25 @@ int		print_usage(void)
 	return (1);
 }
 
+void			fd_collector(char **argv, unsigned *flags, int *i)
+{
+	//int fd;
+
+	//fd = open(argv[(*i)++])
+}
+
 void 			flags_picker(char **argv, unsigned *flags, int *i)
 {
 	if (ft_strcmp(argv[1], "-v") == 0 && ++(*i))
-		*flags |= COL;
-	else if (ft_strcmp(argv[1], "-c") == 0 && ++(*i))
 		*flags |= GRE;
-	else if (ft_strcmp(argv[1], "-i") == 0 && ++(*i))
-		*flags |= LIF;
-	else if (ft_strcmp(argv[1], "-f") == 0 && ++(*i))
-		*flags |= OUF;
+	else if (ft_strcmp(argv[1], "-c") == 0 && ++(*i))
+		*flags |= COL;
+	else if (ft_strcmp(argv[1], "-ic") == 0 && ++(*i))
+		*flags |= LIC;
+	else if (ft_strcmp(argv[1], "-iv") == 0 && ++(*i))
+		*flags |= LIV;
+	//else if (ft_strcmp(argv[1], '-fd') == 0 && ++(*i))
+	//	*flags |= REA;
 }
 
 int				main(int argc, char **argv)
@@ -155,9 +215,10 @@ int				main(int argc, char **argv)
 	t_stack		*iter;
 	char		**args;
     char		*line;
-	unsigned int	flags;
+	unsigned	flags;
 	int			i;
 	int			count;
+	int			max;
 
 	a = new_elem_of_stack(0, 0);
     b = NULL;
@@ -185,10 +246,12 @@ int				main(int argc, char **argv)
 		}
 	}
 	iter->prev->next = NULL;
-	command_handler(&a, &b, &line, &flags, &count);
-	flags & COL ? buituful_print_stacks(&a, &b) : 0;
+	max = get_max(a);
+	if (flags & (LIV | LIC))
+		flags & LIV ? boring_print_stacks(a, b, &flags) : buituful_print_stacks(&a, &b, "Let's get start!", max, &flags);
+	command_handler(&a, &b, &line, &flags, &count, max);
+	flags & COL ? buituful_print_stacks(&a, &b, NULL, max, &flags) : 0;
 	is_sorted(a) ? ft_printf("OK\n") : ft_printf("KO\n");
-	//print_stack(a);
-	//ft_printf("\n%d", count);
+	ft_printf("%d\n", count);
 	return (0);
 }
