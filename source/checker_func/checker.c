@@ -5,163 +5,103 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/11 17:11:01 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/18 14:08:17 by vrichese         ###   ########.fr       */
+/*   Created: 2019/06/26 15:04:50 by vrichese          #+#    #+#             */
+/*   Updated: 2019/06/26 21:51:27 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Push_Swap.h"
+#include "push_swap.h"
 
-int				get_max(t_stack *a)
+void		boring_print_stacks(t_stack **stacks, size_t *flags)
 {
-	t_stack		*iter;
-	int			max;
+	t_stack	*iter[2];
+	int		breadth;
 
-	if (a)
-	{
-		iter = a;
-		max = iter->index;
-		while (iter)
-		{
-			if (iter->index > max)
-				max = iter->index;
-			iter = iter->next;
-		}
-		return (max);
-	}
-	return (0);
-}
-
-void		boring_print_stacks(t_stack *a, t_stack *b, size_t *flags)
-{
-	t_stack *iter_a;
-	t_stack *iter_b;
-	int		width_;
-
-	iter_a = a;
-	iter_b = b;
-	width_ = 10;
+	iter[A] = stacks[A];
+	iter[B] = stacks[B];
+	breadth = 10;
 	system("clear");
 	ft_printf("📊 𝌃𝌃𝌃𝌃 STACK_A:𝌃𝌃𝌃𝌃 📊 𝌃𝌃𝌃𝌃𝌃 STACK_B:𝌃𝌃𝌃𝌃 📊\n");
-	while (iter_a || iter_b)
+	while (iter[A] || iter[B])
 	{
-		if (iter_a)
-			ft_printf("⫸         %-*d", width_, iter_a->value);
+		if (iter[A])
+			ft_printf("⫸         %-*d", breadth, iter[A]->value);
 		else
-			ft_printf("⫸         %-*.0d", width_, 0);
-		if (iter_b)
-			ft_printf("䷀         %-*d⫷\n", width_, iter_b->value);
+			ft_printf("⫸         %-*.0d", breadth, 0);
+		if (iter[B])
+			ft_printf("䷀         %-*d⫷\n", breadth, iter[B]->value);
 		else
-			ft_printf("䷀         %-*.0d⫷\n", width_, 0);
-		iter_a ? iter_a = iter_a->next : 0;
-		iter_b ? iter_b = iter_b->next : 0;
+			ft_printf("䷀         %-*.0d⫷\n", breadth, 0);
+		iter[A] ? iter[A] = iter[A]->next : 0;
+		iter[B] ? iter[B] = iter[B]->next : 0;
 	}
-	ft_printf("𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃\n");
+	ft_printf("𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃");
+	ft_printf("𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃\n");
 	!(*flags & INT) ? usleep((int)_TIME__ * 100000) : 0;
 }
 
-int			buituful_print_stacks(t_stack **a, t_stack **b, char *str, size_t *flags)
+void		buituful_print_stacks(t_stack **stacks, char *str,
+									size_t *flags, int max)
 {
-	t_stack *iter_a;
-	t_stack *iter_b;
+	t_stack	*iter[2];
 	int		i;
 
-	iter_a = *a;
-	iter_b = *b;
+	iter[A] = stacks[A];
+	iter[B] = stacks[B];
 	!(*flags & INT) ? ft_printf("\e[?25l\e[H") : system("clear");
-	str ? ft_printf("@{magenta}Command: 📈%5s 📈@{eoc}\n", str) : 0;
-	while (iter_a || iter_b)
+	ft_printf("@{magenta}Command: 📈%5s 📈@{eoc}\n", str);
+	while ((iter[A] || iter[B]) && !(i = 0))
 	{
-		i = 0;
-		while (i++ < get_max(*a))
-			iter_a && i <= iter_a->index ? ft_printf("@{green}▄@{eoc}") : ft_printf(" ");
-		if (str)
-		{
-			if (!ft_strcmp(str, "pa"))
-				ft_printf("@{cyan}  ╷ ⇚ ╷  @{eoc}");
-			else if (!ft_strcmp(str, "pb"))
-				ft_printf("@{cyan}  ╷ ⇛ ╷  @{eoc}");
-			else if (ft_strcmp(str, "xxx"))
-				ft_printf("@{cyan}  ╷ ↺ ╷  @{eoc}");
-		}
-		i = 0;
-		while (i++ < get_max(*a))
-			iter_b && i <= iter_b->index ? ft_printf("@{red}▄@{eoc}") : ft_printf(" ");
-		ft_printf("\n\e[s");
-		iter_a ? iter_a = iter_a->next : 0;
-		iter_b ? iter_b = iter_b->next : 0;
+		while (i++ < max)
+			iter[A] && i <= iter[A]->index ? P_G : ft_printf(" ");
+		if (!(i = 0) && !ft_strcmp(str, "pa"))
+			ft_printf("@{cyan}  ╷ ⇚ ╷  @{eoc}");
+		else if (!ft_strcmp(str, "pb"))
+			ft_printf("@{cyan}  ╷ ⇛ ╷  @{eoc}");
+		else if (ft_strcmp(str, "xxx"))
+			ft_printf("@{cyan}  ╷ ↺ ╷  @{eoc}");
+		while (i++ < max)
+			iter[B] && i <= iter[B]->index ? P_R : ft_printf(" ");
+		ft_printf("\n");
+		iter[A] ? iter[A] = iter[A]->next : 0;
+		iter[B] ? iter[B] = iter[B]->next : 0;
 	}
 	!(*flags & INT) ? usleep((int)_TIME__ * 100000) : 0;
 	ft_printf("\e[?25h\e[s\e[J");
-	return (1);
 }
 
-void	command_handler(t_stack **a, t_stack **b, char **line, size_t *flags)
+void		command_handler(t_stack **st, char **line, size_t *flags, int max)
 {
-	*flags & (INT | DEB) ? boring_print_stacks(*a, *b, flags) : 0;
-	*flags & (INT | COL) ? buituful_print_stacks(a, b, *line, flags) && system("clear") : 0;
+	*flags & (COL | DEB) ? system("clear") : 0;
+	*flags & COL ? buituful_print_stacks(&st[A], "xxx", flags, max) : 0;
+	*flags & DEB ? boring_print_stacks(&st[A], flags) : 0;
 	while (get_next_line(_FILE__, line) == 1)
 	{
 		if (ft_strcmp(*line, "sa") == 0 || ft_strcmp(*line, "sb") == 0)
-            *(*line + 1) == 'a' ? swap(a) : swap(b);
-        else if (ft_strcmp(*line, "pa") == 0 || ft_strcmp(*line, "pb") == 0)
-        	*(*line + 1) == 'a' ? push(b, a) : push(a, b);
-        else if (ft_strcmp(*line, "ra") == 0 || ft_strcmp(*line, "rb") == 0)
-        	*(*line + 1) == 'a' ? rotate(a) : rotate(b);
-    	else if (ft_strcmp(*line, "rra") == 0 || ft_strcmp(*line, "rrb") == 0)
-			*(*line + 2) == 'a' ? rotate_reverse(a) : rotate_reverse(b);
-		else if (ft_strcmp(*line, "rr") == 0 && rotate(a) >= 0)
-            rotate(b);
-        else if (ft_strcmp(*line, "rrr") == 0 && rotate_reverse(a) >= 0)
-            rotate_reverse(b);
-        else if (ft_strcmp(*line, "ss") == 0 && swap(a) >= 0)
-        	swap(b);
+			*(*line + 1) == 'a' ? swap(&st[A]) : swap(&st[B]);
+		else if (ft_strcmp(*line, "pa") == 0 || ft_strcmp(*line, "pb") == 0)
+			*(*line + 1) == 'a' ? push(&st[B], &st[A]) : push(&st[A], &st[B]);
+		else if (ft_strcmp(*line, "ra") == 0 || ft_strcmp(*line, "rb") == 0)
+			*(*line + 1) == 'a' ? rotate(&st[A]) : rotate(&st[B]);
+		else if (ft_strcmp(*line, "rra") == 0 || ft_strcmp(*line, "rrb") == 0)
+			*(*line + 2) == 'a' ? reverse(&st[A]) : reverse(&st[B]);
+		else if (ft_strcmp(*line, "rr") == 0 && rotate(&st[A]) >= 0)
+			rotate(&st[B]);
+		else if (ft_strcmp(*line, "rrr") == 0 && reverse(&st[A]) >= 0)
+			reverse(&st[B]);
+		else if (ft_strcmp(*line, "ss") == 0 && swap(&st[A]) >= 0)
+			swap(&st[B]);
 		else if (ft_printf("Error\n"))
 			exit(1);
-		*flags & DEB ? boring_print_stacks(*a, *b, flags) : 0;
-		*flags & COL ? buituful_print_stacks(a, b, *line, flags) : 0;
+		*flags & DEB ? boring_print_stacks(&st[A], flags) : 0;
+		*flags & COL ? buituful_print_stacks(&st[A], *line, flags, max) : 0;
 	}
-	*flags & COL ? buituful_print_stacks(a, b, NULL, flags) : 0;
 }
 
-void		fd_collector(char **argv, unsigned *flags, int *i)
+void		main_cycle(int argc, char **argv, t_stack **stacks)
 {
-	int		fd;
-
-	fd = open(argv[(*i)++], O_RDONLY);
-	if (fd > 0)
-		*flags |= fd;
-	else
-		error_handler(0, 0);
-}
-
-int 			check_duplicate(t_stack **a)
-{
-	t_stack		*iter_1;
-	t_stack		*iter_2;
-
-	if (*a && (*a)->next)
-	{
-		iter_1 = *a;
-		while (iter_1->next)
-		{
-			iter_2 = iter_1->next;
-			while (iter_2)
-			{
-				if (iter_2->value == iter_1->value)
-					return (0);
-				iter_2 = iter_2->next;
-			}
-			iter_1 = iter_1->next;
-		}
-	}
-	return (1);
-}
-
-void			main_cycle(int argc, char **argv, t_stack **stacks)
-{
-	char		**args;
-	char		**tmp;
+	char	**args;
+	char	**tmp;
 
 	while (--argc)
 	{
@@ -178,14 +118,15 @@ void			main_cycle(int argc, char **argv, t_stack **stacks)
 		free(tmp);
 	}
 	stacks[I]->prev->next = NULL;
+	free(stacks[I]);
 }
 
-int				main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
-    t_stack		*stacks[3];
-	char		**tmp;
-    char		*line;
-	size_t		flags;
+	t_stack	*stacks[3];
+	size_t	flags;
+	char	**tmp;
+	char	*line;
 
 	flags = 0;
 	if (argc == 1 || !checking_args(&argc, &argv, &flags))
@@ -197,10 +138,12 @@ int				main(int argc, char **argv)
 	if (!check_duplicate(&stacks[A]))
 		error_handler(0, 0);
 	labeler(&stacks[A], stacks[I]->index);
-	command_handler(&stacks[A], &stacks[B], &line, &flags);
+	command_handler(&stacks[A], &line, &flags, get_max(stacks[A]));
 	if (is_sorted(stacks[A]) && stacks[B] == NULL)
 		ft_printf("OK\n");
 	else
 		ft_printf("KO\n");
+	free_list(&stacks[A]);
+	stacks[B] ? free_list(&stacks[B]) : 0;
 	return (0);
 }

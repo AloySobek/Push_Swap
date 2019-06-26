@@ -6,13 +6,12 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 11:49:19 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/19 19:14:17 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/26 15:23:23 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <fcntl.h>
-#include "Push_Swap.h"
+#include "push_swap.h"
 
 int					ft_in_str(char *str, char c)
 {

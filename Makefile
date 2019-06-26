@@ -6,7 +6,7 @@
 #    By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/18 21:16:18 by vrichese          #+#    #+#              #
-#    Updated: 2019/06/24 18:13:56 by vrichese         ###   ########.fr        #
+#    Updated: 2019/06/26 20:21:36 by vrichese         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,9 @@ COMDIR	= source/common_functions
 LIBDIR	= libft
 FT_DIR	= ft_printf
 
-SRC_PU	= $(addprefix $(PUSDIR)/, push_swap.c)
+SRC_PU	= $(addprefix $(PUSDIR)/, push_swap.c quicksort.c available_commands.c optimizer_string.c)
 SRC_CH	= $(addprefix $(CHEDIR)/, checker.c available_commands.c get_next_line.c)
-SRC_CO	= $(addprefix $(COMDIR)/, addit_func.c sorting_algorithm.c)
+SRC_CO	= $(addprefix $(COMDIR)/, addit_func.c args_handler.c sorting_algorithm.c)
 
 INCLUDE	= includes
 
@@ -34,18 +34,20 @@ all: $(NAME_1) $(NAME_2)
 
 $(NAME_1):
 	@cd $(FT_DIR) && $(MAKE)
-	@$(CC) $(CFLAGS) -I./$(INCLUDE) $(SRC_PU) $(SRC_CO) $(FT_DIR)/libftprintf.a -o $(NAME_1)
+	@cd $(LIBDIR) && $(MAKE)
+	@$(CC) $(CFLAGS) -I./$(INCLUDE) $(SRC_PU) $(SRC_CO) $(FT_DIR)/libftprintf.a $(LIBDIR)/libft.a -o $(NAME_1)
 
 $(NAME_2):
-	@cd $(LIBDIR) && $(MAKE)
 	@$(CC) $(CFLAGS) -I./$(INCLUDE) $(SRC_CH) $(SRC_CO) $(FT_DIR)/libftprintf.a $(LIBDIR)/libft.a -o $(NAME_2)
-	@cd $(LIBDIR) && $(MAKE) fclean
-	@cd $(FT_DIR) && $(MAKE) fclean
 
 clean:
 	@rm -f $(OBJ_PU) $(OBJ_PU)
+	@cd $(LIBDIR) && $(MAKE) clean
+	@cd $(FT_DIR) && $(MAKE) clean
 
 fclean: clean
 	@rm -f $(NAME_1) $(NAME_2)
+	@cd $(LIBDIR) && $(MAKE) fclean
+	@cd $(FT_DIR) && $(MAKE) fclean
 
 re: fclean all

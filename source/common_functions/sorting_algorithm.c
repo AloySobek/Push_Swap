@@ -6,11 +6,11 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/24 17:57:27 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/25 14:45:04 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/26 22:01:58 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Push_Swap.h"
+#include "push_swap.h"
 
 int		get_size(t_stack *a)
 {
@@ -34,16 +34,29 @@ int		get_size(t_stack *a)
 	return (count);
 }
 
-int 			get_value_from_stack(t_stack **a, int index)
+t_stack			*get_elem_from_stack(t_stack **a, int index)
 {
-	t_stack *iter;
-	int size;
+	t_stack		*iter;
 
 	iter = *a;
 	if (iter)
 	{
 		while (index--)
-			iter = iter-> next;
+			iter = iter->next;
+		return (iter);
+	}
+	return (NULL);
+}
+
+int 			get_value_from_stack(t_stack **a, int index)
+{
+	t_stack *iter;
+
+	iter = *a;
+	if (iter)
+	{
+		while (index--)
+			iter = iter->next;
 		return (iter->value);
 	}
 	return (0);
@@ -130,21 +143,24 @@ t_stack			*copy_stack(t_stack *a, int high)
 	return (ret);
 }
 
-int		find_median(t_stack *a, int high, int asc)
+t_stack			*find_median(t_stack **a, int high, int asc)
 {
 	int size;
 	t_stack *tmp;
+	t_stack *iter_tmp;
+	t_stack *iter_a;
 
-	tmp = copy_stack(a, high + 1);
+	tmp = copy_stack(*a, high + 1);
 	quicksort(&tmp, 0, high);
+	labeler(&tmp, high + 1);
 	size = high + 1;
 	if (asc)
-		return (get_value_from_stack(&tmp, size / 2));
+		return (get_elem_from_stack(&tmp, size / 2));
 	else
 	{
 		if (get_size(tmp) % 2 == 0)
-			return (get_value_from_stack(&tmp, size / 2 - 1));
+			return (get_elem_from_stack(&tmp, size / 2 - 1));
 		else
-			return (get_value_from_stack(&tmp, size / 2));
+			return (get_elem_from_stack(&tmp, size / 2));
 	}
 }
