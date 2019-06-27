@@ -6,7 +6,7 @@
 #    By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/18 21:16:18 by vrichese          #+#    #+#              #
-#    Updated: 2019/06/27 16:06:49 by vrichese         ###   ########.fr        #
+#    Updated: 2019/06/27 18:01:38 by vrichese         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,28 +17,32 @@ PUSDIR	= source/push_swap_func
 CHEDIR	= source/checker_func
 COMDIR	= source/common_functions
 
-LIBDIR	= libft
+GNLDIR	= get_next_line
+LIBDIR	= $(GNLDIR)/libft
 FT_DIR	= ft_printf
 
-SRC_PU	= $(addprefix $(PUSDIR)/, push_swap.c quicksort.c available_commands.c optimizer_string.c)
-SRC_CH	= $(addprefix $(CHEDIR)/, checker.c available_commands.c get_next_line.c)
-SRC_CO	= $(addprefix $(COMDIR)/, addit_func.c args_handler.c sorting_algorithm.c)
-
+LIBFINC	= $(LIBDIR)/includes
+PRININC	= $(FT_DIR)/includes
+GNLINCL = $(GNLDIR)/includes
 INCLUDE	= includes
+
+SRC_PU	= $(addprefix $(PUSDIR)/, push_swap.c quicksort.c available_commands.c optimizer_string.c)
+SRC_CH	= $(addprefix $(CHEDIR)/, checker.c available_commands.c) $(GNLDIR)/source/get_next_line.c
+SRC_CO	= $(addprefix $(COMDIR)/, addit_func.c addit_func2.c args_handler.c sorting_algorithm.c)
 
 CC		= gcc
 
-CFLAGS	= -Wall -Werror -Wextra
+#CFLAGS	= -Wall -Werror -Wextra
 
 all: $(NAME_1) $(NAME_2)
 
 $(NAME_1):
 	@cd $(FT_DIR) && $(MAKE)
 	@cd $(LIBDIR) && $(MAKE)
-	@$(CC) $(CFLAGS) -I./$(INCLUDE) $(SRC_PU) $(SRC_CO) $(FT_DIR)/libftprintf.a $(LIBDIR)/libft.a -o $(NAME_1)
+	@$(CC) $(CFLAGS) -I./$(INCLUDE) -I./$(LIBFINC) -I./$(PRININC) -I./$(GNLINCL) $(SRC_PU) $(SRC_CO) $(FT_DIR)/libftprintf.a $(LIBDIR)/libft.a -g -o $(NAME_1)
 
 $(NAME_2):
-	@$(CC) $(CFLAGS) -I./$(INCLUDE) $(SRC_CH) $(SRC_CO) $(FT_DIR)/libftprintf.a $(LIBDIR)/libft.a -o $(NAME_2)
+	@$(CC) $(CFLAGS) -I./$(INCLUDE) -I./$(LIBFINC) -I./$(PRININC) -I./$(GNLINCL) $(SRC_CH) $(SRC_CO) $(FT_DIR)/libftprintf.a $(LIBDIR)/libft.a -o $(NAME_2)
 
 clean:
 	@rm -f $(OBJ_PU) $(OBJ_PU)

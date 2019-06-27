@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:04:50 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/27 16:05:55 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/27 20:54:47 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,17 +98,22 @@ void		command_handler(t_stack **st, char **line, size_t *flags, int max)
 	}
 }
 
-void		main_cycle(int argc, char **argv, t_stack **stacks)
+void		main_cycle(int argc, char **argv, t_stack **stacks, size_t *flags)
 {
 	char	**args;
 	char	**tmp;
 
+	flags_picker(*argv, flags);
+	if (*flags & (DEB | COL | INT | DES) && ++argv)
+		*flags & DES ? argc -= 2 : --argc;
 	while (--argc)
 	{
 		args = ft_strsplit(*argv++, ' ');
 		tmp = args;
 		while (*args)
 		{
+			if (!checking_args(*args))
+				error_handler(0, 0);
 			stacks[I]->value = ft_atoi(*args++);
 			stacks[I]->next = new_elem_of_stack(0, stacks[I]->index + 1);
 			stacks[I]->next->prev = stacks[I];
@@ -129,12 +134,12 @@ int			main(int argc, char **argv)
 	char	*line;
 
 	flags = 0;
-	if (argc == 1 || !checking_args(&argc, &argv, &flags))
-		argc == 1 ? error_handler(0, 1) : error_handler(0, 0);
+	if (argc == 1)
+		error_handler(0, 1);
 	stacks[A] = new_elem_of_stack(0, 0);
 	stacks[B] = NULL;
 	stacks[I] = stacks[A];
-	main_cycle(argc, argv, &stacks[0]);
+	main_cycle(argc, ++argv, &stacks[0], &flags);
 	if (!check_duplicate(&stacks[A]))
 		error_handler(0, 0);
 	labeler(&stacks[A], stacks[I]->index);

@@ -6,30 +6,43 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 18:26:41 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/27 14:57:46 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/27 21:02:20 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_stack		*find_median(t_stack **a, int high, int asc)
+int			find_median(t_stack **a, int high, int asc)
 {
 	t_stack	*iter_tmp;
 	t_stack	*iter_a;
 	t_stack	*tmp;
+	int		tmp2;
 	int		size;
 
 	tmp = copy_stack(*a, high + 1);
 	quicksort(&tmp, 0, high);
 	size = high + 1;
 	if (asc)
-		return (get_elem_from_stack(&tmp, size / 2));
+	{
+		tmp2 = get_value_from_stack(&tmp, size / 2);
+		//free(&tmp);
+		return (tmp2);
+	}
 	else
 	{
 		if (get_size(tmp) % 2 == 0)
-			return (get_elem_from_stack(&tmp, size / 2 - 1));
+		{
+			tmp2 = get_value_from_stack(&tmp, size / 2 - 1);
+		//	free(&tmp);
+			return (tmp2);
+		}
 		else
-			return (get_elem_from_stack(&tmp, size / 2));
+		{
+			tmp2 = get_value_from_stack(&tmp, size / 2);
+		//	free(&tmp);
+			return (tmp2);
+		}
 	}
 }
 
@@ -87,7 +100,7 @@ int			sort_three_descending(t_stack **a, char **res)
 
 void		quicksort_descending(t_stack **a, t_stack **b, int high, char **res)
 {
-	t_stack	*pivotal;
+	int		pivotal;
 	int		size[2];
 
 	if (high <= 1 || (high == 2 && ((*a)->value < (*a)->next->value ?
@@ -97,9 +110,9 @@ void		quicksort_descending(t_stack **a, t_stack **b, int high, char **res)
 	size[1] = 0;
 	pivotal = find_median(a, high - 1, 1);
 	while (high--)
-		if ((*a)->value > pivotal->value && ++(size[1]))
+		if ((*a)->value > pivotal && ++(size[1]))
 			push_(a, b, res);
-		else if ((*a)->value == pivotal->value && push_(a, b, res) >= 0)
+		else if ((*a)->value == pivotal && push_(a, b, res) >= 0)
 			rotate_(b, res);
 		else if (++(size[0]))
 			rotate_(a, res);
@@ -116,7 +129,7 @@ void		quicksort_descending(t_stack **a, t_stack **b, int high, char **res)
 
 void		quicksort_ascending(t_stack **a, t_stack **b, int high, char **res)
 {
-	t_stack	*pivotal;
+	int		pivotal;
 	int		size[2];
 
 	if (high <= 1 || (high == 2 && ((*a)->value > (*a)->next->value ?
@@ -126,9 +139,9 @@ void		quicksort_ascending(t_stack **a, t_stack **b, int high, char **res)
 	size[1] = 0;
 	pivotal = find_median(a, high - 1, 0);
 	while (high--)
-		if ((*a)->value < pivotal->value && ++(size[1]))
+		if ((*a)->value < pivotal && ++(size[1]))
 			push_(a, b, res);
-		else if ((*a)->value == pivotal->value && push_(a, b, res) >= 0)
+		else if ((*a)->value == pivotal && push_(a, b, res) >= 0)
 			rotate_(b, res);
 		else if (++(size[0]))
 			rotate_(a, res);

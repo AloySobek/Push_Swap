@@ -6,16 +6,17 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:09:16 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/26 20:24:43 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/27 20:35:23 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int			check_overflow(char *str)
+int			check_overflow(char *str, int minus)
 {
 	int		check;
 
+	minus ? *--str = '-' : 0;
 	check = ft_atoi(str);
 	if (*str == '-')
 	{
@@ -64,59 +65,53 @@ int			check_duplicate(t_stack **a)
 	return (1);
 }
 
-void		flags_picker(int *argc, char ***argv, size_t *flags)
+void		flags_picker(char *str, size_t *flags)
 {
-	char	*args;
-
-	args = *++(*argv);
-	if (*args == '-')
-		while (*args++)
+	if (*str == '-')
+		while (*str++)
 		{
-			if (*args == 'v' && (*flags |= DEB))
+			if (*str == 'v' && (*flags |= DEB))
 			{
 				*flags <<= 24;
 				*flags >>= 24;
-				time_collector(args, flags);
+				time_collector(str, flags);
 			}
-			else if (*args == 'c' && (*flags |= COL))
+			else if (*str == 'c' && (*flags |= COL))
 			{
 				*flags <<= 24;
 				*flags >>= 24;
-				time_collector(args, flags);
+				time_collector(str, flags);
 			}
-			else if (*args == 'i')
+			else if (*str == 'i')
 				*flags |= INT;
-			else if (*args == 'f' && fd_collector(++(*argv), flags))
+			else if (*str == 'f' && fd_collector(++str, flags))
 				*flags |= DES;
-			else if (*args && (*args < '0' || *args > '9'))
+			else if (*str && (*str < '0' || *str > '9'))
 				error_handler(1, 0);
 		}
 }
 
-int			checking_args(int *argc, char ***argv, size_t *flags)
+int			checking_args(char *str)
 {
-	char	*tmp_str;
-	int		tmp;
+	int		minus;
 
-	flags ? flags_picker(argc, argv, flags) : ++(*argv);
-	if (flags && (*flags & (DEB | COL | INT | DES) && ++(*argv)))
-		*flags & DES ? (*argc) -= 2 : --(*argc);
-	tmp = *argc;
-	tmp_str = **argv;
-	while (--tmp)
+	minus = 0;
+	while (*str)
 	{
-		if (ft_strlen(tmp_str) > 11)
+		while (*str && ft_isspace(*str) == 1)
+			++str;
+		if (*str == '+' || *str == '-')
+			*str++ == '-' ? minus = 1 : 0;
+		while (*str && *str == '0')
+			++str;
+		if (ft_strlen(str) > 10)
 			return (0);
-		if (ft_strlen(tmp_str) >= 10 && (*tmp_str == '-' ? *(tmp_str + 1) >
-		'2' : *tmp_str > '2'))
-			return (0);
-		if (ft_strlen(tmp_str) == 10 || ft_strlen(tmp_str) == 11)
-			if (check_overflow(tmp_str) == 0)
+		if (ft_strlen(str) == 10)
+			if (*str > '2' || check_overflow(str, minus) == 0)
 				return (0);
-		while (*tmp_str && ((*tmp_str >= '0' && *tmp_str <= '9') ||
-		*tmp_str == ' ' || *tmp_str == '-'))
-			tmp_str++;
-		if (*tmp_str++)
+		while (*str && *str >= '0' && *str <= '9')
+			++str;
+		if (*str)
 			return (0);
 	}
 	return (1);

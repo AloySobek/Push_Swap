@@ -6,49 +6,29 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/24 17:57:27 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/27 15:56:45 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/27 20:55:09 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int		get_size(t_stack *a)
+int			get_value_from_stack(t_stack **a, int index)
 {
-	int count;
-	count = 0;
-	if (a)
-	{
-		if ((a->next) == NULL)
-			while (a)
-			{
-				++count;
-				a = a->prev;
-			}
-		else
-			while (a)
-			{
-				++count;
-				a = a->next;
-			}
-	}
-	return (count);
-}
-
-int 			get_value_from_stack(t_stack **a, int index)
-{
-	t_stack *iter;
+	t_stack	*iter;
+	int		tmp;
 
 	iter = *a;
 	if (iter)
 	{
 		while (index--)
 			iter = iter->next;
-		return (iter->value);
+		tmp = iter->value;
+		return (tmp);
 	}
 	return (0);
 }
 
-void			swap_for_quicksort(t_stack **a, int i, int j)
+void		swap_for_quicksort(t_stack **a, int i, int j)
 {
 	t_stack *iter;
 	t_stack *tmp;
@@ -77,11 +57,11 @@ void			swap_for_quicksort(t_stack **a, int i, int j)
 	}
 }
 
-int				partition(t_stack **a, int low, int high)
+int			partition(t_stack **a, int low, int high)
 {
-	int i;
-	int j;
-	int pivot;
+	int		pivot;
+	int		i;
+	int		j;
 
 	pivot = get_value_from_stack(a, (low + high) / 2);
 	i = low;
@@ -98,9 +78,9 @@ int				partition(t_stack **a, int low, int high)
 	}
 }
 
-void			quicksort(t_stack **a, int low, int high)
+void		quicksort(t_stack **a, int low, int high)
 {
-	int p;
+	int		p;
 
 	if (low < high)
 	{
@@ -110,8 +90,9 @@ void			quicksort(t_stack **a, int low, int high)
 	}
 }
 
-t_stack			*copy_stack(t_stack *a, int high)
+t_stack		*copy_stack(t_stack *a, int high)
 {
+	t_stack *prev;
 	t_stack *tmp;
 	t_stack *ret;
 
@@ -119,12 +100,18 @@ t_stack			*copy_stack(t_stack *a, int high)
 	ret = tmp;
 	while (high--)
 	{
-		tmp->value = a->value;
-		tmp->prev = a->prev;
-		a = a->next;
-		high != 0 ? tmp->next = new_elem_of_stack(0, tmp->index + 1) : 0;
-		high != 0 ? tmp = tmp->next : 0;
+		if (a)
+		{
+			tmp->value = a->value;
+			tmp->stack = a->stack;
+			a = a->next;
+			tmp->next = new_elem_of_stack(0, tmp->index + 1);
+			prev = tmp;
+			tmp = tmp->next;
+			tmp->prev = prev;
+		}
 	}
-	tmp->next = NULL;
+	tmp->prev->next = NULL;
+	free(tmp);
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 13:57:35 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/27 15:54:57 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/27 17:33:05 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,22 @@ int			reverse(t_stack **a)
 	return (0);
 }
 
-void		free_list(t_stack **a)
+int			get_max(t_stack *a)
 {
-	while ((*a)->next)
+	t_stack	*iter;
+	int		max;
+
+	if (a)
 	{
-		*a = (*a)->next;
-		free((*a)->prev);
-		(*a)->prev = NULL;
+		iter = a;
+		max = iter->index;
+		while (iter)
+		{
+			if (iter->index > max)
+				max = iter->index;
+			iter = iter->next;
+		}
+		return (max);
 	}
-	free(*a);
-	*a = NULL;
+	return (0);
 }

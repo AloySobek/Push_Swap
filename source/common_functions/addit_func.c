@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/24 17:58:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/27 15:56:24 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/27 20:54:56 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,22 +59,14 @@ void		labeler(t_stack **a, int size)
 		iter_a->index = iter_tmp->index + 1;
 		iter_tmp = iter_tmp->next;
 	}
+	free_list(&tmp);
 }
 
-int			print_usage(void)
-{
-	ft_printf("Usage: Give a numeric sequence that needs to be sorted\n       ");
-	ft_printf("[-v] displaing stacks during the processing\n       ");
-	ft_printf("[-c] dispalaying with colour\n");
-	return (1);
-}
-
-
-int			fd_collector(char **argv, size_t *flags)
+int			fd_collector(char *str, size_t *flags)
 {
 	int		fd;
 
-	fd = open(*argv, O_RDONLY);
+	fd = open(str, O_RDONLY);
 	if (fd > 0)
 		*flags |= fd;
 	else
@@ -89,24 +81,4 @@ void		error_handler(int code, int none)
 	else if (!none)
 		ft_printf("Error\n");
 	exit(1);
-}
-
-int				get_max(t_stack *a)
-{
-	t_stack		*iter;
-	int			max;
-
-	if (a)
-	{
-		iter = a;
-		max = iter->index;
-		while (iter)
-		{
-			if (iter->index > max)
-				max = iter->index;
-			iter = iter->next;
-		}
-		return (max);
-	}
-	return (0);
 }

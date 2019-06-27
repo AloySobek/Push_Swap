@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/27 15:56:15 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/27 20:58:50 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,6 @@ int			rrr(t_stack **a, char **res)
 	return (0);
 }
 
-t_stack			*get_elem_from_stack(t_stack **a, int index)
-{
-	t_stack		*iter;
-
-	iter = *a;
-	if (iter)
-	{
-		while (index--)
-			iter = iter->next;
-		return (iter);
-	}
-	return (NULL);
-}
-
 int			main_cycle(int argc, char **argv, t_stack **stacks)
 {
 	char	**args;
@@ -60,6 +46,8 @@ int			main_cycle(int argc, char **argv, t_stack **stacks)
 		tmp = args;
 		while (*args)
 		{
+			if (!checking_args(*args))
+				error_handler(0, 0);
 			stacks[I]->value = ft_atoi(*args++);
 			stacks[I]->next = new_elem_of_stack(0, stacks[I]->index + 1);
 			stacks[I]->next->prev = stacks[I];
@@ -82,12 +70,12 @@ int			main(int argc, char **argv)
 	char	*strings[3];
 	int		size;
 
-	if (argc == 1 || !(checking_args(&argc, &argv, NULL)))
-		argc == 1 ? error_handler(0, 1) : error_handler(0, 0);
+	if (argc == 1)
+		error_handler(0, 1);
 	stacks[A] = new_elem_of_stack(0, 0);
 	stacks[B] = NULL;
 	stacks[I] = stacks[A];
-	size = main_cycle(argc, argv, &stacks[0]);
+	size = main_cycle(argc, ++argv, &stacks[0]);
 	if (!is_sorted(stacks[0]))
 	{
 		labeler(&stacks[A], argc - 1);
@@ -99,6 +87,8 @@ int			main(int argc, char **argv)
 		quicksort_ascending(&stacks[A], &stacks[B], argc - 1, &strings[1]);
 		*(strings[1]) = 0;
 		ft_printf("%s", strings[0]);
+		free_list(&stacks[A]);
+		stacks[B] ? free_list(&stacks[B]) : 0;
 		free(strings[2]);
 	}
 	return (0);

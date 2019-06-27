@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 14:46:30 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/27 16:01:17 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/27 19:39:24 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "ft_printf.h"
 # include "libft.h"
+# include "get_next_line.h"
 
 typedef enum		e_stacks
 {
@@ -29,7 +30,7 @@ typedef struct		s_stack
 	int				max_v;
 	struct s_stack	*next;
 	struct s_stack	*prev;
-}                   t_stack;
+}					t_stack;
 
 # define DEB		0x8000000
 # define COL		0x10000000
@@ -58,14 +59,15 @@ void				quicksort_descending(t_stack **a, t_stack **b,
 					int high, char **res);
 void				quicksort(t_stack **a, int low, int high);
 void				free_list(t_stack **a);
+void				flags_picker(char *str, size_t *flags);
 int					ss(t_stack **a, char **res);
-int 				rr(t_stack **a, char **res);
+int					rr(t_stack **a, char **res);
 int					rrr(t_stack **a, char **res);
-int 				push_(t_stack **a, t_stack **b, char **res);
+int					push_(t_stack **a, t_stack **b, char **res);
 int					swap_(t_stack **a, char **res);
 int					rotate_(t_stack **a, char **res);
 int					reverse_(t_stack **a, char **res);
-int					fd_collector(char **argv, size_t *flags);
+int					fd_collector(char *str, size_t *flags);
 int					is_sorted(t_stack *a);
 int					partition(t_stack **a, int low, int high);
 int					get_value_from_stack(t_stack **a, int index);
@@ -77,6 +79,6 @@ int					get_size(t_stack *a);
 int					print_usage(void);
 int					get_max(t_stack *a);
 int					check_duplicate(t_stack **a);
-int					checking_args(int *argc, char ***argv, size_t *flags);
+int					checking_args(char *str);
 
 #endif
