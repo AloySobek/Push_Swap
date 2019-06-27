@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 18:41:12 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/26 20:21:09 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/27 15:37:11 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,33 +23,10 @@ int			ss(t_stack **a, char **res)
 	return (0);
 }
 
-int 		rr(t_stack **a, char **res)
+int			push_(t_stack **a, t_stack **b, char **res)
 {
-	**res = 'r';
-	*res += 1;
-	**res = 'r';
-	*res += 1;
-	**res = '\n';
-	*res += 1;
-	return (0);
-}
+	t_stack	*tmp;
 
-int			rrr(t_stack **a, char **res)
-{
-	**res = 'r';
-	*res += 1;
-	**res = 'r';
-	*res += 1;
-	**res = 'r';
-	*res += 1;
-	**res = '\n';
-	*res += 1;
-	return (0);
-}
-
-int 			push_(t_stack **a, t_stack **b, char **res)
-{
-	t_stack *tmp;
 	if (*a)
 	{
 		push_optimizer(a, res);
@@ -57,14 +34,16 @@ int 			push_(t_stack **a, t_stack **b, char **res)
 		*a = tmp->next;
 		*a ? (*a)->prev = NULL : 0;
 		tmp->next = *b;
-		tmp->stack == 0 ? tmp->stack = 1 : (tmp->stack = 0);
+		if (tmp->stack == 0)
+			tmp->stack = 1;
+		else
+			tmp->stack = 0;
 		*b ? (*b)->prev = tmp : 0;
 		*b = tmp;
 		return (1);
 	}
 	return (0);
 }
-
 
 int			swap_(t_stack **a, char **res)
 {
@@ -74,8 +53,8 @@ int			swap_(t_stack **a, char **res)
 	{
 		swap_optimizer(a, res);
 		tmp = (*a)->next;
-		tmp->prev = *a;
 		(*a)->next = tmp->next;
+		tmp->next ? tmp->next->prev = *a : 0;
 		(*a)->prev = tmp;
 		tmp->next = *a;
 		tmp->prev = NULL;

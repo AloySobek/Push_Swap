@@ -6,11 +6,46 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/26 21:52:25 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/27 15:56:15 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void		zetter(char **strings)
+{
+	*(strings[1])++ = 'z';
+	*(strings[1])++ = 'z';
+	*(strings[1])++ = 'z';
+	*(strings[1])++ = 'z';
+}
+
+int			rrr(t_stack **a, char **res)
+{
+	**res = 'r';
+	*res += 1;
+	**res = 'r';
+	*res += 1;
+	**res = 'r';
+	*res += 1;
+	**res = '\n';
+	*res += 1;
+	return (0);
+}
+
+t_stack			*get_elem_from_stack(t_stack **a, int index)
+{
+	t_stack		*iter;
+
+	iter = *a;
+	if (iter)
+	{
+		while (index--)
+			iter = iter->next;
+		return (iter);
+	}
+	return (NULL);
+}
 
 int			main_cycle(int argc, char **argv, t_stack **stacks)
 {
@@ -41,15 +76,7 @@ int			main_cycle(int argc, char **argv, t_stack **stacks)
 	return (size);
 }
 
-void	zetter(char **strings)
-{
-	*(strings[1])++ = 'z';
-	*(strings[1])++ = 'z';
-	*(strings[1])++ = 'z';
-	*(strings[1])++ = 'z';
-}
-
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	t_stack	*stacks[3];
 	char	*strings[3];
@@ -65,13 +92,13 @@ int		main(int argc, char **argv)
 	{
 		labeler(&stacks[A], argc - 1);
 		if (!(strings[1] = (char *)malloc(sizeof(char) * (size * size))))
-			return(1);
+			return (1);
 		strings[2] = strings[1];
 		zetter(&strings[0]);
 		strings[0] = strings[1];
 		quicksort_ascending(&stacks[A], &stacks[B], argc - 1, &strings[1]);
 		*(strings[1]) = 0;
-		//ft_printf("%s", strings[0]);
+		ft_printf("%s", strings[0]);
 		free(strings[2]);
 	}
 	return (0);

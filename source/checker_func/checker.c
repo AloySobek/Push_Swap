@@ -6,13 +6,13 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:04:50 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/26 21:51:27 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/27 16:05:55 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void		boring_print_stacks(t_stack **stacks, size_t *flags)
+void		boring_print_stacks(t_stack **stacks, size_t *flags, char *str)
 {
 	t_stack	*iter[2];
 	int		breadth;
@@ -35,8 +35,8 @@ void		boring_print_stacks(t_stack **stacks, size_t *flags)
 		iter[A] ? iter[A] = iter[A]->next : 0;
 		iter[B] ? iter[B] = iter[B]->next : 0;
 	}
-	ft_printf("𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃");
-	ft_printf("𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃\n");
+	ft_printf("𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃 Command:%3s ", str);
+	ft_printf("𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃\n");
 	!(*flags & INT) ? usleep((int)_TIME__ * 100000) : 0;
 }
 
@@ -74,7 +74,7 @@ void		command_handler(t_stack **st, char **line, size_t *flags, int max)
 {
 	*flags & (COL | DEB) ? system("clear") : 0;
 	*flags & COL ? buituful_print_stacks(&st[A], "xxx", flags, max) : 0;
-	*flags & DEB ? boring_print_stacks(&st[A], flags) : 0;
+	*flags & DEB ? boring_print_stacks(&st[A], flags, "xxx") : 0;
 	while (get_next_line(_FILE__, line) == 1)
 	{
 		if (ft_strcmp(*line, "sa") == 0 || ft_strcmp(*line, "sb") == 0)
@@ -93,7 +93,7 @@ void		command_handler(t_stack **st, char **line, size_t *flags, int max)
 			swap(&st[B]);
 		else if (ft_printf("Error\n"))
 			exit(1);
-		*flags & DEB ? boring_print_stacks(&st[A], flags) : 0;
+		*flags & DEB ? boring_print_stacks(&st[A], flags, *line) : 0;
 		*flags & COL ? buituful_print_stacks(&st[A], *line, flags, max) : 0;
 	}
 }
