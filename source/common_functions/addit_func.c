@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/24 17:58:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/27 20:54:56 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/28 17:32:05 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ t_stack		*new_elem_of_stack(int value, int stack)
 {
 	t_stack *new;
 
-	new = (t_stack *)malloc(sizeof(t_stack));
+	if (!(new = (t_stack *)malloc(sizeof(t_stack))))
+		error_handler(0, 0);
 	(*new).value = value;
 	(*new).index = stack;
 	(*new).next = NULL;

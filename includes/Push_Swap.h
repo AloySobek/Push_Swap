@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 14:46:30 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/27 19:39:24 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/28 17:42:52 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,6 @@ void				quicksort_descending(t_stack **a, t_stack **b,
 void				quicksort(t_stack **a, int low, int high);
 void				free_list(t_stack **a);
 void				flags_picker(char *str, size_t *flags);
-int					ss(t_stack **a, char **res);
-int					rr(t_stack **a, char **res);
-int					rrr(t_stack **a, char **res);
 int					push_(t_stack **a, t_stack **b, char **res);
 int					swap_(t_stack **a, char **res);
 int					rotate_(t_stack **a, char **res);

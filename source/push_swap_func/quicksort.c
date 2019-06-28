@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 18:26:41 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/27 21:02:20 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/28 18:48:14 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,16 @@ int			find_median(t_stack **a, int high, int asc)
 	quicksort(&tmp, 0, high);
 	size = high + 1;
 	if (asc)
-	{
 		tmp2 = get_value_from_stack(&tmp, size / 2);
-		//free(&tmp);
-		return (tmp2);
-	}
 	else
 	{
 		if (get_size(tmp) % 2 == 0)
-		{
 			tmp2 = get_value_from_stack(&tmp, size / 2 - 1);
-		//	free(&tmp);
-			return (tmp2);
-		}
 		else
-		{
 			tmp2 = get_value_from_stack(&tmp, size / 2);
-		//	free(&tmp);
-			return (tmp2);
-		}
 	}
+	free_list(&tmp);
+	return (tmp2);
 }
 
 int			sort_three_ascending(t_stack **a, char **res)
@@ -125,6 +115,7 @@ void		quicksort_descending(t_stack **a, t_stack **b, int high, char **res)
 	quicksort_ascending(b, a, size[1], res);
 	while ((size[1])--)
 		push_(b, a, res);
+	**res = 0;
 }
 
 void		quicksort_ascending(t_stack **a, t_stack **b, int high, char **res)
@@ -154,4 +145,5 @@ void		quicksort_ascending(t_stack **a, t_stack **b, int high, char **res)
 	quicksort_descending(b, a, size[1], res);
 	while ((size[1])--)
 		push_(b, a, res);
+	**res = 0;
 }

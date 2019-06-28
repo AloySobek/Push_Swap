@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:04:50 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/27 20:54:47 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/28 16:20:50 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void		command_handler(t_stack **st, char **line, size_t *flags, int max)
 			exit(1);
 		*flags & DEB ? boring_print_stacks(&st[A], flags, *line) : 0;
 		*flags & COL ? buituful_print_stacks(&st[A], *line, flags, max) : 0;
+		free(*line);
 	}
 }
 
