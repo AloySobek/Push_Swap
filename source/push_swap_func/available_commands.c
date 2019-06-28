@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 18:41:12 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/28 18:45:49 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/28 21:40:49 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int			push_(t_stack **a, t_stack **b, char **res)
 			tmp->stack = 0;
 		*b ? (*b)->prev = tmp : 0;
 		*b = tmp;
+		(*b)->prev = NULL;
 		return (1);
 	}
 	return (0);

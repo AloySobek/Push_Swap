@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 14:55:48 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/28 15:38:25 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/28 22:07:14 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ int		find_highest(t_stack *a, int size)
     high = 0;
     if (a)
 	{
-        high = a->value;
+        high = a->index;
 		while (size--)
 		{
-			a->value > high ? high = a->value : 0;
+			a->index > high ? high = a->index : 0;
 			a = a->next;
 		}
 	}
@@ -36,14 +36,52 @@ int		find_lowest(t_stack *a, int size)
 	low = 0;
 	if (a)
 	{
-		low = a->value;
+		low = a->index;
 		while (size--)
 		{
-			a->value < low ? low = a->value : 0;
+			a->index < low ? low = a->index : 0;
 			a = a->next;
 		}
 	}
+	return (low);
+}
 
+int		find_first(t_stack *a)
+{
+	if (a)
+	{
+		if (a->next)
+			return (a->next->index);
+		while (a->prev)
+			a = a->next;
+		return (a->index);
+	}
+	return (0);
+}
+
+int		find_last(t_stack *a)
+{
+	if (a)
+	{
+		if (a->prev)
+			return (a->prev->index);
+		while (a->next)
+			a = a->next;
+		return (a->index);
+	}
+	return (0);
+}
+
+int    where_to(t_stack *s, int place)
+{
+    int			f;
+	int			i;
+
+	i = 0;
+	f = 1;
+	while (s && (s->index == place ? !(f = 0) : 1) && ((f ? --i : ++i) || 1))
+		s = s->next;
+    return (i);
 }
 
 void    sort_back(t_stack **a, t_stack **b, int size, char **act)
@@ -55,11 +93,11 @@ void    sort_back(t_stack **a, t_stack **b, int size, char **act)
     thend = find_lowest(*b, size);
     while (thend <= start)
     {
-        while ((*b)->value != start && (*b)->value != start - 1)
-            if ((*b)->value == thend || (*b)->value == thend + 1)
+        while ((*b)->index != start && (*b)->index != start - 1)
+            if ((*b)->index == thend || (*b)->index == thend + 1)
             {
-                if ((*b)->value == thend)
-                    thend += 1 + ((*a)->prev->value == thend + 1);
+                if ((*b)->index == thend)
+                    thend += 1 + (find_last(*a) == thend + 1);
                 push_(b, a, act);
                 rotate_(a, act);
             }
@@ -68,84 +106,63 @@ void    sort_back(t_stack **a, t_stack **b, int size, char **act)
             else
                 reverse_(b, act);
         push_(b, a, act);
-        while ((*a)->value == start ||
-            (*a)->prev->value == start || (*a)->next->value == start)
+        while ((*a)->index == start ||
+            find_last(*a) == start || (*a)->next->index == start)
             --start;
-        if ((*a)->value > (*a)->next->value)
+        if ((*a)->index > (*a)->next->index)
             swap_(a, act);
     }
-    while ((*a)->prev->value < (*a)->next->value)
+    while (find_last(*a) < (*a)->next->index)
     {
         reverse_(a, act);
-        if ((*a)->value > (*a)->next->value)
+        if ((*a)->index > (*a)->next->index)
             swap_(a, act);
     }
 }
 
-void    sort_100(t_stack **a, t_stack **b, int size, int **coms)
+void    sort_100(t_stack **a, t_stack **b, int size, char **act)
 {
     int pivot;
     int count;
     int check_p = 0;
 
-    if (size == 2 && (*a)->place > (*a)->right->place)
-        swap(a, coms);
+    if (size == 2 && (*a)->index > (*a)->next->index)
+        swap_(a, act);
     else if (size == 3)
-        solve_3(a, coms);
+        sort_three_ascending(a, act);
     else if (size > 3)
     {
         pivot = find_lowest(*a, size) + size / 2 + size % 2;
         count = 0;
         while (count * 2 < size || check_p != 2)
         {
-            if ((*a)->place < pivot)
+            if ((*a)->index < pivot)
             {
-                push(a, b, coms);
+                push_(a, b, act);
                 ++count;
             }
-            else if ((*a)->place == pivot)
+            else if ((*a)->index == pivot)
             {
-                push(a, b, coms);
-                rotate(b, coms);
+                push_(a, b, act);
+                rotate_(b, act);
                 ++check_p;
             }
-            else if ((*a)->place == pivot + 1)
+            else if ((*a)->index == pivot + 1)
             {
-                push(a, b, coms);
-                rotate(b, coms);
+                push_(a, b, act);
+                rotate_(b, act);
                 ++check_p;
             }
             else
-                rotate(a, coms);
+                rotate_(a, act);
         }
-        sort_100(a, b, size - count - 2, coms);
-        reverse(b, coms);
-        reverse(b, coms);
-        push(b, a, coms);
-        push(b, a, coms);
-        if ((*a)->place > (*a)->right->place)
-            swap(a, coms);
-        sort_back(a, b, count, coms);
+        sort_100(a, b, size - count - 2, act);
+        reverse_(b, act);
+        reverse_(b, act);
+        push_(b, a, act);
+        push_(b, a, act);
+        if ((*a)->index > (*a)->next->index)
+            swap_(a, act);
+        sort_back(a, b, count, act);
     }
-}
-
-static int    where_to(t_stack *s, int place)
-{
-    t_stack    *rotate;
-    int        direction;
-
-    direction = 0;
-    rotate = s;
-    while (rotate->place != place)
-    {
-        rotate = rotate->right;
-        ++direction;
-    }
-    rotate = s;
-    while (rotate->place != place)
-    {
-        rotate = rotate->left;
-        --direction;
-    }
-    return (direction);
 }

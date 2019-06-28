@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/28 19:05:00 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/28 21:24:51 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,24 @@ int			main(int argc, char **argv)
 
 	argc == 1 ? error_handler(0, 1) : 0;
 	stacks[A] = new_elem_of_stack(0, 0);
+	stacks[A]->prev = NULL;
 	stacks[B] = NULL;
 	stacks[I] = stacks[A];
 	size = main_cycle(argc, ++argv, &(stacks[0]));
 	if (!is_sorted(stacks[0]))
 	{
-		if (!(strings[A] = (char *)malloc(sizeof(char) * (size * size * size))))
+		if (get_size(stacks[A]) == 100)
+			labeler(&stacks[A], 100);
+		strings[A] = NULL;
+		if (!(strings[A] = (char *)malloc(sizeof(char) * (size * size))))
 			error_handler(0, 0);
 		strings[I] = strings[A];
 		zetter(&(strings[A]));
 		strings[B] = strings[A];
-		quicksort_ascending(&(stacks[A]), &(stacks[B]), argc - 1, &(strings[A]));
+		if (get_size(stacks[A]) == 100)
+			sort_100(&stacks[A], &stacks[B], 100, &(strings[A]));
+		else
+			quicksort_ascending(&(stacks[A]), &(stacks[B]), argc - 1, &(strings[A]));
 		*(strings[A]) = 0;
 		ft_printf("%s", strings[B]);
 		free_list(&stacks[A]);

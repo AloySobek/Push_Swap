@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 14:46:30 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/28 17:42:52 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/28 20:36:33 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void				swap_optimizer(t_stack **a, char **res);
 void				rotate_optimizer(t_stack **a, char **res);
 void				reverse_optimizer(t_stack **a, char **res);
 void				labeler(t_stack **a, int size);
+void				sort_100(t_stack **a, t_stack **b, int size, char **act);
 void				error_handler(int code, int none);
 void				swap_for_quicksort(t_stack **a, int i, int j);
 void				quicksort_ascending(t_stack **a, t_stack **b,
@@ -60,6 +61,7 @@ void				quicksort_descending(t_stack **a, t_stack **b,
 void				quicksort(t_stack **a, int low, int high);
 void				free_list(t_stack **a);
 void				flags_picker(char *str, size_t *flags);
+int					sort_three_ascending(t_stack **a, char **res);
 int					push_(t_stack **a, t_stack **b, char **res);
 int					swap_(t_stack **a, char **res);
 int					rotate_(t_stack **a, char **res);
