@@ -6,22 +6,22 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/24 17:58:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/28 21:21:12 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 14:35:17 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_stack		*new_elem_of_stack(int value, int stack)
+t_stack		*new_elem_of_stack(int value, int index)
 {
 	t_stack *new;
 
 	if (!(new = (t_stack *)malloc(sizeof(t_stack))))
 		error_handler(0, 0);
-	(*new).value = value;
-	(*new).index = stack;
-	(*new).next = NULL;
-	(*new).prev = NULL;
+	new->value = value;
+	new->index = index;
+	new->next = NULL;
+	new->prev = NULL;
 	return (new);
 }
 

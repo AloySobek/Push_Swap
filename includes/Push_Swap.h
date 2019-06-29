@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 14:46:30 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/28 20:36:33 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 14:05:31 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ typedef enum		e_stacks
 {
 	A, B, I
 }					t_stacks;
+
+typedef enum		e_strings
+{
+	MAJOR, FREED, PRINT
+}					t_strings;
 
 typedef struct		s_stack
 {

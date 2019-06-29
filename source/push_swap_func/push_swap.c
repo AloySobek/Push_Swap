@@ -6,19 +6,16 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/28 21:24:51 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 14:24:58 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void		zetter(char **strings)
+void		extender(char **str, int size)
 {
-	*(strings[A])++ = 'z';
-	*(strings[A])++ = 'z';
-	*(strings[A])++ = 'z';
-	*(strings[A])++ = 'z';
-	*(strings[A]) = 'z';
+	while (size--)
+		*(*str)++ = '!';
 }
 
 int			main_cycle(int argc, char **argv, t_stack **stacks)
@@ -52,35 +49,30 @@ int			main_cycle(int argc, char **argv, t_stack **stacks)
 
 int			main(int argc, char **argv)
 {
-	t_stack	*stacks[3];
-	char	*strings[3];
-	int		size;
+	t_stack	*stack[3];
+	char	*string[3];
+	int		length_s;
+	int		quantity;
 
 	argc == 1 ? error_handler(0, 1) : 0;
-	stacks[A] = new_elem_of_stack(0, 0);
-	stacks[A]->prev = NULL;
-	stacks[B] = NULL;
-	stacks[I] = stacks[A];
-	size = main_cycle(argc, ++argv, &(stacks[0]));
-	if (!is_sorted(stacks[0]))
+	stack[A] = new_elem_of_stack(0, 0);
+	stack[B] = NULL;
+	stack[I] = stack[A];
+	length_s = main_cycle(argc, ++argv, &(stack[0]));
+	if (!is_sorted(stack[A]))
 	{
-		if (get_size(stacks[A]) == 100)
-			labeler(&stacks[A], 100);
-		strings[A] = NULL;
-		if (!(strings[A] = (char *)malloc(sizeof(char) * (size * size))))
-			error_handler(0, 0);
-		strings[I] = strings[A];
-		zetter(&(strings[A]));
-		strings[B] = strings[A];
-		if (get_size(stacks[A]) == 100)
-			sort_100(&stacks[A], &stacks[B], 100, &(strings[A]));
-		else
-			quicksort_ascending(&(stacks[A]), &(stacks[B]), argc - 1, &(strings[A]));
-		*(strings[A]) = 0;
-		ft_printf("%s", strings[B]);
-		free_list(&stacks[A]);
-		stacks[B] ? free_list(&stacks[B]) : 0;
-		free(strings[I]);
+		quantity = get_size(stack[A]);
+		labeler(&stack[A], quantity);
+		!(string[MAJOR] = (char *)malloc(length_s)) ? error_handler(0, 0) : 0;
+		string[FREED] = string[MAJOR];
+		extender(&string[MAJOR], 5);
+		string[PRINT] = string[MAJOR];
+		quantity == 100 ? sort_100(&stack[A], &stack[B], 100, &(string[A])) :
+		quicksort_ascending(&(stack[A]), &(stack[B]), argc - 1, &(string[A]));
+		ft_printf("%s", string[PRINT]);
+		free_list(&stack[A]);
+		stack[B] ? free_list(&stack[B]) : 0;
+		free(string[FREED]);
 	}
 	return (0);
 }

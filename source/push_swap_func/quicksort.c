@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 18:26:41 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/28 20:35:39 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 13:04:06 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ void		quicksort_descending(t_stack **a, t_stack **b, int high, char **res)
 	quicksort_ascending(b, a, size[1], res);
 	while ((size[1])--)
 		push_(b, a, res);
-	**res = 0;
 }
 
 void		quicksort_ascending(t_stack **a, t_stack **b, int high, char **res)
@@ -145,5 +144,4 @@ void		quicksort_ascending(t_stack **a, t_stack **b, int high, char **res)
 	quicksort_descending(b, a, size[1], res);
 	while ((size[1])--)
 		push_(b, a, res);
-	**res = 0;
 }
