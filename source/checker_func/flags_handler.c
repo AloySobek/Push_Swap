@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 16:19:57 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 21:16:09 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 21:35:49 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	fd_collector(char *str, size_t *flags)
 	return (1);
 }
 
-static void	flags_picker(char *str, char *fd, size_t *flags)
+void		flags_picker(char *str, char *fd, size_t *flags)
 {
 	if (*str == '-')
 		while (*str++)

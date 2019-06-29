@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:04:50 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 21:24:49 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 21:38:26 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ static void		main_cycle(int argc, char **argv, t_stack **stack,
 	stack[I]->next = NULL;
 }
 
-static int		main(int argc, char **argv)
+int				main(int argc, char **argv)
 {
 	t_stack		*stack[3];
 	size_t		flags_cv;

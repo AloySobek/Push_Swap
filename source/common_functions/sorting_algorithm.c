@@ -6,13 +6,13 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/24 17:57:27 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 21:25:27 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 21:39:06 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int		get_value_from_stack(t_stack **a, int index)
+int				get_value_from_stack(t_stack **a, int index)
 {
 	t_stack		*iter;
 	int			tmp;
@@ -78,7 +78,7 @@ static int		partition(t_stack **a, int low, int high)
 	}
 }
 
-static void		quicksort(t_stack **a, int low, int high)
+void			quicksort(t_stack **a, int low, int high)
 {
 	int			p;
 
@@ -90,7 +90,7 @@ static void		quicksort(t_stack **a, int low, int high)
 	}
 }
 
-static t_stack	*copy_stack(t_stack *a, int high)
+t_stack			*copy_stack(t_stack *a, int high)
 {
 	t_stack		*prev;
 	t_stack		*tmp;

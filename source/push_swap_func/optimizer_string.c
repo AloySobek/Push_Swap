@@ -6,13 +6,13 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 18:28:50 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 21:23:56 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 21:36:45 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void	push_optimizer(int where, char **act)
+void	push_optimizer(int where, char **act)
 {
 	if (*(*act - 3) == 'p' && *(*act - 2) == (!where ? 'a' : 'b'))
 		*act -= 3;
@@ -24,7 +24,7 @@ static void	push_optimizer(int where, char **act)
 	}
 }
 
-static void	swap_optimizer(int where, char **act)
+void	swap_optimizer(int where, char **act)
 {
 	if (*(*act - 3) == 's' && *(*act - 2) == (!where ? 'a' : 'b'))
 		*act -= 3;
@@ -46,7 +46,7 @@ static void	swap_optimizer(int where, char **act)
 	}
 }
 
-static void	rotate_optimizer(int where, char **act)
+void	rotate_optimizer(int where, char **act)
 {
 	if (*(*act - 4) == 'r' && *(*act - 2) == (!where ? 'a' : 'b'))
 		*act -= 4;
@@ -69,7 +69,7 @@ static void	rotate_optimizer(int where, char **act)
 	}
 }
 
-static void	reverse_optimizer(int where, char **act)
+void	reverse_optimizer(int where, char **act)
 {
 	if (*(*act - 2) == (!where ? 'a' : 'b')
 	&& *(*act - 4) == '\n' && *(*act - 3) == 'r')

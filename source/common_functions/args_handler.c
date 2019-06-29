@@ -6,13 +6,13 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:09:16 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 21:16:45 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 21:31:47 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void	error_handler(int usage, int none)
+void		error_handler(int usage, int none)
 {
 	if (usage)
 	{
@@ -41,7 +41,7 @@ static int	check_overflow(char *str, int minus)
 	return (1);
 }
 
-static int	check_duplicate(t_stack **a)
+int			check_duplicate(t_stack **a)
 {
 	t_stack	*iter_1;
 	t_stack	*iter_2;
@@ -64,7 +64,7 @@ static int	check_duplicate(t_stack **a)
 	return (1);
 }
 
-static int	checking_args(char *str)
+int			checking_args(char *str)
 {
 	int		minus;
 

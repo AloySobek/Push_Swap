@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 18:26:41 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 21:22:48 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 21:37:24 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	find_median(t_stack **a, int high, int asc)
 	return (tmp2);
 }
 
-static int	sort_three_ascending(t_stack **a, char **res)
+int			sort_three_ascending(t_stack **a, char **res)
 {
 	int		first;
 	int		secon;
@@ -84,7 +84,7 @@ static int	sort_three_descending(t_stack **a, char **res)
 	return (1);
 }
 
-static void	quicksort_descending(t_stack **a, t_stack **b, int high, char **res)
+void		quicksort_descending(t_stack **a, t_stack **b, int high, char **res)
 {
 	int		pivotal;
 	int		size[2];
@@ -113,7 +113,7 @@ static void	quicksort_descending(t_stack **a, t_stack **b, int high, char **res)
 		push_(b, a, res);
 }
 
-static void	quicksort_ascending(t_stack **a, t_stack **b, int high, char **res)
+void		quicksort_ascending(t_stack **a, t_stack **b, int high, char **res)
 {
 	int		pivotal;
 	int		size[2];

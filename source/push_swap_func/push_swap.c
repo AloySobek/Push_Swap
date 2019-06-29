@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 21:26:03 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 21:43:42 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	extender(char **str, int size)
 	**str = 0;
 }
 
-static int	rot_last(t_stack *a)
+int			rot_last(t_stack *a)
 {
 	if (a)
 	{
@@ -36,7 +36,6 @@ static void	main_cycle(int argc, char **argv, t_stack **stack, int *size)
 {
 	char	**args;
 	char	**tmp;
-	int		size;
 
 	*size = 0;
 	while (--argc)
@@ -61,7 +60,7 @@ static void	main_cycle(int argc, char **argv, t_stack **stack, int *size)
 	!check_duplicate(&stack[A]) ? error_handler(0, 0) : 0;
 }
 
-static int	main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	t_stack	*stack[3];
 	char	*string[3];
@@ -75,15 +74,14 @@ static int	main(int argc, char **argv)
 	main_cycle(argc, ++argv, &(stack[0]), &length_s);
 	if (!is_sorted(stack[A]))
 	{
-		quantity = get_size(stack[A]);
-		labeler(&stack[A], quantity);
+		labeler(&stack[A], (quantity = get_size(stack[A])));
 		if (!(string[MAJOR] = (char *)malloc(length_s * length_s * length_s)))
 			error_handler(0, 0);
 		string[FREED] = string[MAJOR];
 		extender(&string[MAJOR], 5);
 		string[PRINT] = string[MAJOR];
-		quantity >= 95 && quantity <= 100 ?
-		sort_100(&stack[A], &stack[B], 100, &string[MAJOR]) :
+		quantity >= 96 && quantity <= 100 ?
+		sort_100(&stack[A], &stack[B], quantity, &string[MAJOR]) :
 		quicksort_ascending(&(stack[A]), &(stack[B]), argc - 1, &string[MAJOR]);
 		*(string[MAJOR]) = 0;
 		ft_printf("%s", string[PRINT]);

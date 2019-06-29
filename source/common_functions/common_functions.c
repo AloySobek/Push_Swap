@@ -6,13 +6,13 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/24 17:58:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 21:17:50 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 21:39:37 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void		free_list(t_stack **a)
+void		free_list(t_stack **a)
 {
 	if (*a)
 	{
@@ -22,7 +22,7 @@ static void		free_list(t_stack **a)
 	}
 }
 
-static t_stack	*new_elem_of_stack(int value, int index)
+t_stack		*new_elem_of_stack(int value, int index)
 {
 	t_stack *new;
 
@@ -36,9 +36,9 @@ static t_stack	*new_elem_of_stack(int value, int index)
 	return (new);
 }
 
-static int		is_sorted(t_stack *a)
+int			is_sorted(t_stack *a)
 {
-	t_stack		*iter;
+	t_stack	*iter;
 
 	iter = a;
 	if (iter && iter->next)
@@ -53,9 +53,9 @@ static int		is_sorted(t_stack *a)
 	return (1);
 }
 
-static int		get_size(t_stack *a)
+int			get_size(t_stack *a)
 {
-	int			count;
+	int		count;
 
 	count = 0;
 	if (a)
@@ -76,11 +76,11 @@ static int		get_size(t_stack *a)
 	return (count);
 }
 
-static void		labeler(t_stack **a, int size)
+void		labeler(t_stack **a, int size)
 {
-	t_stack		*iter_tmp;
-	t_stack		*iter_a;
-	t_stack		*tmp;
+	t_stack	*iter_tmp;
+	t_stack	*iter_a;
+	t_stack	*tmp;
 
 	tmp = copy_stack(*a, size);
 	quicksort(&tmp, 0, size - 1);

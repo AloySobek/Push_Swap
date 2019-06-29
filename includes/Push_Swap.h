@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 14:46:30 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 18:31:28 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 21:31:03 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void				reverse_optimizer(int where, char **res);
 void				labeler(t_stack **a, int size);
 void				sort_100(t_stack **a, t_stack **b, int size, char **act);
 void				error_handler(int code, int none);
-void				swap_for_quicksort(t_stack **a, int i, int j);
 void				quicksort_ascending(t_stack **a, t_stack **b,
 					int high, char **res);
 void				quicksort_descending(t_stack **a, t_stack **b,
@@ -71,18 +70,15 @@ int					swap_(t_stack **a, char **res);
 int					rotate_(t_stack **a, char **res);
 int					reverse_(t_stack **a, char **res);
 int					is_sorted(t_stack *a);
-int					partition(t_stack **a, int low, int high);
 int					get_value_from_stack(t_stack **a, int index);
 int					push(t_stack **a, t_stack **b);
 int					swap(t_stack **a);
 int					rotate(t_stack **a);
 int					reverse(t_stack **a);
 int					get_size(t_stack *a);
-int					print_usage(void);
 int					get_max(t_stack *a);
 int					check_duplicate(t_stack **a);
 int					checking_args(char *str);
-int					print_usage(void);
 int					rot_last(t_stack *a);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 14:55:48 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 21:25:09 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 21:38:47 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static void	sort_back(t_stack **a, t_stack **b, int size, char **act)
 		(*a)->index > (*a)->next->index ? swap_(a, act) : 0;
 }
 
-static void	sort_100(t_stack **a, t_stack **b, int size, char **act)
+void		sort_100(t_stack **a, t_stack **b, int size, char **act)
 {
 	int		pivot;
 	int		count;
