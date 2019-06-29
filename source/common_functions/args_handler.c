@@ -6,11 +6,24 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:09:16 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/27 20:35:23 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 17:30:50 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void		error_handler(int usage, int none)
+{
+	if (usage)
+	{
+		ft_printf("Usage: Give a numeric sequence that needs to be sorted\n");
+		ft_printf("       [-v] displaing stacks during the processing\n");
+		ft_printf("       [-c] dispalaying with colour\n");
+	}
+	else if (!none)
+		ft_printf("Error\n");
+	exit(1);
+}
 
 int			check_overflow(char *str, int minus)
 {
@@ -26,20 +39,6 @@ int			check_overflow(char *str, int minus)
 	else if (check < 0)
 		return (0);
 	return (1);
-}
-
-void		time_collector(char *str, size_t *flags)
-{
-	size_t	time;
-
-	str++;
-	if (*str >= '0' && *str <= '9')
-	{
-		*flags <<= 24;
-		*flags >>= 24;
-		*flags |= ((size_t)ft_atoi(str) << 32);
-	}
-	_TIME__ == 0 ? *flags |= 3L << 32 : 0;
 }
 
 int			check_duplicate(t_stack **a)
@@ -63,32 +62,6 @@ int			check_duplicate(t_stack **a)
 		}
 	}
 	return (1);
-}
-
-void		flags_picker(char *str, size_t *flags)
-{
-	if (*str == '-')
-		while (*str++)
-		{
-			if (*str == 'v' && (*flags |= DEB))
-			{
-				*flags <<= 24;
-				*flags >>= 24;
-				time_collector(str, flags);
-			}
-			else if (*str == 'c' && (*flags |= COL))
-			{
-				*flags <<= 24;
-				*flags >>= 24;
-				time_collector(str, flags);
-			}
-			else if (*str == 'i')
-				*flags |= INT;
-			else if (*str == 'f' && fd_collector(++str, flags))
-				*flags |= DES;
-			else if (*str && (*str < '0' || *str > '9'))
-				error_handler(1, 0);
-		}
 }
 
 int			checking_args(char *str)

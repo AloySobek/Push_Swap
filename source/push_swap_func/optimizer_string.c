@@ -6,92 +6,90 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 18:28:50 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 14:25:12 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 16:22:36 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void		push_optimizer(t_stack **a, char **res)
+void		push_optimizer(int where, char **act)
 {
-	if (*(*res - 2) == ((*a)->stack == 0 ? 'a' : 'b') && *(*res - 3) == 'p')
-		*res -= 3;
+	if (*(*act - 3) == 'p' && *(*act - 2) == (!where ? 'a' : 'b'))
+		*act -= 3;
 	else
 	{
-		*(*res)++ = 'p';
-		*(*res)++ = ((*a)->stack == 0 ? 'b' : 'a');
-		*(*res)++ = '\n';
+		*(*act)++ = 'p';
+		*(*act)++ = !where ? 'b' : 'a';
+		*(*act)++ = '\n';
 	}
 }
 
-void		swap_optimizer(t_stack **a, char **res)
+void		swap_optimizer(int where, char **act)
 {
-	if (*(*res - 2) == ((*a)->stack == 0 ? 'a' : 'b') && *(*res - 3) == 's')
-		*res -= 3;
+	if (*(*act - 3) == 's' && *(*act - 2) == (!where ? 'a' : 'b'))
+		*act -= 3;
 	else
 	{
-		if (*(*res - 2) == ((*a)->stack == 0 ? 'b' : 'a') && *(*res - 3) == 's')
+		if (*(*act - 3) == 's' && *(*act - 2) == (!where ? 'b' : 'a'))
 		{
-			*res -= 3;
-			*(*res)++ = 's';
-			*(*res)++ = 's';
-			*(*res)++ = '\n';
+			*act -= 3;
+			*(*act)++ = 's';
+			*(*act)++ = 's';
+			*(*act)++ = '\n';
 		}
 		else
 		{
-			*(*res)++ = 's';
-			*(*res)++ = ((*a)->stack == 0 ? 'a' : 'b');
-			*(*res)++ = '\n';
-		}
-	}
-}
-
-void		rotate_optimizer(t_stack **a, char **res)
-{
-	if (*(*res - 2) == ((*a)->stack == 0 ? 'a' : 'b')
-	&& *(*res - 4) == 'r' && *(*res - 3) == 'r')
-		*res -= 4;
-	else
-	{
-		if (*(*res - 2) == ((*a)->stack == 0 ? 'b' : 'a')
-		&& *(*res - 4) == '\n' && *(*res - 3) == 'r')
-		{
-			*res -= 3;
-			*(*res)++ = 'r';
-			*(*res)++ = 'r';
-			*(*res)++ = '\n';
-		}
-		else
-		{
-			*(*res)++ = 'r';
-			*(*res)++ = ((*a)->stack == 0 ? 'a' : 'b');
-			*(*res)++ = '\n';
+			*(*act)++ = 's';
+			*(*act)++ = !where ? 'a' : 'b';
+			*(*act)++ = '\n';
 		}
 	}
 }
 
-void		reverse_optimizer(t_stack **a, char **res)
+void		rotate_optimizer(int where, char **act)
 {
-	if (*(*res - 2) == ((*a)->stack == 0 ? 'a' : 'b')
-	&& *(*res - 4) == '\n' && *(*res - 3) == 'r')
-		*res -= 3;
+	if (*(*act - 4) == 'r' && *(*act - 2) == (!where ? 'a' : 'b'))
+		*act -= 4;
 	else
 	{
-		if (*(*res - 2) == ((*a)->stack == 0 ? 'b' : 'a')
-		&& *(*res - 3) == 'r' && *(*res - 4) == 'r')
+		if (*(*act - 4) == '\n' && *(*act - 3) == 'r' &&
+		*(*act - 2) == (!where ? 'b' : 'a'))
 		{
-			*res -= 4;
-			*(*res)++ = 'r';
-			*(*res)++ = 'r';
-			*(*res)++ = 'r';
-			*(*res)++ = '\n';
+			*act -= 3;
+			*(*act)++ = 'r';
+			*(*act)++ = 'r';
+			*(*act)++ = '\n';
 		}
 		else
 		{
-			*(*res)++ = 'r';
-			*(*res)++ = 'r';
-			*(*res)++ = ((*a)->stack == 0 ? 'a' : 'b');
-			*(*res)++ = '\n';
+			*(*act)++ = 'r';
+			*(*act)++ = !where ? 'a' : 'b';
+			*(*act)++ = '\n';
+		}
+	}
+}
+
+void		reverse_optimizer(int where, char **act)
+{
+	if (*(*act - 2) == (!where ? 'a' : 'b')
+	&& *(*act - 4) == '\n' && *(*act - 3) == 'r')
+		*act -= 3;
+	else
+	{
+		if (*(*act - 4) == 'r' && *(*act - 2) == (!where ? 'b' : 'a'))
+		{
+			*act -= 4;
+			*(*act)++ = 'r';
+			*(*act)++ = 'r';
+			*(*act)++ = 'r';
+			*(*act)++ = '\n';
+		}
+		else
+		{
+			*(*act)++ = 'r';
+			*(*act)++ = 'r';
+			*(*act)++ = !where ? 'a' : 'b';
+			*(*act)++ = '\n';
 		}
 	}
 }

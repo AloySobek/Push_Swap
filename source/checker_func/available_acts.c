@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 13:57:35 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/27 17:33:05 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 16:28:57 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int			push(t_stack **a, t_stack **b)
 		tmp->next = *b;
 		*b ? (*b)->prev = tmp : 0;
 		*b = tmp;
-		return (1);
+		(*b)->prev = NULL;
 	}
-	return (0);
+	return (1);
 }
 
 int			swap(t_stack **a)
@@ -42,9 +42,8 @@ int			swap(t_stack **a)
 		tmp->next = *a;
 		tmp->prev = NULL;
 		*a = tmp;
-		return (1);
 	}
-	return (0);
+	return (1);
 }
 
 int			rotate(t_stack **a)
@@ -58,14 +57,13 @@ int			rotate(t_stack **a)
 		*a = (*a)->next;
 		(*a)->prev = NULL;
 		iter = *a;
-		while ((*iter).next)
+		while (iter->next)
 			iter = (*iter).next;
-		(*iter).next = tmp;
-		(*tmp).next = NULL;
-		(*tmp).prev = iter;
-		return (1);
+		iter->next = tmp;
+		tmp->next = NULL;
+		tmp->prev = iter;
 	}
-	return (0);
+	return (1);
 }
 
 int			reverse(t_stack **a)
@@ -82,9 +80,8 @@ int			reverse(t_stack **a)
 		*a = iter->next;
 		(*a)->prev = NULL;
 		iter->next = NULL;
-		return (1);
 	}
-	return (0);
+	return (1);
 }
 
 int			get_max(t_stack *a)

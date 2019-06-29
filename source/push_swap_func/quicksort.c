@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 18:26:41 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 13:04:06 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 17:23:21 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,19 @@
 
 int			find_median(t_stack **a, int high, int asc)
 {
-	t_stack	*iter_tmp;
-	t_stack	*iter_a;
 	t_stack	*tmp;
 	int		tmp2;
-	int		size;
 
 	tmp = copy_stack(*a, high + 1);
 	quicksort(&tmp, 0, high);
-	size = high + 1;
 	if (asc)
-		tmp2 = get_value_from_stack(&tmp, size / 2);
+		tmp2 = get_value_from_stack(&tmp, (high + 1) / 2);
 	else
 	{
 		if (get_size(tmp) % 2 == 0)
-			tmp2 = get_value_from_stack(&tmp, size / 2 - 1);
+			tmp2 = get_value_from_stack(&tmp, (high + 1) / 2 - 1);
 		else
-			tmp2 = get_value_from_stack(&tmp, size / 2);
+			tmp2 = get_value_from_stack(&tmp, (high + 1) / 2);
 	}
 	free_list(&tmp);
 	return (tmp2);
@@ -102,8 +98,8 @@ void		quicksort_descending(t_stack **a, t_stack **b, int high, char **res)
 	while (high--)
 		if ((*a)->value > pivotal && ++(size[1]))
 			push_(a, b, res);
-		else if ((*a)->value == pivotal && push_(a, b, res) >= 0)
-			rotate_(b, res);
+		else if ((*a)->value == pivotal)
+			push_(a, b, res) && rotate_(b, res);
 		else if (++(size[0]))
 			rotate_(a, res);
 	high = size[0];
@@ -131,8 +127,8 @@ void		quicksort_ascending(t_stack **a, t_stack **b, int high, char **res)
 	while (high--)
 		if ((*a)->value < pivotal && ++(size[1]))
 			push_(a, b, res);
-		else if ((*a)->value == pivotal && push_(a, b, res) >= 0)
-			rotate_(b, res);
+		else if ((*a)->value == pivotal)
+			push_(a, b, res) && rotate_(b, res);
 		else if (++(size[0]))
 			rotate_(a, res);
 	high = size[0];

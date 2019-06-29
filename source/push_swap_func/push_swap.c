@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 14:24:58 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 17:35:38 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,20 @@ void		extender(char **str, int size)
 		*(*str)++ = '!';
 }
 
-int			main_cycle(int argc, char **argv, t_stack **stacks)
+int			rot_last(t_stack *a)
+{
+	if (a)
+	{
+		if (a && a->prev)
+			return (a->prev->index);
+		while (a->next)
+			a = a->next;
+		return (a->index);
+	}
+	return (0);
+}
+
+int			main_cycle(int argc, char **argv, t_stack **stack)
 {
 	char	**args;
 	char	**tmp;
@@ -32,18 +45,19 @@ int			main_cycle(int argc, char **argv, t_stack **stacks)
 		while (*args)
 		{
 			!checking_args(*args) ? error_handler(0, 0) : 0;
-			stacks[I]->value = ft_atoi(*args);
-			stacks[I]->next = new_elem_of_stack(0, stacks[I]->index + 1);
-			stacks[I]->next->prev = stacks[I];
-			stacks[I] = stacks[I]->next;
+			stack[I]->value = ft_atoi(*args);
+			stack[I]->next = new_elem_of_stack(0, stack[I]->index + 1);
+			stack[I]->next->prev = stack[I];
+			stack[I] = stack[I]->next;
 			free(*args++);
 			++size;
 		}
 		free(tmp);
 	}
-	stacks[I]->prev->next = NULL;
-	free(stacks[I]);
-	!check_duplicate(&stacks[A]) ? error_handler(0, 0) : 0;
+	stack[I] = stack[I]->prev;
+	free(stack[I]->next);
+	stack[I]->next = NULL;
+	!check_duplicate(&stack[A]) ? error_handler(0, 0) : 0;
 	return (size * size);
 }
 
@@ -67,7 +81,8 @@ int			main(int argc, char **argv)
 		string[FREED] = string[MAJOR];
 		extender(&string[MAJOR], 5);
 		string[PRINT] = string[MAJOR];
-		quantity == 100 ? sort_100(&stack[A], &stack[B], 100, &(string[A])) :
+		quantity >= 95 && quantity <= 100 ?
+		sort_100(&stack[A], &stack[B], 100, &(string[A])) :
 		quicksort_ascending(&(stack[A]), &(stack[B]), argc - 1, &(string[A]));
 		ft_printf("%s", string[PRINT]);
 		free_list(&stack[A]);

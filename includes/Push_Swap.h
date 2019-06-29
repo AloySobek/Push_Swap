@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 14:46:30 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 14:05:31 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 17:33:46 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ typedef struct		s_stack
 t_stack				*get_elem_from_stack(t_stack **a, int index);
 t_stack				*new_elem_of_stack(int value, int index);
 t_stack				*copy_stack(t_stack *a, int high);
-void				push_optimizer(t_stack **a, char **res);
-void				swap_optimizer(t_stack **a, char **res);
-void				rotate_optimizer(t_stack **a, char **res);
-void				reverse_optimizer(t_stack **a, char **res);
+void				push_optimizer(int where, char **res);
+void				swap_optimizer(int where, char **res);
+void				rotate_optimizer(int where, char **res);
+void				reverse_optimizer(int where, char **res);
 void				labeler(t_stack **a, int size);
 void				sort_100(t_stack **a, t_stack **b, int size, char **act);
 void				error_handler(int code, int none);
@@ -65,13 +65,12 @@ void				quicksort_descending(t_stack **a, t_stack **b,
 					int high, char **res);
 void				quicksort(t_stack **a, int low, int high);
 void				free_list(t_stack **a);
-void				flags_picker(char *str, size_t *flags);
+void				flags_picker(char *str, char *fd, size_t *flags);
 int					sort_three_ascending(t_stack **a, char **res);
 int					push_(t_stack **a, t_stack **b, char **res);
 int					swap_(t_stack **a, char **res);
 int					rotate_(t_stack **a, char **res);
 int					reverse_(t_stack **a, char **res);
-int					fd_collector(char *str, size_t *flags);
 int					is_sorted(t_stack *a);
 int					partition(t_stack **a, int low, int high);
 int					get_value_from_stack(t_stack **a, int index);
@@ -84,5 +83,7 @@ int					print_usage(void);
 int					get_max(t_stack *a);
 int					check_duplicate(t_stack **a);
 int					checking_args(char *str);
+int					print_usage(void);
+int					rot_last(t_stack *a);
 
 #endif

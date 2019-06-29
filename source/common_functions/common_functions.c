@@ -1,16 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   addit_func.c                                       :+:      :+:    :+:   */
+/*   common_functions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/24 17:58:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 14:35:17 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 17:31:39 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void		free_list(t_stack **a)
+{
+	if (*a)
+	{
+		free_list(&(*a)->next);
+		free(*a);
+		*a = NULL;
+		a = NULL;
+	}
+}
 
 t_stack		*new_elem_of_stack(int value, int index)
 {
@@ -42,6 +53,29 @@ int			is_sorted(t_stack *a)
 	return (1);
 }
 
+int			get_size(t_stack *a)
+{
+	int		count;
+
+	count = 0;
+	if (a)
+	{
+		if ((a->next) == NULL)
+			while (a)
+			{
+				++count;
+				a = a->prev;
+			}
+		else
+			while (a)
+			{
+				++count;
+				a = a->next;
+			}
+	}
+	return (count);
+}
+
 void		labeler(t_stack **a, int size)
 {
 	t_stack	*iter_tmp;
@@ -61,25 +95,4 @@ void		labeler(t_stack **a, int size)
 		iter_tmp = iter_tmp->next;
 	}
 	free_list(&tmp);
-}
-
-int			fd_collector(char *str, size_t *flags)
-{
-	int		fd;
-
-	fd = open(str, O_RDONLY);
-	if (fd > 0)
-		*flags |= fd;
-	else
-		error_handler(0, 0);
-	return (1);
-}
-
-void		error_handler(int code, int none)
-{
-	if (code)
-		print_usage();
-	else if (!none)
-		ft_printf("Error\n");
-	exit(1);
 }

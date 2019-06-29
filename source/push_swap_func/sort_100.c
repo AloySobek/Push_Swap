@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 14:55:48 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 13:16:51 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 17:33:54 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,6 @@ int		find_lowest(t_stack *a, int size)
 		}
 	}
 	return (low);
-}
-
-int		rot_last(t_stack *a)
-{
-	if (a)
-	{
-		if (a && a->prev)
-			return (a->prev->index);
-		while (a->next)
-			a = a->next;
-		return (a->index);
-	}
-	return (0);
 }
 
 int		where_to(t_stack *s, int place)
