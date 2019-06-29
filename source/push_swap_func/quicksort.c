@@ -6,13 +6,13 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 18:26:41 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 18:47:55 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 21:22:48 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int			find_median(t_stack **a, int high, int asc)
+static int	find_median(t_stack **a, int high, int asc)
 {
 	t_stack	*tmp;
 	int		tmp2;
@@ -32,7 +32,7 @@ int			find_median(t_stack **a, int high, int asc)
 	return (tmp2);
 }
 
-int			sort_three_ascending(t_stack **a, char **res)
+static int	sort_three_ascending(t_stack **a, char **res)
 {
 	int		first;
 	int		secon;
@@ -58,7 +58,7 @@ int			sort_three_ascending(t_stack **a, char **res)
 	return (1);
 }
 
-int			sort_three_descending(t_stack **a, char **res)
+static int	sort_three_descending(t_stack **a, char **res)
 {
 	int		first;
 	int		secon;
@@ -84,7 +84,7 @@ int			sort_three_descending(t_stack **a, char **res)
 	return (1);
 }
 
-void		quicksort_descending(t_stack **a, t_stack **b, int high, char **res)
+static void	quicksort_descending(t_stack **a, t_stack **b, int high, char **res)
 {
 	int		pivotal;
 	int		size[2];
@@ -113,7 +113,7 @@ void		quicksort_descending(t_stack **a, t_stack **b, int high, char **res)
 		push_(b, a, res);
 }
 
-void		quicksort_ascending(t_stack **a, t_stack **b, int high, char **res)
+static void	quicksort_ascending(t_stack **a, t_stack **b, int high, char **res)
 {
 	int		pivotal;
 	int		size[2];

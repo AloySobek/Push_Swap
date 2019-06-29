@@ -6,22 +6,23 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:04:50 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 19:42:12 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 21:24:49 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void		boring_print_stacks(t_stack **stacks, size_t *flags, char *str)
+static void		boring_print_stacks(t_stack **stacks, size_t *flags, char *str)
 {
-	t_stack	*iter[2];
-	int		breadth;
+	static int	count = 0;
+	t_stack		*iter[2];
+	int			breadth;
 
 	iter[A] = stacks[A];
 	iter[B] = stacks[B];
-	breadth = 10;
+	breadth = 12;
 	system("clear");
-	ft_printf("📊 𝌃𝌃𝌃𝌃 STACK_A:𝌃𝌃𝌃𝌃 📊 𝌃𝌃𝌃𝌃𝌃 STACK_B:𝌃𝌃𝌃𝌃 📊\n");
+	ft_printf("📊 𝌃𝌃𝌃𝌃𝌃 STACK_A:𝌃𝌃𝌃𝌃𝌃 📊 𝌃𝌃𝌃𝌃𝌃 STACK_B:𝌃𝌃𝌃𝌃𝌃 📊\n");
 	while (iter[A] || iter[B])
 	{
 		if (iter[A])
@@ -29,22 +30,22 @@ void		boring_print_stacks(t_stack **stacks, size_t *flags, char *str)
 		else
 			ft_printf("⫸         %-*.0d", breadth, 0);
 		if (iter[B])
-			ft_printf("䷀         %-*d⫷\n", breadth, iter[B]->value);
+			ft_printf("䷀         %-*d⫷\n", breadth - 1, iter[B]->value);
 		else
-			ft_printf("䷀         %-*.0d⫷\n", breadth, 0);
+			ft_printf("䷀         %-*.0d⫷\n", breadth - 1, 0);
 		iter[A] ? iter[A] = iter[A]->next : 0;
 		iter[B] ? iter[B] = iter[B]->next : 0;
 	}
-	ft_printf("𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃 Command:%3s ", str);
-	ft_printf("𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃\n");
+	ft_printf("𝌃𝌃𝌃𝌃 Count: %05d 𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃𝌃 Command:%3s ", count, str);
+	ft_printf("𝌃𝌃𝌃𝌃𝌃\n") && ++count;
 	!(*flags & INT) ? usleep((int)_TIME__ * 100000) : 0;
 }
 
-void		beautiful_print_stacks(t_stack **stacks, char *str,
+static void		beautiful_print_stacks(t_stack **stacks, char *str,
 									size_t *flags, int max)
 {
-	t_stack	*iter[2];
-	int		i;
+	t_stack		*iter[2];
+	int			i;
 
 	iter[A] = stacks[A];
 	iter[B] = stacks[B];
@@ -70,7 +71,7 @@ void		beautiful_print_stacks(t_stack **stacks, char *str,
 	ft_printf("\e[?25h\e[s\e[J");
 }
 
-void		acts_handler(t_stack **st, char **act, size_t *flags, int max)
+static void		acts_handler(t_stack **st, char **act, size_t *flags, int max)
 {
 	*flags & (COL | DEB) ? system("clear") : 0;
 	*flags & COL ? beautiful_print_stacks(&st[A], "xxx", flags, max) : 0;
@@ -99,10 +100,11 @@ void		acts_handler(t_stack **st, char **act, size_t *flags, int max)
 	}
 }
 
-void		main_cycle(int argc, char **argv, t_stack **stack, size_t *flags)
+static void		main_cycle(int argc, char **argv, t_stack **stack,
+							size_t *flags)
 {
-	char	**args;
-	char	**tmp;
+	char		**args;
+	char		**tmp;
 
 	flags_picker(*argv, *(argv + 1), flags);
 	if (*flags & (DEB | COL | INT | DES) && ++argv)
@@ -127,11 +129,11 @@ void		main_cycle(int argc, char **argv, t_stack **stack, size_t *flags)
 	stack[I]->next = NULL;
 }
 
-int			main(int argc, char **argv)
+static int		main(int argc, char **argv)
 {
-	t_stack	*stack[3];
-	size_t	flags_cv;
-	char	*line;
+	t_stack		*stack[3];
+	size_t		flags_cv;
+	char		*line;
 
 	argc == 1 ? error_handler(0, 1) : 0;
 	flags_cv = 0;
@@ -140,7 +142,7 @@ int			main(int argc, char **argv)
 	stack[I] = stack[A];
 	main_cycle(argc, ++argv, &stack[A], &flags_cv);
 	!check_duplicate(&stack[A]) ? error_handler(0, 0) : 0;
-	labeler(&stack[A], stack[I]->index);
+	labeler(&stack[A], stack[I]->index + 1);
 	acts_handler(&stack[A], &line, &flags_cv, get_max(stack[A]));
 	free(line);
 	if (is_sorted(stack[A]) && stack[B] == NULL)

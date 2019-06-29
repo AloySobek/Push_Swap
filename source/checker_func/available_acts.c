@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   available_commands.c                               :+:      :+:    :+:   */
+/*   available_acts.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 13:57:35 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 16:28:57 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 21:15:35 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int			push(t_stack **a, t_stack **b)
+static int	push(t_stack **a, t_stack **b)
 {
 	t_stack *tmp;
 
@@ -29,7 +29,7 @@ int			push(t_stack **a, t_stack **b)
 	return (1);
 }
 
-int			swap(t_stack **a)
+static int	swap(t_stack **a)
 {
 	t_stack *tmp;
 
@@ -46,7 +46,7 @@ int			swap(t_stack **a)
 	return (1);
 }
 
-int			rotate(t_stack **a)
+static int	rotate(t_stack **a)
 {
 	t_stack *tmp;
 	t_stack *iter;
@@ -66,7 +66,7 @@ int			rotate(t_stack **a)
 	return (1);
 }
 
-int			reverse(t_stack **a)
+static int	reverse(t_stack **a)
 {
 	t_stack *iter;
 
@@ -84,7 +84,7 @@ int			reverse(t_stack **a)
 	return (1);
 }
 
-int			get_max(t_stack *a)
+static int	get_max(t_stack *a)
 {
 	t_stack	*iter;
 	int		max;

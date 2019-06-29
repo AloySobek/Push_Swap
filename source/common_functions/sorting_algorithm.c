@@ -6,16 +6,16 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/24 17:57:27 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/28 17:30:45 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 21:25:27 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int			get_value_from_stack(t_stack **a, int index)
+static int		get_value_from_stack(t_stack **a, int index)
 {
-	t_stack	*iter;
-	int		tmp;
+	t_stack		*iter;
+	int			tmp;
 
 	iter = *a;
 	if (iter)
@@ -28,11 +28,11 @@ int			get_value_from_stack(t_stack **a, int index)
 	return (0);
 }
 
-void		swap_for_quicksort(t_stack **a, int i, int j)
+static void		swap_for_quicksort(t_stack **a, int i, int j)
 {
-	t_stack *iter;
-	t_stack *tmp;
-	int		tmp2;
+	t_stack		*iter;
+	t_stack		*tmp;
+	int			tmp2;
 
 	iter = *a;
 	while (iter)
@@ -57,11 +57,11 @@ void		swap_for_quicksort(t_stack **a, int i, int j)
 	}
 }
 
-int			partition(t_stack **a, int low, int high)
+static int		partition(t_stack **a, int low, int high)
 {
-	int		pivot;
-	int		i;
-	int		j;
+	int			pivot;
+	int			i;
+	int			j;
 
 	pivot = get_value_from_stack(a, (low + high) / 2);
 	i = low;
@@ -78,9 +78,9 @@ int			partition(t_stack **a, int low, int high)
 	}
 }
 
-void		quicksort(t_stack **a, int low, int high)
+static void		quicksort(t_stack **a, int low, int high)
 {
-	int		p;
+	int			p;
 
 	if (low < high)
 	{
@@ -90,11 +90,11 @@ void		quicksort(t_stack **a, int low, int high)
 	}
 }
 
-t_stack		*copy_stack(t_stack *a, int high)
+static t_stack	*copy_stack(t_stack *a, int high)
 {
-	t_stack *prev;
-	t_stack *tmp;
-	t_stack *ret;
+	t_stack		*prev;
+	t_stack		*tmp;
+	t_stack		*ret;
 
 	tmp = new_elem_of_stack(0, 0);
 	ret = tmp;

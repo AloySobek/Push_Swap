@@ -6,15 +6,15 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 14:55:48 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 18:35:40 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 21:25:09 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int		find_highest(t_stack *a, int size)
+static int	find_highest(t_stack *a, int size)
 {
-	int	high;
+	int		high;
 
 	high = 0;
 	if (a)
@@ -29,9 +29,9 @@ int		find_highest(t_stack *a, int size)
 	return (high);
 }
 
-int		find_lowest(t_stack *a, int size)
+static int	find_lowest(t_stack *a, int size)
 {
-	int low;
+	int		low;
 
 	low = 0;
 	if (a)
@@ -46,10 +46,10 @@ int		find_lowest(t_stack *a, int size)
 	return (low);
 }
 
-int		where_to(t_stack *s, int place)
+static int	where_to(t_stack *s, int place)
 {
-	int	f;
-	int	i;
+	int		f;
+	int		i;
 
 	i = 0;
 	f = 1;
@@ -58,10 +58,10 @@ int		where_to(t_stack *s, int place)
 	return (i);
 }
 
-void	sort_back(t_stack **a, t_stack **b, int size, char **act)
+static void	sort_back(t_stack **a, t_stack **b, int size, char **act)
 {
-	int	beg;
-	int	end;
+	int		beg;
+	int		end;
 
 	beg = find_highest(*b, size);
 	end = find_lowest(*b, size);
@@ -85,11 +85,11 @@ void	sort_back(t_stack **a, t_stack **b, int size, char **act)
 		(*a)->index > (*a)->next->index ? swap_(a, act) : 0;
 }
 
-void	sort_100(t_stack **a, t_stack **b, int size, char **act)
+static void	sort_100(t_stack **a, t_stack **b, int size, char **act)
 {
-	int	pivot;
-	int	count;
-	int	check;
+	int		pivot;
+	int		count;
+	int		check;
 
 	if (size <= 1 || (size == 2 && ((*a)->index > (*a)->next->index ?
 	swap_(a, act) : 1)) || (size == 3 && sort_three_ascending(a, act)))

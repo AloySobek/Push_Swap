@@ -6,20 +6,20 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 19:19:51 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 21:26:03 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void		extender(char **str, int size)
+static void	extender(char **str, int size)
 {
 	while (size--)
 		*(*str)++ = '!';
 	**str = 0;
 }
 
-int			rot_last(t_stack *a)
+static int	rot_last(t_stack *a)
 {
 	if (a)
 	{
@@ -32,13 +32,13 @@ int			rot_last(t_stack *a)
 	return (0);
 }
 
-int			main_cycle(int argc, char **argv, t_stack **stack)
+static void	main_cycle(int argc, char **argv, t_stack **stack, int *size)
 {
 	char	**args;
 	char	**tmp;
 	int		size;
 
-	size = 0;
+	*size = 0;
 	while (--argc)
 	{
 		args = ft_strsplit(*argv++, ' ');
@@ -51,7 +51,7 @@ int			main_cycle(int argc, char **argv, t_stack **stack)
 			stack[I]->next->prev = stack[I];
 			stack[I] = stack[I]->next;
 			free(*args++);
-			++size;
+			++(*size);
 		}
 		free(tmp);
 	}
@@ -59,10 +59,9 @@ int			main_cycle(int argc, char **argv, t_stack **stack)
 	free(stack[I]->next);
 	stack[I]->next = NULL;
 	!check_duplicate(&stack[A]) ? error_handler(0, 0) : 0;
-	return (size);
 }
 
-int			main(int argc, char **argv)
+static int	main(int argc, char **argv)
 {
 	t_stack	*stack[3];
 	char	*string[3];
@@ -73,12 +72,13 @@ int			main(int argc, char **argv)
 	stack[A] = new_elem_of_stack(0, 0);
 	stack[B] = NULL;
 	stack[I] = stack[A];
-	length_s = main_cycle(argc, ++argv, &(stack[0]));
+	main_cycle(argc, ++argv, &(stack[0]), &length_s);
 	if (!is_sorted(stack[A]))
 	{
 		quantity = get_size(stack[A]);
 		labeler(&stack[A], quantity);
-		!(string[MAJOR] = (char *)malloc(length_s * length_s * length_s)) ? error_handler(0, 0) : 0;
+		if (!(string[MAJOR] = (char *)malloc(length_s * length_s * length_s)))
+			error_handler(0, 0);
 		string[FREED] = string[MAJOR];
 		extender(&string[MAJOR], 5);
 		string[PRINT] = string[MAJOR];

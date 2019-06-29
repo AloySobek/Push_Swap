@@ -6,13 +6,13 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 18:41:12 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 19:16:53 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 21:19:52 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int			push_(t_stack **a, t_stack **b, char **res)
+static int	push_(t_stack **a, t_stack **b, char **res)
 {
 	t_stack	*tmp;
 
@@ -35,7 +35,7 @@ int			push_(t_stack **a, t_stack **b, char **res)
 	return (1);
 }
 
-int			swap_(t_stack **a, char **res)
+static int	swap_(t_stack **a, char **res)
 {
 	t_stack *tmp;
 
@@ -53,7 +53,7 @@ int			swap_(t_stack **a, char **res)
 	return (1);
 }
 
-int			rotate_(t_stack **a, char **res)
+static int	rotate_(t_stack **a, char **res)
 {
 	t_stack *tmp;
 	t_stack *iter;
@@ -74,7 +74,7 @@ int			rotate_(t_stack **a, char **res)
 	return (1);
 }
 
-int			reverse_(t_stack **a, char **res)
+static int	reverse_(t_stack **a, char **res)
 {
 	t_stack *iter;
 

@@ -6,13 +6,13 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 16:19:57 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 18:22:03 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 21:16:09 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void		time_collector(char *str, size_t *flags)
+static void	time_collector(char *str, size_t *flags)
 {
 	str++;
 	if (*str >= '0' && *str <= '9')
@@ -24,7 +24,7 @@ void		time_collector(char *str, size_t *flags)
 	_TIME__ == 0 ? *flags |= 3L << 32 : 0;
 }
 
-int			fd_collector(char *str, size_t *flags)
+static int	fd_collector(char *str, size_t *flags)
 {
 	int		fd;
 
@@ -36,7 +36,7 @@ int			fd_collector(char *str, size_t *flags)
 	return (1);
 }
 
-void		flags_picker(char *str, char *fd, size_t *flags)
+static void	flags_picker(char *str, char *fd, size_t *flags)
 {
 	if (*str == '-')
 		while (*str++)
