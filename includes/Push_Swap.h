@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 14:46:30 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 17:33:46 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 18:31:28 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct		s_stack
 	int				value;
 	int				index;
 	int				stack;
-	int				max_v;
 	struct s_stack	*next;
 	struct s_stack	*prev;
 }					t_stack;

@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:04:50 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 17:36:40 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 19:42:12 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void		boring_print_stacks(t_stack **stacks, size_t *flags, char *str)
 	!(*flags & INT) ? usleep((int)_TIME__ * 100000) : 0;
 }
 
-void		buituful_print_stacks(t_stack **stacks, char *str,
+void		beautiful_print_stacks(t_stack **stacks, char *str,
 									size_t *flags, int max)
 {
 	t_stack	*iter[2];
@@ -73,7 +73,7 @@ void		buituful_print_stacks(t_stack **stacks, char *str,
 void		acts_handler(t_stack **st, char **act, size_t *flags, int max)
 {
 	*flags & (COL | DEB) ? system("clear") : 0;
-	*flags & COL ? buituful_print_stacks(&st[A], "xxx", flags, max) : 0;
+	*flags & COL ? beautiful_print_stacks(&st[A], "xxx", flags, max) : 0;
 	*flags & DEB ? boring_print_stacks(&st[A], flags, "xxx") : 0;
 	while (get_next_line(_FILE__, act) == 1)
 	{
@@ -94,7 +94,7 @@ void		acts_handler(t_stack **st, char **act, size_t *flags, int max)
 		else
 			error_handler(0, 0);
 		*flags & DEB ? boring_print_stacks(&st[A], flags, *act) : 0;
-		*flags & COL ? buituful_print_stacks(&st[A], *act, flags, max) : 0;
+		*flags & COL ? beautiful_print_stacks(&st[A], *act, flags, max) : 0;
 		free(*act);
 	}
 }
@@ -131,7 +131,6 @@ int			main(int argc, char **argv)
 {
 	t_stack	*stack[3];
 	size_t	flags_cv;
-	char	**tmp;
 	char	*line;
 
 	argc == 1 ? error_handler(0, 1) : 0;

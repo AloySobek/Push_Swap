@@ -6,7 +6,7 @@
 #    By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/18 21:16:18 by vrichese          #+#    #+#              #
-#    Updated: 2019/06/29 16:30:38 by vrichese         ###   ########.fr        #
+#    Updated: 2019/06/29 18:35:28 by vrichese         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,13 +26,13 @@ PRININC	= $(FT_DIR)/includes
 GNLINCL = $(GNLDIR)/includes
 INCLUDE	= includes
 
-SRC_PU	= $(addprefix $(PUSDIR)/, push_swap.c quicksort.c available_commands.c optimizer_string.c sort_100.c)
+SRC_PU	= $(addprefix $(PUSDIR)/, push_swap.c available_acts.c quicksort.c optimizer_string.c sort_100.c)
 SRC_CH	= $(addprefix $(CHEDIR)/, checker.c available_acts.c flags_handler.c) $(GNLDIR)/source/get_next_line.c
 SRC_CO	= $(addprefix $(COMDIR)/, common_functions.c args_handler.c sorting_algorithm.c)
 
 CC		= gcc
 
-#CFLAGS	= -Wall -Werror -Wextra
+CFLAGS	= -Wall -Werror -Wextra
 
 all: $(NAME_1) $(NAME_2)
 

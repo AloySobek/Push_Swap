@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/24 17:58:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 17:31:39 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 18:47:57 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void		free_list(t_stack **a)
 		free_list(&(*a)->next);
 		free(*a);
 		*a = NULL;
-		a = NULL;
 	}
 }
 
@@ -31,6 +30,7 @@ t_stack		*new_elem_of_stack(int value, int index)
 		error_handler(0, 0);
 	new->value = value;
 	new->index = index;
+	new->stack = 0;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);

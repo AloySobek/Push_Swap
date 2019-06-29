@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 16:19:57 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 16:49:57 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 18:22:03 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void		time_collector(char *str, size_t *flags)
 {
-	size_t	time;
-
 	str++;
 	if (*str >= '0' && *str <= '9')
 	{

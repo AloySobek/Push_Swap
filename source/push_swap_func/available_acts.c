@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   available_commands.c                               :+:      :+:    :+:   */
+/*   available_acts.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 18:41:12 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 17:26:04 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 19:16:53 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int			push_(t_stack **a, t_stack **b, char **res)
 	if (a && *a)
 	{
 		push_optimizer((*a)->stack, res);
+		res = NULL;
 		tmp = *a;
 		*a = tmp->next;
 		*a ? (*a)->prev = NULL : 0;
@@ -76,7 +77,6 @@ int			rotate_(t_stack **a, char **res)
 int			reverse_(t_stack **a, char **res)
 {
 	t_stack *iter;
-	t_stack *tmp;
 
 	if (a && *a && (*a)->next)
 	{

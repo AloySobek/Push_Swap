@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 17:35:38 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/29 19:19:51 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void		extender(char **str, int size)
 {
 	while (size--)
 		*(*str)++ = '!';
+	**str = 0;
 }
 
 int			rot_last(t_stack *a)
@@ -58,7 +59,7 @@ int			main_cycle(int argc, char **argv, t_stack **stack)
 	free(stack[I]->next);
 	stack[I]->next = NULL;
 	!check_duplicate(&stack[A]) ? error_handler(0, 0) : 0;
-	return (size * size);
+	return (size);
 }
 
 int			main(int argc, char **argv)
@@ -77,13 +78,14 @@ int			main(int argc, char **argv)
 	{
 		quantity = get_size(stack[A]);
 		labeler(&stack[A], quantity);
-		!(string[MAJOR] = (char *)malloc(length_s)) ? error_handler(0, 0) : 0;
+		!(string[MAJOR] = (char *)malloc(length_s * length_s * length_s)) ? error_handler(0, 0) : 0;
 		string[FREED] = string[MAJOR];
 		extender(&string[MAJOR], 5);
 		string[PRINT] = string[MAJOR];
 		quantity >= 95 && quantity <= 100 ?
-		sort_100(&stack[A], &stack[B], 100, &(string[A])) :
-		quicksort_ascending(&(stack[A]), &(stack[B]), argc - 1, &(string[A]));
+		sort_100(&stack[A], &stack[B], 100, &string[MAJOR]) :
+		quicksort_ascending(&(stack[A]), &(stack[B]), argc - 1, &string[MAJOR]);
+		*(string[MAJOR]) = 0;
 		ft_printf("%s", string[PRINT]);
 		free_list(&stack[A]);
 		stack[B] ? free_list(&stack[B]) : 0;
