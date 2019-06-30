@@ -6,48 +6,69 @@
 #    By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/18 21:16:18 by vrichese          #+#    #+#              #
-#    Updated: 2019/06/29 18:35:28 by vrichese         ###   ########.fr        #
+#    Updated: 2019/06/30 18:35:04 by vrichese         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME_1	= push_swap
 NAME_2	= checker
 
-PUSDIR	= source/push_swap_func
-CHEDIR	= source/checker_func
-COMDIR	= source/common_functions
+PUSH_SW	= source/push_swap_func
+CHECKER	= source/checker_func
+COMMON_	= source/common_functions
 
-GNLDIR	= get_next_line
 LIBDIR	= $(GNLDIR)/libft
 FT_DIR	= ft_printf
+GNLDIR	= get_next_line
 
-LIBFINC	= $(LIBDIR)/includes
-PRININC	= $(FT_DIR)/includes
-GNLINCL = $(GNLDIR)/includes
-INCLUDE	= includes
+LIBFT	= $(LIBDIR)/libft.a
+PRINTF	= $(FT_DIR)/libftprintf.a
+GNL		= $(GNLDIR)/source/get_next_line.c
 
-SRC_PU	= $(addprefix $(PUSDIR)/, push_swap.c available_acts.c quicksort.c optimizer_string.c sort_100.c)
-SRC_CH	= $(addprefix $(CHEDIR)/, checker.c available_acts.c flags_handler.c) $(GNLDIR)/source/get_next_line.c
-SRC_CO	= $(addprefix $(COMDIR)/, common_functions.c args_handler.c sorting_algorithm.c)
+INC_DIR	= $(shell find . | grep '\.h' | sed "s/\(.*\)\/.*/\1/" | sort -u)
+INCLUDE	= $(shell $(foreach dir, $(INC_DIR), echo "-I$(dir)";))
 
-CC		= gcc
+SRC_PUS	= $(addprefix $(PUSH_SW)/, push_swap.c available_acts.c quicksort.c optimizer_string.c sort_100.c)
+SRC_CHE	= $(addprefix $(CHECKER)/, checker.c available_acts.c flags_handler.c) $(GNL)
+SRC_COM	= $(addprefix $(COMMON_)/, common_functions.c args_handler.c sorting_algorithm.c)
+
+OBJ_PUS	= ${SRC_PUS:%.c=%.o}
+
+OBJ_CHE	= ${SRC_CHE:%.с=%.o}
+
+OBJ_COM	= ${SRC_COM:%.c=%.o}
 
 CFLAGS	= -Wall -Werror -Wextra
 
+CC		= gcc
+
 all: $(NAME_1) $(NAME_2)
 
-$(NAME_1):
-	@cd $(FT_DIR) && $(MAKE)
-	@cd $(LIBDIR) && $(MAKE)
-	@$(CC) $(CFLAGS) -I./$(INCLUDE) -I./$(LIBFINC) -I./$(PRININC) -I./$(GNLINCL) $(SRC_PU) $(SRC_CO) $(FT_DIR)/libftprintf.a $(LIBDIR)/libft.a -g -o $(NAME_1)
+$(NAME_1): $(OBJ_PUS) $(OBJ_COM) $(LIBFT) $(PRINTF)
+	@$(CC) $(CFLAGS) $^ -o $@
 
-$(NAME_2):
-	@$(CC) $(CFLAGS) -I./$(INCLUDE) -I./$(LIBFINC) -I./$(PRININC) -I./$(GNLINCL) $(SRC_CH) $(SRC_CO) $(FT_DIR)/libftprintf.a $(LIBDIR)/libft.a -o $(NAME_2)
+$(NAME_2): $(OBJ_CHE) $(OBJ_COM) $(LIBFT) $(PRINTF)
+	@$(CC) $(CFLAGS) $(INCLUDE) $^ -o $@
+
+$(PUSH_SW)/%.o: $(PUSH_SW)/%.c
+	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+
+$(CHECKER)/%.o: $(CHECKER)/%.c
+	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+
+$(COMMON_)/%.o: $(COMMON_)/%.c
+	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+
+$(LIBFT):
+	@$(MAKE) -C $(LIBDIR)
+	@$(MAKE) -C $(LIBDIR) clean
+
+$(PRINTF):
+	@$(MAKE) -C $(FT_DIR)
+	@$(MAKE) -C $(FT_DIR) clean
 
 clean:
-	@rm -f $(OBJ_PU) $(OBJ_PU)
-	@cd $(LIBDIR) && $(MAKE) clean
-	@cd $(FT_DIR) && $(MAKE) clean
+	@rm -f $(OBJ_PUS) $(OBJ_COM)
 
 fclean: clean
 	@rm -f $(NAME_1) $(NAME_2)

@@ -6,7 +6,7 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 17:04:56 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/29 21:43:42 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/30 13:20:38 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@ static void	extender(char **str, int size)
 	while (size--)
 		*(*str)++ = '!';
 	**str = 0;
+}
+
+static void	cleaner(t_stack **stack, char **string)
+{
+	stack[A] ? free_list(&stack[A]) : 0;
+	stack[B] ? free_list(&stack[B]) : 0;
+	string[FREED] ? free(string[FREED]) : 0;
 }
 
 int			rot_last(t_stack *a)
@@ -64,30 +71,27 @@ int			main(int argc, char **argv)
 {
 	t_stack	*stack[3];
 	char	*string[3];
-	int		length_s;
 	int		quantity;
 
 	argc == 1 ? error_handler(0, 1) : 0;
 	stack[A] = new_elem_of_stack(0, 0);
 	stack[B] = NULL;
 	stack[I] = stack[A];
-	main_cycle(argc, ++argv, &(stack[0]), &length_s);
+	main_cycle(argc, ++argv, &(stack[0]), &quantity);
+	if (!(string[MAJOR] = (char *)malloc(quantity * quantity * 4)))
+		error_handler(0, 0);
+	string[FREED] = string[MAJOR];
 	if (!is_sorted(stack[A]))
 	{
-		labeler(&stack[A], (quantity = get_size(stack[A])));
-		if (!(string[MAJOR] = (char *)malloc(length_s * length_s * length_s)))
-			error_handler(0, 0);
-		string[FREED] = string[MAJOR];
 		extender(&string[MAJOR], 5);
 		string[PRINT] = string[MAJOR];
-		quantity >= 96 && quantity <= 100 ?
+		labeler(&stack[A], (quantity = get_size(stack[A])));
+		quantity >= 96 && quantity <= 105 ?
 		sort_100(&stack[A], &stack[B], quantity, &string[MAJOR]) :
-		quicksort_ascending(&(stack[A]), &(stack[B]), argc - 1, &string[MAJOR]);
+		quicksort_ascending(&(stack[A]), &(stack[B]), quantity, &string[MAJOR]);
 		*(string[MAJOR]) = 0;
 		ft_printf("%s", string[PRINT]);
-		free_list(&stack[A]);
-		stack[B] ? free_list(&stack[B]) : 0;
-		free(string[FREED]);
 	}
+	cleaner(&stack[0], &string[0]);
 	return (0);
 }
