@@ -6,7 +6,7 @@
 #    By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/18 21:16:18 by vrichese          #+#    #+#              #
-#    Updated: 2019/06/30 19:26:10 by vrichese         ###   ########.fr        #
+#    Updated: 2019/06/30 19:33:45 by vrichese         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,34 +51,34 @@ all: $(NAME_1) $(NAME_2)
 
 
 $(NAME_1): $(OBJ_PUS) $(OBJ_COM) $(LIBFT) $(PRINTF)
-	$(CC) $(CFLAGS) $^ -o $@
+	@$(CC) $(CFLAGS) $^ -o $@
 
 $(NAME_2): $(OBJ_CHE) $(OBJ_COM) $(LIBFT) $(PRINTF)
-	$(CC) $(CFLAGS) $^ -o $@
+	@$(CC) $(CFLAGS) $(INCLUDE) $^ -o $@
 
 $(PUSH_SW)/%.o: $(PUSH_SW)/%.c
-	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 $(CHECKER)/%.o: $(CHECKER)/%.c
-	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 $(COMMON_)/%.o: $(COMMON_)/%.c
-	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 $(LIBFT):
-	$(MAKE) -C $(LIBDIR)
-	$(MAKE) -C $(LIBDIR) clean
+	@$(MAKE) -C $(LIBDIR)
+	@$(MAKE) -C $(LIBDIR) clean
 
 $(PRINTF):
-	$(MAKE) -C $(FT_DIR)
-	$(MAKE) -C $(FT_DIR) clean
+	@$(MAKE) -C $(FT_DIR)
+	@$(MAKE) -C $(FT_DIR) clean
 
 clean:
-	rm -f $(OBJ_PUS) $(OBJ_COM)
+	@rm -f $(OBJ_PUS) $(OBJ_COM)
 
 fclean: clean
-	rm -f $(NAME_1) $(NAME_2)
-	cd $(LIBDIR) && $(MAKE) fclean
-	cd $(FT_DIR) && $(MAKE) fclean
+	@rm -f $(NAME_1) $(NAME_2)
+	@$(MAKE) -C $(LIBDIR) fclean
+	@$(MAKE) -C $(FT_DIR) fclean
 
 re: fclean all

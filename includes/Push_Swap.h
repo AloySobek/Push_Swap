@@ -6,16 +6,16 @@
 /*   By: vrichese <vrichese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 14:46:30 by vrichese          #+#    #+#             */
-/*   Updated: 2019/06/30 19:23:17 by vrichese         ###   ########.fr       */
+/*   Updated: 2019/06/30 19:29:13 by vrichese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include "../ft_printf/includes/ft_printf.h"
-# include "../get_next_line/libft/includes/libft.h"
-# include "../get_next_line/includes/get_next_line.h"
+# include "ft_printf.h"
+# include "libft.h"
+# include "get_next_line.h"
 
 typedef enum		e_stacks
 {
